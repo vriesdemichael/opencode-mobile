@@ -22,7 +22,7 @@ export default function HomeScreen() {
 	const [refreshing, setRefreshing] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
-	const { status, url } = useConnectionStore();
+	const { status } = useConnectionStore();
 	const colorScheme = useColorScheme() ?? "light";
 
 	const fetchProjects = useCallback(async () => {

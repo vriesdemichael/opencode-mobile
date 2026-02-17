@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { Api } from "@/app/api/client";
-import type { Message, SessionInfo } from "@/app/api/types";
+import type { Message, SessionInfo, TextPart } from "@/app/api/types";
 
 interface SessionState {
 	sessions: SessionInfo[];
@@ -186,10 +186,10 @@ export const useSessionStore = create<SessionState & SessionActions>()(
 						) {
 							const lastMsgContent = lastMsg.parts.find(
 								(p) => p.type === "text",
-							) as any;
+							) as TextPart | undefined;
 							const newMsgContent = message.parts.find(
 								(p) => p.type === "text",
-							) as any;
+							) as TextPart | undefined;
 
 							if (lastMsgContent?.text === newMsgContent?.text) {
 								state.messages[sessionId].pop();
