@@ -1,3 +1,4 @@
+import type { ComponentProps } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import type { Project } from "@/app/api/types";
 import { ThemedText } from "@/components/themed-text";
@@ -26,7 +27,10 @@ export function ProjectCard({ project, onPress }: ProjectCardProps) {
 			<ThemedView style={styles.card}>
 				<View style={styles.iconContainer}>
 					<IconSymbol
-						name={(project.icon as any) || "folder.fill"}
+						name={
+							(project.icon as ComponentProps<typeof IconSymbol>["name"]) ||
+							"folder.fill"
+						}
 						size={32}
 						color={iconColor}
 					/>

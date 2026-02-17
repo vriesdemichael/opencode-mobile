@@ -23,7 +23,6 @@ export default function SettingsScreen() {
 		setPassword,
 		getPassword,
 		testConnection,
-		disconnect,
 	} = useConnectionStore();
 
 	const [localUrl, setLocalUrl] = useState(url);

@@ -49,17 +49,21 @@ export type ToolPart = MessagePartBase & {
 	callID: string;
 	tool: string;
 	state:
-		| { status: "pending"; input: Record<string, any>; raw: string }
-		| { status: "running"; input: Record<string, any>; time: { start: number } }
+		| { status: "pending"; input: Record<string, unknown>; raw: string }
+		| {
+				status: "running";
+				input: Record<string, unknown>;
+				time: { start: number };
+		  }
 		| {
 				status: "completed";
-				input: Record<string, any>;
+				input: Record<string, unknown>;
 				output: string;
 				time: { start: number; end: number };
 		  }
 		| {
 				status: "error";
-				input: Record<string, any>;
+				input: Record<string, unknown>;
 				error: string;
 				time: { start: number; end: number };
 		  };
@@ -84,8 +88,8 @@ export type MessageWithParts = Message;
 // --- SSE Events ---
 
 export type GlobalEvent =
-	| { type: "server.connected"; properties: {} }
-	| { type: "server.heartbeat"; properties: {} }
+	| { type: "server.connected"; properties: Record<string, never> }
+	| { type: "server.heartbeat"; properties: Record<string, never> }
 	| {
 			type: "message.part.delta";
 			properties: {
