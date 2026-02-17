@@ -1,0 +1,66 @@
+version: "3"
+
+tasks:
+  dev:
+    desc: Start the development server
+    cmds:
+      - pnpm expo start
+
+  android:
+    desc: Start Android development
+    cmds:
+      - pnpm expo start --android
+
+  ios:
+    desc: Start iOS development
+    cmds:
+      - pnpm expo start --ios
+
+  web:
+    desc: Start Web development
+    cmds:
+      - pnpm expo start --web
+
+  lint:
+    desc: Lint files with Biome (and ESLint for Expo)
+    cmds:
+      - pnpm expo lint
+
+  check:
+    desc: Check code quality (Biome)
+    cmds:
+      - pnpm biome check .
+
+  format:
+    desc: Format code (Biome)
+    cmds:
+      - pnpm biome format --write .
+
+  test:
+    desc: Run unit tests
+    cmds:
+      - pnpm jest
+
+  test:ci:
+    desc: Run unit tests with coverage
+    cmds:
+      - pnpm jest --coverage
+
+  typecheck:
+    desc: Run TypeScript type checking
+    cmds:
+      - pnpm tsc --noEmit
+
+  validate-decisions:
+    desc: Validate Architecture Decision Records
+    cmds:
+      - pnpm tsx scripts/validate-decisions.ts --validate
+
+  reset:
+    desc: Reset project state
+    cmds:
+      - node ./scripts/reset-project.js
+
+  ci:
+    desc: Run all CI checks
+    deps: [validate-decisions, check, typecheck, test:ci]
