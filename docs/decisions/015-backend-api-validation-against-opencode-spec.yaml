@@ -1,0 +1,28 @@
+number: 15
+title: "Backend API validation against OpenCode spec"
+category: development
+decision: >
+  Validate the app's API client implementation against the OpenCode
+  server's OpenAPI specification. If the server's OpenAPI spec is
+  incomplete or unavailable, validate directly against the backend
+  source code. API type definitions in the app must stay in sync with
+  the server's contract.
+agent_instructions: >
+  Before implementing or modifying API client code, fetch the latest
+  OpenCode OpenAPI spec from the server's /doc endpoint or from the
+  OpenCode GitHub repository source code. Verify that request/response
+  types in the app match the spec. When the spec is ambiguous or missing
+  endpoints, inspect the OpenCode server source code (Go) directly on
+  GitHub to determine the correct types and behaviour. Write integration
+  tests or contract tests that validate the app's API calls against
+  the expected request/response shapes. Document any spec gaps or
+  discrepancies found as GitHub issues on the OpenCode repo or in
+  local docs/notes. When OpenCode releases a new version, review
+  the changelog and update the app's type definitions accordingly.
+rationale: >
+  A mobile client that drifts from the server's API contract will
+  silently break. Validating against the spec (or source code when the
+  spec is lacking) catches contract violations early. This is especially
+  important because we do not use the official SDK (ADR 003) and
+  maintain our own type definitions.
+provenance: guided-ai

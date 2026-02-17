@@ -1,0 +1,29 @@
+number: 19
+title: "Long-term planning via GitHub issues"
+category: development
+decision: >
+  All planning that exceeds the scope of a single branch or agent session
+  is tracked through GitHub issues. Issues are the source of truth for
+  feature requests, multi-step epics, known bugs, and technical debt.
+  Agents must not rely on in-context memory or local files for cross-session
+  planning.
+agent_instructions: >
+  When working on something that spans multiple sessions or branches, create
+  or reference GitHub issues to track progress. Use 'gh issue create' to
+  propose new work and 'gh issue view <number>' to read existing plans.
+  Break large efforts into sub-issues or checklists within a parent issue.
+  When completing work that resolves an issue, reference it in the commit
+  message footer (e.g., 'closes #42'). Do not keep long-term plans only
+  in local files, conversation context, or memory — they will be lost
+  between sessions. When starting a new session, check open issues with
+  'gh issue list --state open' to understand what work is in progress.
+  When an issue becomes stale or irrelevant, comment on it explaining why
+  and close it.
+rationale: >
+  AI agent sessions are ephemeral — context is lost between sessions and
+  local scratch files may not persist. GitHub issues provide a durable,
+  shared, searchable record of planned and in-progress work that survives
+  session boundaries. They also enable human oversight of the project
+  roadmap and allow multiple agents or humans to coordinate on the same
+  codebase without duplicating or conflicting work.
+provenance: guided-ai

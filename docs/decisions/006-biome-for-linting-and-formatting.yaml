@@ -1,0 +1,34 @@
+number: 6
+title: "Biome for linting and formatting"
+category: development
+decision: >
+  Use Biome as the primary tool for both linting and code formatting.
+  Supplement with ESLint only for React Native-specific rules that Biome
+  does not cover (e.g., expo-specific lint configs). Biome replaces
+  Prettier and handles the majority of ESLint's responsibilities.
+agent_instructions: >
+  Use Biome for all formatting and general linting. Run 'npx biome check'
+  for linting and 'npx biome format' for formatting. Do not install or
+  configure Prettier. ESLint should only be used for React Native / Expo
+  specific rules (e.g., eslint-config-expo) and should not overlap with
+  Biome's rules. When adding new code, ensure it passes 'npx biome check'
+  before committing. The biome.json config file is the source of truth for
+  code style — do not override formatting in editor configs or other tools.
+  If Biome and ESLint conflict on a rule, Biome takes precedence and the
+  ESLint rule should be disabled.
+rationale: >
+  Biome is written in Rust and is dramatically faster than ESLint + Prettier
+  (100x+ in benchmarks). It combines linting and formatting in a single tool
+  with minimal configuration, similar to how ruff replaced pylint + black +
+  isort in the Python ecosystem. Using one tool reduces config complexity
+  and eliminates the common ESLint-Prettier conflict issues. ESLint is
+  retained only for the small set of React Native-specific rules that
+  Biome does not yet implement.
+rejected_alternatives:
+  - alternative: "ESLint + Prettier"
+    reason: "Slower, two tools to configure, frequent conflicts between ESLint and Prettier formatting rules"
+  - alternative: "ESLint only (with formatting rules)"
+    reason: "ESLint's formatting rules are deprecated; the project recommends Prettier or similar"
+  - alternative: "Biome only (no ESLint at all)"
+    reason: "Would lose Expo-specific lint rules that catch React Native pitfalls; keeping ESLint for just those rules is a reasonable compromise"
+provenance: guided-ai

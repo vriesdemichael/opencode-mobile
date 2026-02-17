@@ -1,0 +1,24 @@
+number: 14
+title: "Test coverage with Codecov at 85% minimum"
+category: development
+decision: >
+  Collect test coverage data and upload to Codecov. Enforce a minimum
+  coverage threshold of 85% on all new and modified code. Coverage
+  reports are generated during CI and uploaded automatically.
+agent_instructions: >
+  When writing code, always write corresponding tests. All new modules
+  must have test files. Coverage is enforced at 85% minimum — PRs that
+  drop coverage below this threshold will fail CI. When running tests
+  locally, generate coverage with the appropriate flag (e.g.,
+  'pnpm test -- --coverage'). Coverage configuration should output
+  lcov format for Codecov compatibility. Do not merge code that reduces
+  overall coverage below 85%. If coverage cannot reasonably reach 85%
+  for a specific module (e.g., platform-specific native code), document
+  the exclusion with a comment and configure the coverage tool to
+  exclude it explicitly.
+rationale: >
+  85% coverage provides a strong safety net without making tests
+  burdensome. Codecov provides PR-level coverage diffs, trend tracking,
+  and GitHub status checks. lcov format is universally supported.
+  Enforcing coverage in CI prevents gradual erosion of test quality.
+provenance: guided-ai

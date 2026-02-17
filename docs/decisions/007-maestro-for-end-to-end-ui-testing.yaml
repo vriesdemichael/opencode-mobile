@@ -1,0 +1,30 @@
+number: 7
+title: "Maestro for end-to-end UI testing"
+category: development
+status: proposed
+decision: >
+  Use Maestro for end-to-end UI testing. Tests are written as declarative
+  YAML flows. Maestro's takeScreenshot command is used to capture app state
+  for AI-assisted visual verification during development. Setup is deferred
+  until the app has UI screens to test.
+agent_instructions: >
+  Do not install or configure Maestro until there are UI screens to test.
+  When the time comes, create Maestro test flows as YAML files in a
+  maestro/ directory at the project root. Do not use Appium, Detox, or
+  other E2E testing frameworks. Each test flow should use takeScreenshot
+  at key assertion points. Test files should be named descriptively
+  (e.g., maestro/connect-to-server.yaml, maestro/send-prompt.yaml).
+  If a better E2E testing framework emerges or Maestro proves insufficient,
+  propose a new decision record to supersede this one.
+rationale: >
+  Maestro provides a declarative, YAML-based approach to mobile E2E testing
+  that is simpler to write and maintain than programmatic alternatives like
+  Detox or Appium. Its screenshot capture integrates well with AI-assisted
+  development workflows. The decision to defer setup avoids premature
+  configuration of test infrastructure before there is UI to test.
+rejected_alternatives:
+  - alternative: "Detox"
+    reason: "More complex setup, programmatic test API has steeper learning curve"
+  - alternative: "Appium"
+    reason: "Heavy infrastructure requirements, slow test execution, complex configuration"
+provenance: guided-ai

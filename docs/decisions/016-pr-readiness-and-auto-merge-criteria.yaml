@@ -1,0 +1,40 @@
+number: 16
+title: "PR readiness and auto-merge criteria"
+category: development
+decision: >
+  A PR is ready to open when: all local tests pass, code is in a
+  reviewable state (no TODOs, no debug code, no partial implementations),
+  and the user has confirmed it should be opened. A PR is ready for
+  auto-merge when: all review comments are addressed and resolved, all
+  required CI checks pass, and the user has reviewed or approved.
+  Copilot performs an automated review only on the first push to a PR —
+  subsequent pushes do not trigger it.
+agent_instructions: >
+  Before opening a PR:
+  1. Run all tests locally and ensure they pass
+  2. Run 'pnpm check' (Biome) and 'pnpm validate-decisions'
+  3. Ensure no TODO, FIXME, or debug statements remain
+  4. Ensure no partial implementations — every feature in the PR must
+     be complete and functional
+  5. Ask the user for confirmation before opening
+
+  Copilot review behaviour: The first push to a new PR triggers an
+  automated Copilot code review. Subsequent commits do NOT get this
+  treatment. Therefore, never push a partial or draft version as
+  the first commit on a PR branch — it wastes the one-time automated
+  review on incomplete code.
+
+  Before enabling auto-merge:
+  1. All review comments (human and Copilot) are addressed and resolved
+  2. All required CI checks are passing or will pass
+  3. User has reviewed or approved the changes
+  4. Enable with: gh pr merge <number> --auto --rebase
+
+  Do not wait for optional CI checks (security scans, SBOM) — automerge
+  handles those.
+rationale: >
+  Strict PR readiness criteria prevent wasted review cycles. The Copilot
+  first-push behaviour makes it critical to only push when code is
+  complete — you only get one free automated review per PR. Auto-merge
+  via rebase keeps the commit history linear and avoids merge commits.
+provenance: guided-ai

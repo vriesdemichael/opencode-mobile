@@ -1,0 +1,39 @@
+number: 9
+title: "GitHub interactions via UI or gh CLI only"
+category: development
+decision: >
+  All interactions with GitHub (issues, pull requests, releases, repository
+  settings) must be performed either through the GitHub web UI (by humans)
+  or via the gh CLI tool (by AI agents and automation). No direct use of
+  the GitHub REST/GraphQL API via curl or custom scripts.
+agent_instructions: >
+  When interacting with GitHub, always use the gh CLI. Do not use curl,
+  octokit, or direct GitHub API calls. Common operations:
+
+  - List issues: gh issue list --state open
+  - View issue: gh issue view <number>
+  - Create issue: gh issue create --title "..." --body "..." --label "..."
+  - List PRs: gh pr list
+  - Create PR: gh pr create --title "..." --body "..."
+  - View PR: gh pr view <number>
+  - Check CI status: gh run list
+
+  When asked to work on an issue, first run 'gh issue view <number>' to
+  read the full description and comments. Reference issue numbers in
+  commit messages using conventional commit format (e.g., feat: add X,
+  closes #42). Do not create GitHub Actions workflows or modify repository
+  settings without explicit human approval.
+rationale: >
+  The gh CLI provides a consistent, auditable interface for all GitHub
+  operations. It handles authentication via 'gh auth', avoids token
+  management in scripts, and produces human-readable output that AI agents
+  can parse. Using a single tool for all GitHub interactions reduces the
+  surface area for mistakes and makes it easy to audit what agents did.
+  This mirrors the principle of using well-maintained CLI tools over
+  custom API integrations.
+rejected_alternatives:
+  - alternative: "Direct GitHub REST API via curl"
+    reason: "Requires manual token management, verbose, error-prone for agents"
+  - alternative: "Octokit SDK"
+    reason: "Adds a dependency, more complex than necessary for CLI-driven workflows"
+provenance: guided-ai

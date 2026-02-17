@@ -1,0 +1,32 @@
+number: 3
+title: "Direct REST and SSE networking without SDK wrapper"
+category: architecture
+decision: >
+  The app communicates with the OpenCode server using direct REST API calls
+  and Server-Sent Events (SSE). Do not use the @opencode-ai/sdk package
+  in the mobile client. Implement a thin, typed API client layer within
+  the app that wraps fetch() for REST and a robust SSE client for streaming.
+agent_instructions: >
+  Do not install or import @opencode-ai/sdk in the mobile app. Instead,
+  create a typed API client module (e.g., src/api/ or services/) that wraps
+  fetch() calls to OpenCode REST endpoints and manages SSE connections.
+  All REST requests must include an Authorization header for HTTP Basic Auth.
+  SSE connections must implement exponential backoff reconnection to handle
+  mobile network volatility. Type definitions for API request/response shapes
+  should be maintained locally in the app, informed by the OpenCode OpenAPI
+  spec at /doc. When adding new API interactions, add them to the API client
+  module rather than making raw fetch() calls from components.
+rationale: >
+  The @opencode-ai/sdk has known bundling issues with React Native's Metro
+  bundler due to its transitive dependency on @vercel/oidc, which is
+  optimised for Node.js. Rather than fighting compatibility issues, a thin
+  custom client gives us full control over networking behaviour, SSE
+  reconnection strategy, and mobile-specific concerns like background
+  execution. The OpenCode server exposes a well-documented OpenAPI spec,
+  making a custom client straightforward to build and maintain.
+rejected_alternatives:
+  - alternative: "@opencode-ai/sdk direct import"
+    reason: "Metro bundler incompatibility with @vercel/oidc transitive dependency"
+  - alternative: "Backend-for-frontend proxy"
+    reason: "Adds deployment complexity and latency; direct connection is simpler for a remote-control app"
+provenance: guided-ai

@@ -1,0 +1,26 @@
+number: 12
+title: "GitHub Actions for CI"
+category: development
+status: proposed
+decision: >
+  Use GitHub Actions as the CI/CD platform. Workflows will validate ADRs,
+  run Biome checks, run tests, and handle releases. Implementation is
+  deferred until the app has testable functionality.
+agent_instructions: >
+  Do not create GitHub Actions workflow files until explicitly instructed.
+  When the time comes, place workflows in .github/workflows/ and ensure
+  they run: ADR validation, Biome check, TypeScript type checking, and
+  any test suites. Use pnpm for all CI steps (with pnpm/action-setup).
+  Do not use other CI platforms (Travis, CircleCI, Jenkins, Tekton)
+  without updating this decision record.
+rationale: >
+  GitHub Actions is free for public repositories, has the best ecosystem
+  integration with GitHub (issues, PRs, releases), and requires no
+  external infrastructure. It aligns with the gh CLI workflow (ADR 009)
+  and supports pnpm natively via pnpm/action-setup.
+rejected_alternatives:
+  - alternative: "Tekton"
+    reason: "Requires Kubernetes infrastructure, overkill for a public mobile app repo"
+  - alternative: "Self-hosted CI"
+    reason: "Unnecessary operational burden for this project"
+provenance: guided-ai

@@ -1,0 +1,27 @@
+number: 1
+title: "React Native with TypeScript via Expo"
+category: architecture
+decision: >
+  Build the mobile client using React Native with TypeScript, bootstrapped
+  via Expo (create-expo-app). Use expo-router for file-based routing.
+agent_instructions: >
+  All application code must be written in TypeScript with strict mode enabled.
+  Use Expo APIs and expo-router for navigation and platform features.
+  Do not use Flutter, native Swift/Kotlin, or bare React Native CLI.
+  Do not eject from Expo unless explicitly approved by a human.
+  When adding new screens, create them as files in the app/ directory
+  following expo-router file-based routing conventions.
+rationale: >
+  React Native with TypeScript maximises code reuse with the OpenCode
+  TypeScript ecosystem. Expo provides the best developer experience for
+  cross-platform mobile development with managed native modules, OTA updates,
+  and simplified build tooling. The trade-off of slightly reduced native
+  module flexibility is acceptable for this use case.
+rejected_alternatives:
+  - alternative: "Flutter with Dart"
+    reason: "Different language ecosystem, no reuse of OpenCode TypeScript types and patterns"
+  - alternative: "Native Swift + Kotlin (two codebases)"
+    reason: "Double the maintenance burden, no type sharing with OpenCode server"
+  - alternative: "Bare React Native CLI (no Expo)"
+    reason: "More complex setup, manual native configuration, slower iteration — Expo covers our needs"
+provenance: guided-ai

@@ -1,0 +1,34 @@
+number: 5
+title: "react-native-sse for Server-Sent Events"
+category: architecture
+decision: >
+  Use the react-native-sse library for consuming Server-Sent Events from
+  the OpenCode server. If the library proves insufficient for mobile
+  background execution or reconnection needs, replace it with a custom
+  fetch-based SSE implementation.
+agent_instructions: >
+  Use react-native-sse for all SSE connections to the OpenCode server.
+  Always configure SSE connections with an Authorization header for HTTP
+  Basic Auth. Implement exponential backoff reconnection logic on top of
+  the library's connection management. If react-native-sse does not support
+  a required feature (e.g., custom headers, background persistence, or
+  fine-grained reconnection control), document the limitation and propose
+  migrating to a custom fetch-based ReadableStream implementation. Do not
+  use EventSource polyfills or other SSE libraries without updating this
+  decision record. Wrap all SSE usage in a service module (e.g.,
+  services/sse.ts) so the underlying implementation can be swapped without
+  touching consumers.
+rationale: >
+  react-native-sse is purpose-built for React Native and handles
+  platform-specific concerns better than generic EventSource polyfills.
+  It supports custom headers (needed for Basic Auth) and is lightweight.
+  Wrapping it in a service module provides an escape hatch — if the
+  library's reconnection strategy or background behaviour proves
+  insufficient for mobile cellular networks, we can swap to a custom
+  fetch + ReadableStream implementation without changing the rest of the app.
+rejected_alternatives:
+  - alternative: "Custom fetch-based SSE from day one"
+    reason: "Premature optimisation; react-native-sse covers most needs and saves ~150 lines of streaming parser code. We can migrate later if needed."
+  - alternative: "eventsource polyfill"
+    reason: "Not mobile-aware, some polyfills lack custom header support needed for Basic Auth"
+provenance: guided-ai

@@ -1,0 +1,38 @@
+number: 4
+title: "Zustand with Immer for state management"
+category: architecture
+decision: >
+  Use Zustand with the Immer middleware for all application state management.
+  Zustand stores are the single source of truth for UI state, server-synced
+  state (sessions, messages), and connection status.
+agent_instructions: >
+  Use Zustand for all shared/global state. Do not use React Context for
+  state that changes frequently or is shared across many components. Do not
+  use Redux, MobX, or Jotai. When creating a store, always use the Immer
+  middleware to enable mutable-style updates on draft state. Structure stores
+  by domain (e.g., useSessionStore, useConnectionStore) rather than a single
+  monolithic store. Keep component-local state in useState/useReducer only
+  when it does not need to be shared. Example store pattern:
+  
+  import { create } from 'zustand';
+  import { immer } from 'zustand/middleware/immer';
+  
+  const useSessionStore = create(immer((set) => ({ ... })));
+rationale: >
+  OpenCode returns deeply nested JSON objects (sessions containing messages
+  containing parts containing tool calls and results). Without Immer,
+  updating nested state requires tedious spread operations that are error-prone
+  and hard to read. Zustand + Immer provides a minimal-boilerplate solution
+  where you can write state.sessions[id].messages[0].status = 'done' and
+  get correct immutable updates. This mirrors the ergonomics of Pydantic's
+  model_copy(update={}) but for UI state trees.
+rejected_alternatives:
+  - alternative: "Redux Toolkit"
+    reason: "Too much boilerplate (slices, reducers, actions) for the scale of this app. Redux Toolkit includes Immer but requires more ceremony."
+  - alternative: "Jotai"
+    reason: "Atom-based model is less intuitive for large interconnected state trees like session data"
+  - alternative: "React Context + useReducer"
+    reason: "Causes unnecessary re-renders across the component tree, poor performance with frequent SSE updates"
+  - alternative: "Zustand without Immer"
+    reason: "Deeply nested spreads for OpenCode's session/message/part hierarchy would be painful and error-prone"
+provenance: guided-ai

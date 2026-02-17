@@ -1,0 +1,36 @@
+number: 17
+title: "Git discipline and branch management"
+category: development
+decision: >
+  Strict git discipline: no direct commits to main without a PR, no merge
+  or squash commits, all commits use conventional commit messages, only
+  rebase-based integration. History rewriting is permitted on PR branches
+  but never on main. PR branches must be rebased on top of the latest
+  main before merging.
+agent_instructions: >
+  Git rules — follow these exactly:
+
+  1. NEVER commit directly to main. All changes go through a PR branch.
+  2. NEVER create merge commits or squash commits. All merges use rebase
+     (gh pr merge --rebase). Every commit that lands on main must be a
+     meaningful conventional commit that belongs in the changelog.
+  3. All commits must follow conventional commit format (ADR 011). No
+     fixup commits like 'fix typo' or 'address review' should land on
+     main — rebase and reword them before merge.
+  4. You MAY rewrite history (interactive rebase, amend, force-push)
+     on PR branches to clean up commits before merge. Use
+     'git push --force-with-lease' to avoid overwriting others' work.
+  5. Before merge, ensure your PR branch is rebased on top of the latest
+     main: 'git fetch origin && git rebase origin/main'. If your branch
+     is behind, update it before requesting merge.
+  6. When starting work on a new feature or fix, create a branch from
+     the latest main: 'git checkout -b feat/description origin/main'.
+     Use branch name prefixes: feat/, fix/, docs/, chore/, refactor/.
+rationale: >
+  Linear history (rebase-only) makes git log readable, bisectable, and
+  compatible with semantic-release. Conventional commits in every position
+  ensure the changelog is accurate. Prohibiting squash preserves the
+  granularity of individual changes. Allowing history rewriting on PR
+  branches lets developers clean up work-in-progress commits before they
+  become permanent.
+provenance: guided-ai

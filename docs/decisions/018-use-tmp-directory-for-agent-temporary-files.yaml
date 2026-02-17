@@ -1,0 +1,27 @@
+number: 18
+title: "Use .tmp directory for agent temporary files"
+category: development
+decision: >
+  All AI agents must use the .tmp/ directory at the project root for
+  temporary files, scratch work, and intermediate outputs. This directory
+  is gitignored. Agents must never use /tmp, the system temp directory,
+  the Desktop, or any location outside the project root for temporary
+  files.
+agent_instructions: >
+  When you need temporary files (downloads, intermediate build artifacts,
+  scratch notes, test fixtures, API response dumps, etc.), always write
+  them to the .tmp/ directory at the project root. Create .tmp/ if it
+  does not exist. Do not use /tmp, %TEMP%, ~/Desktop, or any system
+  temp directory — many agentic coding tools lack permissions to access
+  those locations. Do not write temporary files to the project root or
+  any other tracked directory. Clean up .tmp/ contents when they are no
+  longer needed, but do not delete the directory itself or its .gitkeep
+  file.
+rationale: >
+  Many agentic coding tools (sandboxed IDEs, remote containers, CI
+  runners) have restricted access to system temp directories like /tmp
+  or %TEMP%. Using a project-local .tmp/ directory avoids permission
+  issues, keeps temporary files discoverable during debugging, and
+  ensures they are excluded from git via .gitignore. The .gitkeep file
+  ensures the directory structure is preserved in the repository.
+provenance: guided-ai

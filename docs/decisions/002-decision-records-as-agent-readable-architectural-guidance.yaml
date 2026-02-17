@@ -1,0 +1,35 @@
+number: 2
+title: "Decision records as agent-readable architectural guidance"
+category: development
+decision: >
+  All architecture and development decisions are recorded as structured YAML
+  files in docs/decisions/. Each record includes an agent_instructions field
+  that provides explicit, actionable guidance for AI coding agents. These
+  records are the primary source of truth for agent behaviour.
+agent_instructions: >
+  Before making any architectural or tooling choice, check existing decision
+  records in docs/decisions/*.yaml. If a relevant decision exists, follow its
+  agent_instructions exactly. If no decision covers the current choice,
+  propose a new decision record to the user before proceeding. Never modify
+  or delete existing decision records without explicit human approval.
+  When writing new decision records, ensure the agent_instructions field is
+  specific enough that an AI agent can unambiguously determine: (1) what
+  tools/libraries to use, (2) what patterns to follow, (3) what is
+  explicitly forbidden. Vague instructions like "use best practices" are
+  not acceptable.
+rationale: >
+  AI coding agents operate most effectively when given explicit, structured
+  constraints rather than prose documentation. YAML decision records provide
+  machine-readable guidance that agents can load into context on every
+  session. The agent_instructions field specifically bridges the gap between
+  human architectural intent and agent execution. This approach scales
+  better than inline code comments or README prose for guiding autonomous
+  AI development.
+rejected_alternatives:
+  - alternative: "Inline code comments for agent guidance"
+    reason: "Scattered across files, hard to load holistically into agent context"
+  - alternative: "Free-form markdown architecture docs"
+    reason: "Not structured enough for reliable agent parsing, no standardised fields"
+  - alternative: "No formal decision tracking"
+    reason: "Leads to inconsistent agent behaviour across sessions, repeated debates"
+provenance: guided-ai

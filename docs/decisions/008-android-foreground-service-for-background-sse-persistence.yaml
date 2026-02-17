@@ -1,0 +1,28 @@
+number: 8
+title: "Android foreground service for background SSE persistence"
+category: architecture
+status: proposed
+decision: >
+  On Android, use a ForegroundService to keep the SSE connection alive when
+  the app is backgrounded. For Android 14+ (API 34), declare an explicit
+  foregroundServiceType in the manifest. Display a persistent notification
+  showing the AI agent's active status. On iOS, rely on session persistence
+  and event catch-up on foreground resume instead of background execution.
+agent_instructions: >
+  This decision is documented for intent only — implementation is deferred
+  until the networking layer is built. When implementing: on Android, create
+  a ForegroundService (using expo-task-manager or a custom native module)
+  that maintains the SSE connection in the background. For Android 14+,
+  add foregroundServiceType="dataSync" or "specialUse" to the manifest.
+  On iOS, do not attempt continuous background SSE. Instead, when the app
+  returns to foreground, fetch missed events via
+  GET /session/:id/message/:messageID to resync state. Document any native
+  module requirements as they arise.
+rationale: >
+  Mobile operating systems aggressively kill background network connections.
+  Android's ForegroundService mechanism is the sanctioned way to maintain
+  long-lived connections. iOS does not provide an equivalent for continuous
+  HTTP streams, so the app must gracefully handle reconnection and event
+  catch-up. Separating the platform strategies ensures each platform uses
+  its optimal approach rather than a lowest-common-denominator solution.
+provenance: guided-ai

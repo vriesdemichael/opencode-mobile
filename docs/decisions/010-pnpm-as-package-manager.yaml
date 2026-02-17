@@ -1,0 +1,32 @@
+number: 10
+title: "pnpm as package manager"
+category: development
+decision: >
+  Use pnpm as the package manager for this project. All dependency
+  installation, script execution, and lockfile management is done via pnpm.
+  Do not use npm, yarn, or bun for package management.
+agent_instructions: >
+  Always use pnpm for package operations. Use 'pnpm install' instead of
+  'npm install', 'pnpm add <pkg>' instead of 'npm install <pkg>', and
+  'pnpm run <script>' or 'pnpm <script>' instead of 'npm run <script>'.
+  The lockfile is pnpm-lock.yaml (not package-lock.json). Do not generate
+  or commit package-lock.json or yarn.lock. When running Expo commands,
+  use 'pnpm exec expo' or 'pnpm expo' instead of 'npx expo'. For one-off
+  script execution use 'pnpm dlx' instead of 'npx'.
+rationale: >
+  pnpm is faster than npm, uses a content-addressable store to save disk
+  space, and enforces strict dependency resolution (no phantom dependencies).
+  It is the closest equivalent to Python's uv in the JavaScript ecosystem —
+  a modern, fast, drop-in replacement that improves on the default.
+  Unlike Bun, pnpm runs on Node.js and has full compatibility with
+  Expo and React Native tooling.
+rejected_alternatives:
+  - alternative: "npm"
+    reason: "Slower installs, allows phantom dependencies, larger node_modules"
+  - alternative: "yarn (classic or berry)"
+    reason: "Berry/PnP has compatibility issues with React Native; classic yarn is not meaningfully better than pnpm"
+  - alternative: "Bun"
+    reason: "Expo and Metro bundler are not officially supported on the Bun runtime; using Bun as package manager while running Node.js creates a split-brain toolchain"
+  - alternative: "Deno"
+    reason: "Incompatible with React Native and Expo entirely"
+provenance: guided-ai

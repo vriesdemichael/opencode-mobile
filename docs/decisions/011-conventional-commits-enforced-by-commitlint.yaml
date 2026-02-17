@@ -1,0 +1,30 @@
+number: 11
+title: "Conventional commits enforced by commitlint"
+category: development
+decision: >
+  All commit messages must follow the Conventional Commits specification
+  (https://www.conventionalcommits.org/). Commitlint is configured with a
+  Husky commit-msg hook to enforce this at commit time. Valid types include:
+  feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert.
+agent_instructions: >
+  All commit messages must use the format: type(optional-scope): description.
+  Examples: 'feat: add connection screen', 'fix(sse): handle reconnection
+  timeout', 'docs: update ADR 003'. The type must be one of: feat, fix,
+  docs, style, refactor, perf, test, build, ci, chore, revert. The
+  description must be lowercase, must not end with a period, and should be
+  imperative mood (e.g., 'add' not 'added'). Breaking changes must include
+  a BREAKING CHANGE footer or ! after the type. Do not use non-conventional
+  commit messages. When a commit relates to a GitHub issue, reference it
+  in the body or footer (e.g., 'closes #42').
+rationale: >
+  Conventional commits enable automated changelog generation, semantic
+  versioning, and clear commit history. They integrate with semantic-release
+  and renovatebot for automated releases. Commitlint enforcement at the
+  hook level prevents non-conforming commits from being created, rather
+  than catching them later in CI.
+rejected_alternatives:
+  - alternative: "No commit message convention"
+    reason: "Makes changelog generation impossible, inconsistent history"
+  - alternative: "CI-only enforcement (no local hook)"
+    reason: "Allows bad commits to be pushed, then requires force-push to fix"
+provenance: guided-ai
