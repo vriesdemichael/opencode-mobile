@@ -22,6 +22,8 @@ const MAPPING = {
 	"chevron.left.forwardslash.chevron.right": "code",
 	"chevron.right": "chevron-right",
 	"gearshape.fill": "settings",
+	"folder.fill": "folder",
+	laptopcomputer: "computer",
 } as IconMapping;
 
 /**
