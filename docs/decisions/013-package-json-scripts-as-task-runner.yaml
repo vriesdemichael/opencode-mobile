@@ -1,28 +1,19 @@
 number: 13
-title: "Package.json scripts as task runner"
+title: "Taskfile as task runner"
 category: development
 decision: >
-  Use package.json scripts as the primary task runner for all development
-  commands. If package.json scripts become insufficient (e.g., need task
-  dependencies, conditionals, or complex multi-step workflows), migrate
-  to Taskfile (https://taskfile.dev) rather than Makefile, just, or other
-  alternatives.
+  Use Taskfile (https://taskfile.dev) as the primary task runner for all development
+  commands. Package.json scripts should only be used for lifecycle hooks (e.g. prepare)
+  or simple proxies where necessary.
 agent_instructions: >
-  Define all development tasks as npm scripts in package.json. Run them
-  via 'pnpm <script-name>'. Do not create a Makefile, justfile, or
-  Taskfile.yml unless package.json scripts are demonstrably insufficient
-  for a specific use case. If that situation arises, propose migrating
-  to Taskfile and update this decision record. When adding a new task,
-  add it as a script in package.json with a descriptive name. Keep scripts
-  composable — prefer small scripts that can be combined over monolithic
-  ones.
+  Define all development tasks in Taskfile.yml. Run them via 'task <task-name>'.
+  Do not use make, just, or npm scripts for complex workflows. When adding a new task,
+  add it to Taskfile.yml with a description.
 rationale: >
-  package.json scripts are the standard task runner in the JavaScript
-  ecosystem and require no additional tooling. Every developer and CI
-  system already knows how to run them. Taskfile is the designated
-  fallback because it is language-agnostic, fast (written in Go), uses
-  simple YAML, and supports task dependencies and conditionals — similar
-  to what the team uses in other projects.
+  Taskfile is a modern, cross-platform task runner that is faster and more flexible
+  than npm scripts. It supports dependencies, parallel execution, and simpler syntax
+  for complex operations, avoiding "composite command" strings in package.json.
+
 rejected_alternatives:
   - alternative: "just (justfile)"
     reason: "Less common than Taskfile, custom syntax, would add friction for contributors who don't know it"
