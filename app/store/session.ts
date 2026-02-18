@@ -13,7 +13,8 @@ interface SessionState {
 }
 
 interface SessionActions {
-	loadSessions: () => Promise<void>;
+	loadSessions: (directory?: string) => Promise<void>;
+	clearSessions: () => void;
 	selectSession: (id: string) => Promise<void>;
 	createSession: (title?: string) => Promise<string>;
 	deleteSession: (id: string) => Promise<void>;
@@ -46,13 +47,18 @@ export const useSessionStore = create<SessionState & SessionActions>()(
 				state.error = null;
 			}),
 
-		loadSessions: async () => {
+		clearSessions: () =>
+			set((state) => {
+				state.sessions = [];
+			}),
+
+		loadSessions: async (directory?: string) => {
 			set((state) => {
 				state.loading = true;
 				state.error = null;
 			});
 			try {
-				const sessions = await Api.getSessions();
+				const sessions = await Api.getSessions({ directory });
 				set((state) => {
 					state.sessions = sessions;
 					state.loading = false;

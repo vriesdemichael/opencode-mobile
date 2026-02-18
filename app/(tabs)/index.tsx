@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import {
 	ActivityIndicator,
@@ -17,6 +18,7 @@ import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 
 export default function HomeScreen() {
+	const router = useRouter();
 	const [projects, setProjects] = useState<Project[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
@@ -108,7 +110,16 @@ export default function HomeScreen() {
 				renderItem={({ item }) => (
 					<ProjectCard
 						project={item}
-						onPress={() => console.log("Selected project:", item.name)}
+						onPress={() =>
+							router.push({
+								pathname: `/project/${item.id}`,
+								params: {
+									directory: item.directory,
+									name: item.name,
+								},
+								// biome-ignore lint/suspicious/noExplicitAny: router params are loosely typed here
+							} as any)
+						}
 					/>
 				)}
 				refreshControl={
