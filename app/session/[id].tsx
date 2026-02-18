@@ -1,50 +1,57 @@
-import { useLocalSearchParams } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useCallback, useEffect } from "react";
 import {
 	ActivityIndicator,
-	FlatList,
-	RefreshControl,
+	KeyboardAvoidingView,
+	Platform,
 	StyleSheet,
 	View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSessionStore } from "@/app/store/session";
-import { SessionCard } from "@/components/session-card";
+import { Composer } from "@/components/composer";
+import { MessageList } from "@/components/message-list";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 
-export default function ProjectSessionListScreen() {
-	const { directory, name } = useLocalSearchParams<{
-		id: string;
-		directory: string;
-		name: string;
-	}>();
+export default function SessionChatScreen() {
+	const { id } = useLocalSearchParams<{ id: string }>();
 	const router = useRouter();
 	const colorScheme = useColorScheme() ?? "light";
-	const { sessions, loadSessions, loading, error } = useSessionStore();
-	const [refreshing, setRefreshing] = useState(false);
+	const {
+		messages,
+		currentSessionId,
+		sessions,
+		selectSession,
+		sendMessage,
+		loading,
+		error,
+		typing,
+	} = useSessionStore();
 
-	const loadData = useCallback(async () => {
-		if (directory) {
-			await loadSessions(directory);
-		}
-	}, [directory, loadSessions]);
+	const sessionMessages = id ? messages[id] || [] : [];
+	const session = sessions.find((s) => s.id === id);
 
 	useEffect(() => {
-		loadData();
-	}, [loadData]);
+		if (id && id !== currentSessionId) {
+			selectSession(id);
+		}
+	}, [id, currentSessionId, selectSession]);
 
-	const onRefresh = useCallback(async () => {
-		setRefreshing(true);
-		await loadData();
-		setRefreshing(false);
-	}, [loadData]);
+	const handleSend = useCallback(
+		(text: string) => {
+			if (id) {
+				sendMessage(id, text);
+			}
+		},
+		[id, sendMessage],
+	);
 
 	const renderContent = () => {
-		if (loading && !refreshing && sessions.length === 0) {
+		if (loading && sessionMessages.length === 0) {
 			return (
 				<View style={styles.centerContainer}>
 					<ActivityIndicator size="large" color={Colors[colorScheme].tint} />
@@ -52,52 +59,30 @@ export default function ProjectSessionListScreen() {
 			);
 		}
 
-		if (error && sessions.length === 0) {
+		if (error && sessionMessages.length === 0) {
 			return (
 				<View style={styles.centerContainer}>
 					<ThemedText type="subtitle" style={{ color: "red" }}>
-						Error Loading Sessions
+						Error Loading Messages
 					</ThemedText>
-					<ThemedText
-						style={{ textAlign: "center", marginTop: 8, marginBottom: 16 }}
-					>
-						{error}
-					</ThemedText>
-					<ThemedText type="link" onPress={loadData}>
-						Retry
-					</ThemedText>
-				</View>
-			);
-		}
-
-		if (sessions.length === 0) {
-			return (
-				<View style={styles.centerContainer}>
-					<ThemedText type="subtitle">No Sessions Found</ThemedText>
 					<ThemedText style={{ textAlign: "center", marginTop: 8 }}>
-						Start a new chat session to begin coding.
+						{error}
 					</ThemedText>
 				</View>
 			);
 		}
 
 		return (
-			<FlatList
-				data={sessions}
-				keyExtractor={(item) => item.id}
-				renderItem={({ item }) => (
-					<SessionCard
-						session={item}
-						onPress={() => {
-							router.push(`/session/${item.id}`);
-						}}
-					/>
+			<>
+				<MessageList messages={sessionMessages} />
+				{typing && (
+					<View style={styles.typingIndicator}>
+						<ThemedText style={{ fontSize: 12, opacity: 0.6 }}>
+							Assistant is typing...
+						</ThemedText>
+					</View>
 				)}
-				refreshControl={
-					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-				}
-				contentContainerStyle={styles.listContent}
-			/>
+			</>
 		);
 	};
 
@@ -110,13 +95,22 @@ export default function ProjectSessionListScreen() {
 							name="chevron.left.forwardslash.chevron.right" // Code icon
 							size={24}
 							color={Colors[colorScheme].text}
+							onPress={() => router.back()}
 						/>
 						<ThemedText type="title" numberOfLines={1} style={{ flex: 1 }}>
-							{name || "Project"}
+							{session?.title || "Chat Session"}
 						</ThemedText>
 					</View>
 				</View>
-				{renderContent()}
+
+				<View style={styles.content}>{renderContent()}</View>
+
+				<KeyboardAvoidingView
+					behavior={Platform.OS === "ios" ? "padding" : "height"}
+					keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
+				>
+					<Composer onSend={handleSend} disabled={loading || typing} />
+				</KeyboardAvoidingView>
 			</SafeAreaView>
 		</ThemedView>
 	);
@@ -140,13 +134,17 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		gap: 12,
 	},
-	listContent: {
-		paddingVertical: 10,
+	content: {
+		flex: 1,
 	},
 	centerContainer: {
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
 		padding: 20,
+	},
+	typingIndicator: {
+		padding: 8,
+		paddingHorizontal: 16,
 	},
 });

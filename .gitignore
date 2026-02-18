@@ -64,5 +64,9 @@ coverage/
 .tmp/
 !.tmp/.gitkeep
 
+# Test logs
+*.log
+test_output.txt
+
 # npm lockfile (this is a pnpm project, ADR 010)
 package-lock.json
