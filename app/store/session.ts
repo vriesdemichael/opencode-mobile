@@ -151,7 +151,7 @@ export const useSessionStore = create<SessionState & SessionActions>()(
 
 			try {
 				await Api.sendMessage(sessionId, content, model);
-			} catch (_err) {
+			} catch {
 				// Revert on failure
 				set((state) => {
 					if (state.messages[sessionId]) {
