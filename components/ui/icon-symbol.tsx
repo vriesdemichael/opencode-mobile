@@ -24,6 +24,7 @@ const MAPPING = {
 	"gearshape.fill": "settings",
 	"folder.fill": "folder",
 	laptopcomputer: "computer",
+	"bubble.left.and.bubble.right": "chat",
 } as IconMapping;
 
 /**
