@@ -9,9 +9,7 @@ describe("Composer", () => {
 
 	it("calls onSend with trimmed text when send button pressed", () => {
 		const onSendMock = jest.fn();
-		const { getByPlaceholderText, getByTestId } = render(
-			<Composer onSend={onSendMock} />,
-		);
+		const { getByPlaceholderText } = render(<Composer onSend={onSendMock} />);
 
 		const input = getByPlaceholderText("Message...");
 		fireEvent.changeText(input, "  Hello World  ");
