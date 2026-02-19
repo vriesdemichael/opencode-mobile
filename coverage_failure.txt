@@ -1,0 +1,33 @@
+PASS app/api/__tests__/client-test.ts
+PASS hooks/__tests__/use-theme-color-test.tsx
+PASS app/store/__tests__/session-test.ts
+FAIL app/store/__tests__/connection-test.ts
+  ΓùÅ Connection Store ΓÇ║ testConnection ΓÇ║ handles non-Error objects in catch
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "String Error"
+    Received: "Cannot read properties of undefined (reading 'ok')"
+
+      139 |             await testConnection();
+      140 |             const state = useConnectionStore.getState();
+    > 141 |             expect(state.error).toBe("String Error");
+          |                                 ^
+      142 |         });
+      143 |     });
+      144 | });
+
+      at Object.toBe (app/store/__tests__/connection-test.ts:141:33)
+      at asyncGeneratorStep (node_modules/.pnpm/@babel+runtime@7.28.6/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at asyncGeneratorStep (node_modules/.pnpm/@babel+runtime@7.28.6/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+PASS components/__tests__/MessageItem-test.tsx
+PASS app/session/__tests__/chat-screen-test.tsx
+PASS components/__tests__/SessionCard-test.tsx
+PASS components/__tests__/Composer-test.tsx
+
+Test Suites: 1 failed, 7 passed, 8 total
+Tests:       1 failed, 60 passed, 61 total
+Snapshots:   0 total
+Time:        1.651 s, estimated 2 s
+Ran all test suites.
