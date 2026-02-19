@@ -7,7 +7,7 @@ import { Api } from "../client";
 jest.mock("@/app/store/connection");
 
 const mockFetch = jest.fn();
-global.fetch = mockFetch;
+globalThis.fetch = mockFetch as any;
 
 describe("Api Client", () => {
 	const mockGetPassword = jest.fn().mockResolvedValue("secret");
