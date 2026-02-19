@@ -5,3 +5,6 @@ pnpm tsx scripts/validate-decisions.ts --validate
 
 # Format and lint with Biome (only staged files)
 pnpm biome check --staged --no-errors-on-unmatched
+
+# TypeScript check
+pnpm typecheck

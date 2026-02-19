@@ -40,7 +40,6 @@ export function IconSymbol({
 	size = 24,
 	color,
 	style,
-	weight,
 	onPress,
 	testID,
 	accessibilityLabel,

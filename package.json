@@ -13,6 +13,7 @@
 		"format": "task format",
 		"test": "task test",
 		"test:ci": "task test:ci",
+		"typecheck": "tsc --noEmit",
 		"validate-decisions": "task validate-decisions",
 		"prepare": "husky"
 	},
