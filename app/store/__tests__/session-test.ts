@@ -1,6 +1,6 @@
 import { act } from "@testing-library/react-native";
 import { Api } from "@/app/api/client";
-import type { Message, SessionInfo } from "@/app/api/types";
+import type { Message, MessagePart, SessionInfo } from "@/app/api/types";
 import { useSessionStore } from "../session";
 
 // Mock the API client
@@ -362,6 +362,87 @@ describe("Session Store", () => {
 					);
 
 					expect(useSessionStore.getState().typing).toBe(false);
+				});
+			});
+
+			describe("onMessagePartDelta", () => {
+				it("appends delta to text part", () => {
+					const msg = mockMsg("m1", "assistant", "Hello ");
+					useSessionStore.setState({ messages: { [sessionId]: [msg] } });
+
+					act(() =>
+						useSessionStore
+							.getState()
+							.onMessagePartDelta(sessionId, "m1", "p1", "World"),
+					);
+
+					const state = useSessionStore.getState();
+					expect(state.messages[sessionId][0].parts[0].type).toBe("text");
+					if (state.messages[sessionId][0].parts[0].type === "text") {
+						expect(state.messages[sessionId][0].parts[0].text).toBe(
+							"Hello World",
+						);
+					}
+				});
+			});
+
+			describe("onMessagePartUpdated", () => {
+				it("updates existing part", () => {
+					const msg = mockMsg("m1", "assistant", "Hello");
+					useSessionStore.setState({ messages: { [sessionId]: [msg] } });
+
+					const updatedPart: MessagePart = {
+						type: "text",
+						id: "p1",
+						messageID: "m1",
+						sessionID: sessionId,
+						text: "Hello World",
+					};
+
+					act(() =>
+						useSessionStore
+							.getState()
+							.onMessagePartUpdated(sessionId, updatedPart),
+					);
+
+					const state = useSessionStore.getState();
+					expect(state.messages[sessionId][0].parts[0]).toEqual(updatedPart);
+				});
+
+				it("adds part if not exists", () => {
+					const msg = mockMsg("m1", "assistant", "Hello");
+					useSessionStore.setState({ messages: { [sessionId]: [msg] } });
+
+					const newPart: MessagePart = {
+						type: "text",
+						id: "p2",
+						messageID: "m1",
+						sessionID: sessionId,
+						text: "World",
+					};
+
+					act(() =>
+						useSessionStore.getState().onMessagePartUpdated(sessionId, newPart),
+					);
+
+					const state = useSessionStore.getState();
+					expect(state.messages[sessionId][0].parts[1]).toEqual(newPart);
+				});
+			});
+
+			describe("onSessionStatus", () => {
+				it("updates session status", () => {
+					const session = mockSession(sessionId);
+					useSessionStore.setState({ sessions: [session] });
+
+					act(() =>
+						useSessionStore
+							.getState()
+							.onSessionStatus(sessionId, { status: "active" }),
+					);
+
+					const state = useSessionStore.getState();
+					expect(state.sessions[0].status).toEqual({ status: "active" });
 				});
 			});
 		});

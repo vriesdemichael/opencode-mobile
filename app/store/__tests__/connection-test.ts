@@ -89,7 +89,7 @@ describe("Connection Store", () => {
 
 	describe("testConnection", () => {
 		const mockFetch = jest.fn();
-		globalThis.fetch = mockFetch as any;
+		globalThis.fetch = mockFetch as unknown as typeof fetch;
 
 		beforeEach(() => {
 			(SecureStore.getItemAsync as jest.Mock).mockResolvedValue("password");
