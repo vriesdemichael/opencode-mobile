@@ -96,6 +96,10 @@ Read the following with your task in mind:
    ```bash
    for f in docs/decisions/*.yaml; do yq -c '{number: .number, title: .title, category: .category, agent_instructions: .agent_instructions}' "$f"; done
    ```
+   Or when on windows
+   ```powershell
+   Get-ChildItem -Path docs/decisions/*.yaml | ForEach-Object { yq -o=json -I=0 '{"number": .number, "title": .title, "category": .category, "agent_instructions": .agent_instructions}' $_.FullName }
+   ```
 2. **This file** — `AGENTS.md`
 3. **Project structure** — browse `app/`, `components/`, `hooks/`, `constants/`
 4. **Existing tests** — look at tests similar to the functionality you're implementing

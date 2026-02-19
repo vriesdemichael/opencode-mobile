@@ -1,7 +1,12 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { Api } from "@/app/api/client";
-import type { Message, SessionInfo, TextPart } from "@/app/api/types";
+import type {
+	Message,
+	MessagePart,
+	SessionInfo,
+	TextPart,
+} from "@/app/api/types";
 
 interface SessionState {
 	sessions: SessionInfo[];
@@ -28,6 +33,14 @@ interface SessionActions {
 	// SSE Event Handlers
 	onMessageCreated: (sessionId: string, message: Message) => void;
 	onMessageUpdated: (sessionId: string, message: Message) => void;
+	onMessagePartDelta: (
+		sessionId: string,
+		messageId: string,
+		partId: string,
+		delta: string,
+	) => void;
+	onMessagePartUpdated: (sessionId: string, part: MessagePart) => void;
+	onSessionStatus: (sessionId: string, status: SessionInfo["status"]) => void;
 
 	// Helpers
 	clearError: () => void;
@@ -226,6 +239,44 @@ export const useSessionStore = create<SessionState & SessionActions>()(
 
 				if (message.info.role === "assistant") {
 					state.typing = false;
+				}
+			});
+		},
+
+		onMessagePartDelta: (sessionId, messageId, partId, delta) => {
+			set((state) => {
+				const messages = state.messages[sessionId];
+				if (!messages) return;
+				const message = messages.find((m) => m.info.id === messageId);
+				if (!message) return;
+				const part = message.parts.find((p) => p.id === partId);
+				if (!part) return;
+				if (part.type === "text") {
+					part.text += delta;
+				}
+			});
+		},
+
+		onMessagePartUpdated: (sessionId, part) => {
+			set((state) => {
+				const messages = state.messages[sessionId];
+				if (!messages) return;
+				const message = messages.find((m) => m.info.id === part.messageID);
+				if (!message) return;
+				const partIndex = message.parts.findIndex((p) => p.id === part.id);
+				if (partIndex !== -1) {
+					message.parts[partIndex] = part;
+				} else {
+					message.parts.push(part);
+				}
+			});
+		},
+
+		onSessionStatus: (sessionId, status) => {
+			set((state) => {
+				const session = state.sessions.find((s) => s.id === sessionId);
+				if (session) {
+					session.status = status;
 				}
 			});
 		},
