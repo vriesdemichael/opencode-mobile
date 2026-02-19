@@ -1,6 +1,6 @@
 import { act } from "@testing-library/react-native";
 import { Api } from "@/app/api/client";
-import type { SessionInfo } from "@/app/api/types";
+import type { Message, SessionInfo } from "@/app/api/types";
 import { useSessionStore } from "../session";
 
 // Mock the API client
@@ -238,7 +238,11 @@ describe("Session Store", () => {
 		});
 		describe("SSE Handlers", () => {
 			const sessionId = "123";
-			const mockMsg = (id: string, role = "user", text = "hello"): Message => ({
+			const mockMsg = (
+				id: string,
+				role: "user" | "assistant" = "user",
+				text = "hello",
+			): Message => ({
 				info: { id, sessionID: sessionId, role, createdAt: Date.now() },
 				parts: [
 					{ type: "text", text, id: "p1", sessionID: sessionId, messageID: id },

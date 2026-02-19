@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import {
 	ActivityIndicator,
@@ -89,7 +89,8 @@ export default function ProjectSessionListScreen() {
 					<SessionCard
 						session={item}
 						onPress={() => {
-							router.push(`/session/${item.id}`);
+							// biome-ignore lint/suspicious/noExplicitAny: typed routes workaround
+							router.push(`/session/${item.id}` as any);
 						}}
 					/>
 				)}
