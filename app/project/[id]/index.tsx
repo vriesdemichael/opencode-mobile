@@ -89,7 +89,7 @@ export default function ProjectSessionListScreen() {
 					<SessionCard
 						session={item}
 						onPress={() => {
-							// biome-ignore lint/suspicious/noExplicitAny: typed routes workaround
+							// biome-ignore lint/suspicious/noExplicitAny: Expo router params typing limitation
 							router.push(`/session/${item.id}` as any);
 						}}
 					/>
