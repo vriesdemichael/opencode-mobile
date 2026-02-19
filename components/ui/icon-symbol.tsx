@@ -40,7 +40,12 @@ export function IconSymbol({
 	size = 24,
 	color,
 	style,
+	weight,
 	onPress,
+	testID,
+	accessibilityLabel,
+	accessibilityRole,
+	hitSlop,
 }: {
 	name: IconSymbolName;
 	size?: number;
@@ -48,6 +53,16 @@ export function IconSymbol({
 	style?: StyleProp<TextStyle>;
 	weight?: SymbolWeight;
 	onPress?: () => void;
+	testID?: string;
+	accessibilityLabel?: string;
+	accessibilityRole?:
+		| "button"
+		| "image"
+		| "none"
+		| "link"
+		| "header"
+		| "search"; // Simplified for now, or import properly
+	hitSlop?: { top: number; bottom: number; left: number; right: number };
 }) {
 	const icon = (
 		<MaterialIcons
@@ -55,11 +70,24 @@ export function IconSymbol({
 			size={size}
 			name={MAPPING[name]}
 			style={style}
+			testID={onPress ? undefined : testID}
+			accessibilityLabel={onPress ? undefined : accessibilityLabel}
+			accessibilityRole={onPress ? undefined : "image"}
 		/>
 	);
 
 	if (onPress) {
-		return <TouchableOpacity onPress={onPress}>{icon}</TouchableOpacity>;
+		return (
+			<TouchableOpacity
+				onPress={onPress}
+				testID={testID}
+				accessibilityLabel={accessibilityLabel}
+				accessibilityRole={accessibilityRole || "button"}
+				hitSlop={hitSlop}
+			>
+				{icon}
+			</TouchableOpacity>
+		);
 	}
 	return icon;
 }
