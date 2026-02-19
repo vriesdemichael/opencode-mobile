@@ -1,5 +1,5 @@
-import { useSessionStore } from "@/app/store/session";
 import { render } from "@testing-library/react-native";
+import { useSessionStore } from "@/app/store/session";
 import SessionChatScreen from "../[id]";
 
 // Mock safe area context
