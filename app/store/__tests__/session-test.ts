@@ -384,6 +384,77 @@ describe("Session Store", () => {
 						);
 					}
 				});
+
+				it("ignores delta if session not loaded", () => {
+					// start from whatever initial messages state the store has
+					const initialMessages = useSessionStore.getState().messages;
+
+					act(() =>
+						useSessionStore
+							.getState()
+							.onMessagePartDelta(sessionId, "m1", "p1", "World"),
+					);
+
+					const state = useSessionStore.getState();
+					expect(state.messages).toEqual(initialMessages);
+				});
+
+				it("ignores delta if message not found in session", () => {
+					useSessionStore.setState({ messages: { [sessionId]: [] } });
+
+					act(() =>
+						useSessionStore
+							.getState()
+							.onMessagePartDelta(sessionId, "nonexistent", "p1", "World"),
+					);
+
+					const state = useSessionStore.getState();
+					expect(state.messages[sessionId]).toEqual([]);
+				});
+
+				it("ignores delta if part not found in message", () => {
+					const msg = mockMsg("m1", "assistant", "Hello ");
+					// Ensure the message has only a part with id "p1"
+					expect(msg.parts[0].id).toBe("p1");
+					useSessionStore.setState({ messages: { [sessionId]: [msg] } });
+
+					act(() =>
+						useSessionStore
+							.getState()
+							.onMessagePartDelta(sessionId, "m1", "unknown-part", "World"),
+					);
+
+					const state = useSessionStore.getState();
+					expect(state.messages[sessionId][0].parts).toEqual(msg.parts);
+				});
+
+				it("does not apply delta if part is not text", () => {
+					const msg = mockMsg("m1", "assistant", "Hello ");
+					// Change the first part to a non-text type while keeping other fields
+					const nonTextPart: MessagePart = {
+						...msg.parts[0],
+						type: "patch",
+						hash: "hash",
+						files: [],
+					};
+					const msgWithNonTextPart: Message = {
+						...msg,
+						parts: [nonTextPart],
+					};
+
+					useSessionStore.setState({
+						messages: { [sessionId]: [msgWithNonTextPart] },
+					});
+
+					act(() =>
+						useSessionStore
+							.getState()
+							.onMessagePartDelta(sessionId, "m1", nonTextPart.id, "World"),
+					);
+
+					const state = useSessionStore.getState();
+					expect(state.messages[sessionId][0].parts[0]).toEqual(nonTextPart);
+				});
 			});
 
 			describe("onMessagePartUpdated", () => {
@@ -428,6 +499,48 @@ describe("Session Store", () => {
 					const state = useSessionStore.getState();
 					expect(state.messages[sessionId][0].parts[1]).toEqual(newPart);
 				});
+
+				it("ignores update if session not loaded", () => {
+					// No messages stored for this session
+					useSessionStore.setState({ messages: {} });
+
+					const part: MessagePart = {
+						type: "text",
+						id: "p1",
+						messageID: "m1",
+						sessionID: sessionId,
+						text: "Should be ignored",
+					};
+
+					act(() =>
+						useSessionStore.getState().onMessagePartUpdated(sessionId, part),
+					);
+
+					const state = useSessionStore.getState();
+					expect(state.messages).toEqual({});
+				});
+
+				it("ignores update if message ID not found in session", () => {
+					const msg = mockMsg("m1", "assistant", "Hello");
+					useSessionStore.setState({ messages: { [sessionId]: [msg] } });
+
+					const partForUnknownMessage: MessagePart = {
+						type: "text",
+						id: "p1",
+						messageID: "m2", // different from existing message "m1"
+						sessionID: sessionId,
+						text: "Should be ignored",
+					};
+
+					act(() =>
+						useSessionStore
+							.getState()
+							.onMessagePartUpdated(sessionId, partForUnknownMessage),
+					);
+
+					const state = useSessionStore.getState();
+					expect(state.messages[sessionId][0]).toEqual(msg);
+				});
 			});
 
 			describe("onSessionStatus", () => {
@@ -443,6 +556,20 @@ describe("Session Store", () => {
 
 					const state = useSessionStore.getState();
 					expect(state.sessions[0].status).toEqual({ status: "active" });
+				});
+
+				it("does nothing when session is not found", () => {
+					// Start with no sessions matching the provided sessionId
+					useSessionStore.setState({ sessions: [] });
+
+					act(() =>
+						useSessionStore
+							.getState()
+							.onSessionStatus(sessionId, { status: "idle" }),
+					);
+
+					const state = useSessionStore.getState();
+					expect(state.sessions).toEqual([]);
 				});
 			});
 		});
