@@ -53,7 +53,7 @@ export default function SessionChatScreen() {
 	const renderContent = () => {
 		if (loading && sessionMessages.length === 0) {
 			return (
-				<View style={styles.centerContainer}>
+				<View testID="chat-loading" style={styles.centerContainer}>
 					<ActivityIndicator size="large" color={Colors[colorScheme].tint} />
 				</View>
 			);
@@ -61,7 +61,7 @@ export default function SessionChatScreen() {
 
 		if (error && sessionMessages.length === 0) {
 			return (
-				<View style={styles.centerContainer}>
+				<View testID="chat-error" style={styles.centerContainer}>
 					<ThemedText type="subtitle" style={{ color: "red" }}>
 						Error Loading Messages
 					</ThemedText>
@@ -76,7 +76,7 @@ export default function SessionChatScreen() {
 			<>
 				<MessageList messages={sessionMessages} />
 				{typing && (
-					<View style={styles.typingIndicator}>
+					<View testID="typing-indicator" style={styles.typingIndicator}>
 						<ThemedText style={{ fontSize: 12, opacity: 0.6 }}>
 							Assistant is typing...
 						</ThemedText>
@@ -89,15 +89,21 @@ export default function SessionChatScreen() {
 	return (
 		<ThemedView style={styles.container}>
 			<SafeAreaView style={styles.safeArea}>
-				<View style={styles.header}>
+				<View testID="chat-header" style={styles.header}>
 					<View style={styles.headerTitleContainer}>
 						<IconSymbol
-							name="chevron.left.forwardslash.chevron.right" // Code icon
+							name="chevron.left"
 							size={24}
-							color={Colors[colorScheme].text}
+							color={Colors[colorScheme].tint}
 							onPress={() => router.back()}
+							testID="chat-back-button"
 						/>
-						<ThemedText type="title" numberOfLines={1} style={{ flex: 1 }}>
+						<ThemedText
+							type="title"
+							numberOfLines={1}
+							style={{ flex: 1 }}
+							testID="chat-session-title"
+						>
 							{session?.title || "Chat Session"}
 						</ThemedText>
 					</View>
