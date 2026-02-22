@@ -2,7 +2,7 @@ import { useColorScheme as useRNColorScheme } from "react-native";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
-// @ts-expect-error
+// @ts-expect-error — MMKV is provided as a global by react-native-mmkv native module
 export const themeStorage = new MMKV();
 
 export type ThemePreference = "system" | "light" | "dark";
