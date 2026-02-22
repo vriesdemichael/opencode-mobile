@@ -1,10 +1,4 @@
-import { useMemo } from "react";
-import { StyleSheet, View } from "react-native";
-import SyntaxHighlighter from "react-native-syntax-highlighter";
-import {
-	atomOneDark,
-	atomOneLight,
-} from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { ThemedText } from "@/components/themed-text";
 import { Fonts } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
@@ -17,9 +11,6 @@ interface CodeBlockProps {
 export function CodeBlock({ code, language }: CodeBlockProps) {
 	const colorScheme = useColorScheme() ?? "light";
 	const isDark = colorScheme === "dark";
-	const syntaxStyle = isDark ? atomOneDark : atomOneLight;
-
-	const fontFamily = useMemo(() => Fonts?.mono ?? "monospace", []);
 
 	return (
 		<View
@@ -27,25 +18,38 @@ export function CodeBlock({ code, language }: CodeBlockProps) {
 			style={[
 				styles.container,
 				{
-					backgroundColor: isDark ? "#282C34" : "#FAFAFA",
-					borderColor: isDark ? "#3E4451" : "#E1E4E8",
+					backgroundColor: isDark ? "#1E1E1E" : "#F6F8FA",
+					borderColor: isDark ? "#3E4451" : "#D0D7DE",
 				},
 			]}
 		>
 			{language && (
-				<View style={styles.languageBadge}>
-					<ThemedText style={styles.languageText}>{language}</ThemedText>
+				<View
+					style={[
+						styles.languageBadge,
+						{
+							borderBottomColor: isDark ? "#3E4451" : "#D0D7DE",
+						},
+					]}
+				>
+					<ThemedText style={[styles.languageText, { opacity: 0.5 }]}>
+						{language}
+					</ThemedText>
 				</View>
 			)}
-			<SyntaxHighlighter
-				language={language || "text"}
-				style={syntaxStyle}
-				fontSize={13}
-				fontFamily={fontFamily}
-				highlighter="hljs"
-			>
-				{code.trim()}
-			</SyntaxHighlighter>
+			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
+				<ThemedText
+					style={[
+						styles.codeText,
+						{
+							color: isDark ? "#D4D4D4" : "#24292F",
+							fontFamily: Fonts?.mono ?? "monospace",
+						},
+					]}
+				>
+					{code.trim()}
+				</ThemedText>
+			</ScrollView>
 		</View>
 	);
 }
@@ -112,14 +116,18 @@ const styles = StyleSheet.create({
 		marginVertical: 4,
 	},
 	languageBadge: {
-		paddingHorizontal: 8,
-		paddingVertical: 2,
-		alignSelf: "flex-end",
+		paddingHorizontal: 10,
+		paddingVertical: 4,
+		borderBottomWidth: StyleSheet.hairlineWidth,
 	},
 	languageText: {
-		fontSize: 10,
-		opacity: 0.6,
+		fontSize: 11,
 		textTransform: "uppercase",
 		fontWeight: "600",
+	},
+	codeText: {
+		fontSize: 13,
+		lineHeight: 20,
+		padding: 12,
 	},
 });
