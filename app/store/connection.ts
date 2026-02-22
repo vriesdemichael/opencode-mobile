@@ -11,6 +11,7 @@ interface ConnectionState {
 	username: string;
 	status: "disconnected" | "connecting" | "connected" | "error";
 	error: string | null;
+	reconnectAttempts: number;
 }
 
 interface ConnectionActions {
@@ -19,6 +20,7 @@ interface ConnectionActions {
 	getPassword: () => Promise<string | null>;
 	setStatus: (status: ConnectionState["status"], error?: string | null) => void;
 	testConnection: () => Promise<boolean>;
+	autoReconnect: () => void;
 	disconnect: () => void;
 }
 
@@ -31,6 +33,7 @@ export const useConnectionStore = create<ConnectionState & ConnectionActions>()(
 		username: storage.getString("connection.username") || DEFAULT_USERNAME,
 		status: "disconnected",
 		error: null,
+		reconnectAttempts: 0,
 
 		setConnection: (url: string, username: string) => {
 			set((state) => {
@@ -90,6 +93,9 @@ export const useConnectionStore = create<ConnectionState & ConnectionActions>()(
 					throw new Error("Server reported unhealthy status");
 				}
 
+				set((state) => {
+					state.reconnectAttempts = 0;
+				});
 				get().setStatus("connected", null);
 				return true;
 			} catch (err) {
@@ -101,7 +107,24 @@ export const useConnectionStore = create<ConnectionState & ConnectionActions>()(
 			}
 		},
 
+		autoReconnect: () => {
+			const { status, reconnectAttempts } = get();
+			if (status === "connecting") return;
+
+			const delay = Math.min(1000 * 2 ** reconnectAttempts, 30000);
+			set((state) => {
+				state.reconnectAttempts += 1;
+			});
+
+			setTimeout(() => {
+				get().testConnection();
+			}, delay);
+		},
+
 		disconnect: () => {
+			set((state) => {
+				state.reconnectAttempts = 0;
+			});
 			get().setStatus("disconnected", null);
 		},
 	})),

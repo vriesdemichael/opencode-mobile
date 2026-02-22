@@ -39,3 +39,18 @@ jest.mock("react-native-sse", () => {
 
 // Mock global fetch if needed (though we mock it in tests usually)
 // global.fetch = jest.fn();
+
+// Mock react-native-syntax-highlighter (native rendering)
+jest.mock("react-native-syntax-highlighter", () => {
+	const { Text } = require("react-native");
+	return {
+		__esModule: true,
+		default: ({ children }) => Text({ children }),
+	};
+});
+
+// Mock react-syntax-highlighter styles
+jest.mock("react-syntax-highlighter/dist/esm/styles/hljs", () => ({
+	atomOneDark: {},
+	atomOneLight: {},
+}));

@@ -1,5 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import type { Message, TextPart } from "@/app/api/types";
+import { CodeBlock, parseCodeBlocks } from "@/components/code-block";
 import { FilePatchItem } from "@/components/file-patch-item";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
@@ -58,16 +59,30 @@ export function MessageItem({ message }: MessageItemProps) {
 									},
 						]}
 					>
-						<ThemedText
-							style={[
-								styles.text,
-								isUser
-									? { color: "white" }
-									: { color: Colors[colorScheme].text },
-							]}
-						>
-							{content}
-						</ThemedText>
+						{isUser ? (
+							<ThemedText style={[styles.text, { color: "white" }]}>
+								{content}
+							</ThemedText>
+						) : (
+							parseCodeBlocks(content).map((segment, idx) =>
+								segment.type === "code" ? (
+									<CodeBlock
+										// biome-ignore lint/suspicious/noArrayIndexKey: segments derived from static text
+										key={idx}
+										code={segment.content}
+										language={segment.language}
+									/>
+								) : (
+									<ThemedText
+										// biome-ignore lint/suspicious/noArrayIndexKey: segments derived from static text
+										key={idx}
+										style={[styles.text, { color: Colors[colorScheme].text }]}
+									>
+										{segment.content}
+									</ThemedText>
+								),
+							)
+						)}
 					</ThemedView>
 				)}
 

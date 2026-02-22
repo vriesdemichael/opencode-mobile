@@ -5,6 +5,8 @@ import {
 } from "@react-navigation/native";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { useAndroidSseService } from "@/hooks/use-android-sse-service";
+import { useAppState } from "@/hooks/use-app-state";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useSSE } from "@/hooks/use-sse";
 import "react-native-reanimated";
@@ -16,8 +18,10 @@ export const unstable_settings = {
 export default function RootLayout() {
 	const colorScheme = useColorScheme();
 
-	// Initialize SSE connection at the app root so it persists across screens
+	// Initialize global hooks at the app root
 	useSSE();
+	useAppState();
+	useAndroidSseService();
 
 	return (
 		<ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>

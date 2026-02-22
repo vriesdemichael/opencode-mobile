@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, RefreshControl, StyleSheet, View } from "react-native";
 import type { Message } from "@/app/api/types";
 import { MessageItem } from "@/components/message-item";
 import { ThemedText } from "@/components/themed-text";
@@ -8,9 +8,15 @@ import { useColorScheme } from "@/hooks/use-color-scheme";
 
 interface MessageListProps {
 	messages: Message[];
+	refreshing?: boolean;
+	onRefresh?: () => void;
 }
 
-export function MessageList({ messages }: MessageListProps) {
+export function MessageList({
+	messages,
+	refreshing,
+	onRefresh,
+}: MessageListProps) {
 	const colorScheme = useColorScheme() ?? "light";
 
 	// Messages come in chronological order (oldest first).
@@ -45,6 +51,14 @@ export function MessageList({ messages }: MessageListProps) {
 			maintainVisibleContentPosition={{
 				minIndexForVisible: 0,
 			}}
+			refreshControl={
+				onRefresh ? (
+					<RefreshControl
+						refreshing={refreshing ?? false}
+						onRefresh={onRefresh}
+					/>
+				) : undefined
+			}
 		/>
 	);
 }
