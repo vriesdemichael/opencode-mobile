@@ -8,6 +8,7 @@ import {
 	View,
 } from "react-native";
 import { useConnectionStore } from "@/app/store/connection";
+import { type ThemePreference, useThemeStore } from "@/app/store/theme";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { Colors } from "@/constants/theme";
@@ -25,6 +26,7 @@ export default function SettingsScreen() {
 		testConnection,
 	} = useConnectionStore();
 
+	const { preference, setPreference } = useThemeStore();
 	const [localUrl, setLocalUrl] = useState(url);
 	const [localUsername, setLocalUsername] = useState(username);
 	const [localPassword, setLocalPassword] = useState("");
@@ -63,6 +65,12 @@ export default function SettingsScreen() {
 		connected: "green",
 		error: "red",
 	}[status];
+
+	const themeOptions: { label: string; value: ThemePreference }[] = [
+		{ label: "System", value: "system" },
+		{ label: "Light", value: "light" },
+		{ label: "Dark", value: "dark" },
+	];
 
 	return (
 		<ThemedView style={styles.container}>
@@ -151,6 +159,44 @@ export default function SettingsScreen() {
 			</Pressable>
 
 			{error && <ThemedText style={styles.errorText}>{error}</ThemedText>}
+
+			<View style={styles.divider} />
+
+			<ThemedText type="subtitle">Theme</ThemedText>
+			<View testID="theme-picker" style={styles.themeRow}>
+				{themeOptions.map((opt) => (
+					<Pressable
+						key={opt.value}
+						testID={`theme-option-${opt.value}`}
+						onPress={() => setPreference(opt.value)}
+						style={[
+							styles.themeOption,
+							{
+								backgroundColor:
+									preference === opt.value
+										? Colors[colorScheme].tint
+										: colorScheme === "dark"
+											? "#2C2C2E"
+											: "#E5E5EA",
+							},
+						]}
+					>
+						<ThemedText
+							style={[
+								styles.themeLabel,
+								{
+									color:
+										preference === opt.value
+											? "white"
+											: Colors[colorScheme].text,
+								},
+							]}
+						>
+							{opt.label}
+						</ThemedText>
+					</Pressable>
+				))}
+			</View>
 		</ThemedView>
 	);
 }
@@ -198,5 +244,24 @@ const styles = StyleSheet.create({
 	errorText: {
 		color: "red",
 		marginTop: 10,
+	},
+	divider: {
+		height: StyleSheet.hairlineWidth,
+		backgroundColor: "#ccc",
+		marginVertical: 10,
+	},
+	themeRow: {
+		flexDirection: "row",
+		gap: 8,
+	},
+	themeOption: {
+		flex: 1,
+		paddingVertical: 10,
+		borderRadius: 8,
+		alignItems: "center",
+	},
+	themeLabel: {
+		fontSize: 14,
+		fontWeight: "600",
 	},
 });

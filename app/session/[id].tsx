@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
 	ActivityIndicator,
 	KeyboardAvoidingView,
@@ -50,6 +50,17 @@ export default function SessionChatScreen() {
 		[id, sendMessage],
 	);
 
+	const [refreshing, setRefreshing] = useState(false);
+	const handleRefresh = useCallback(() => {
+		if (!id) return;
+		setRefreshing(true);
+		// Clear cached messages to force refetch
+		useSessionStore.setState((state) => {
+			delete state.messages[id];
+		});
+		selectSession(id).finally(() => setRefreshing(false));
+	}, [id, selectSession]);
+
 	const renderContent = () => {
 		if (loading && sessionMessages.length === 0) {
 			return (
@@ -74,7 +85,11 @@ export default function SessionChatScreen() {
 
 		return (
 			<>
-				<MessageList messages={sessionMessages} />
+				<MessageList
+					messages={sessionMessages}
+					refreshing={refreshing}
+					onRefresh={handleRefresh}
+				/>
 				{typing && (
 					<View testID="typing-indicator" style={styles.typingIndicator}>
 						<ThemedText style={{ fontSize: 12, opacity: 0.6 }}>
