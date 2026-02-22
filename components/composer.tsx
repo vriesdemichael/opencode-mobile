@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StyleSheet, TextInput, View } from "react-native";
+import { Pressable, StyleSheet, TextInput } from "react-native";
 import { ThemedView } from "@/components/themed-view";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
@@ -14,9 +14,10 @@ export function Composer({ onSend, disabled }: ComposerProps) {
 	const [text, setText] = useState("");
 	const colorScheme = useColorScheme() ?? "light";
 	const iconColor = Colors[colorScheme].tint;
+	const canSend = text.trim().length > 0 && !disabled;
 
 	const handleSend = () => {
-		if (text.trim() && !disabled) {
+		if (canSend) {
 			onSend(text.trim());
 			setText("");
 		}
@@ -25,6 +26,7 @@ export function Composer({ onSend, disabled }: ComposerProps) {
 	return (
 		<ThemedView style={styles.container}>
 			<TextInput
+				testID="composer-input"
 				style={[
 					styles.input,
 					{
@@ -39,16 +41,28 @@ export function Composer({ onSend, disabled }: ComposerProps) {
 				multiline
 				maxLength={2000}
 				editable={!disabled}
+				returnKeyType="send"
+				blurOnSubmit={false}
+				onSubmitEditing={handleSend}
 			/>
-			<View style={styles.sendButton}>
+			<Pressable
+				testID="composer-send-button"
+				onPress={handleSend}
+				disabled={!canSend}
+				style={({ pressed }) => [
+					styles.sendButton,
+					{ opacity: pressed && canSend ? 0.7 : 1 },
+				]}
+				accessibilityLabel="Send message"
+				accessibilityRole="button"
+			>
 				<IconSymbol
 					name="paperplane.fill"
 					size={24}
-					color={!text.trim() || disabled ? "#8E8E93" : iconColor}
-					onPress={handleSend}
-					style={{ opacity: !text.trim() || disabled ? 0.5 : 1 }}
+					color={canSend ? iconColor : "#8E8E93"}
+					style={{ opacity: canSend ? 1 : 0.5 }}
 				/>
-			</View>
+			</Pressable>
 		</ThemedView>
 	);
 }
@@ -75,6 +89,7 @@ const styles = StyleSheet.create({
 	},
 	sendButton: {
 		height: 36,
+		width: 36,
 		justifyContent: "center",
 		alignItems: "center",
 		marginBottom: 0,
