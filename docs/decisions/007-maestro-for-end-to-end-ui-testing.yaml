@@ -1,7 +1,7 @@
 number: 7
 title: "Maestro for end-to-end UI testing"
 category: development
-status: proposed
+status: accepted
 decision: >
   Use Maestro for end-to-end UI testing. Tests are written as declarative
   YAML flows. Maestro's takeScreenshot command is used to capture app state

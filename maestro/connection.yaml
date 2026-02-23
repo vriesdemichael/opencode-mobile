@@ -1,0 +1,15 @@
+appId: com.opencodemobile
+---
+- launchApp
+- assertVisible: "Server URL"
+- tapOn: "Server URL"
+- inputText: "https://example.com:3000"
+- assertVisible: "Username"
+- tapOn: "Username"
+- inputText: "testuser"
+- assertVisible: "Password"
+- tapOn: "Password"
+- inputText: "testpass"
+- takeScreenshot: "connection-form-filled"
+- tapOn: "Connect"
+- takeScreenshot: "connection-result"
