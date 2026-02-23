@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/vriesdemichael/opencode-mobile/compare/v1.0.0...v1.1.0) (2026-02-23)
+
+
+### Features
+
+* render rich chat elements including reasoning blocks and grouped tool calls ([9128d2d](https://github.com/vriesdemichael/opencode-mobile/commit/9128d2d0344701742b541b21db1ebd0ff653d082))
+
 # 1.0.0 (2026-02-23)
 
 
