@@ -172,4 +172,210 @@ describe("useSSE", () => {
 		expect(mockOnMessageCreated).not.toHaveBeenCalled();
 		expect(mockOnMessagePartDelta).not.toHaveBeenCalled();
 	});
+
+	it("dispatches message.created events to store", async () => {
+		mockConnectionState.status = "connected";
+		renderHook(() => useSSE());
+		await new Promise((r) => setTimeout(r, 50));
+
+		const messageCall = mockAddEventListener.mock.calls.find(
+			(call: unknown[]) => call[0] === "message.created",
+		);
+		const handler = messageCall[1];
+
+		handler({
+			data: JSON.stringify({
+				sessionID: "s1",
+				message: { id: "m1", parts: [] },
+			}),
+		});
+
+		expect(mockOnMessageCreated).toHaveBeenCalledWith("s1", {
+			id: "m1",
+			parts: [],
+		});
+
+		// coverage for catch block
+		expect(() => handler({ data: "invalid json" })).not.toThrow();
+	});
+
+	it("dispatches message.updated events to store", async () => {
+		mockConnectionState.status = "connected";
+		renderHook(() => useSSE());
+		await new Promise((r) => setTimeout(r, 50));
+
+		const messageCall = mockAddEventListener.mock.calls.find(
+			(call: unknown[]) => call[0] === "message.updated",
+		);
+		const handler = messageCall[1];
+
+		handler({
+			data: JSON.stringify({
+				sessionID: "s1",
+				message: { id: "m1", parts: [] },
+			}),
+		});
+
+		expect(mockOnMessageUpdated).toHaveBeenCalledWith("s1", {
+			id: "m1",
+			parts: [],
+		});
+
+		// coverage for catch block
+		expect(() => handler({ data: "invalid json" })).not.toThrow();
+	});
+
+	it("dispatches message.part.updated events to store", async () => {
+		mockConnectionState.status = "connected";
+		renderHook(() => useSSE());
+		await new Promise((r) => setTimeout(r, 50));
+
+		const messageCall = mockAddEventListener.mock.calls.find(
+			(call: unknown[]) => call[0] === "message.part.updated",
+		);
+		const handler = messageCall[1];
+
+		handler({
+			data: JSON.stringify({
+				part: { sessionID: "s1", messageID: "m1", id: "p1" },
+			}),
+		});
+
+		expect(mockOnMessagePartUpdated).toHaveBeenCalledWith("s1", {
+			sessionID: "s1",
+			messageID: "m1",
+			id: "p1",
+		});
+
+		// coverage for catch block
+		expect(() => handler({ data: "invalid json" })).not.toThrow();
+	});
+
+	it("registers error event listener without crashing", async () => {
+		mockConnectionState.status = "connected";
+		renderHook(() => useSSE());
+		await new Promise((r) => setTimeout(r, 50));
+
+		const errorCall = mockAddEventListener.mock.calls.find(
+			(call: unknown[]) => call[0] === "error",
+		);
+		expect(errorCall).toBeDefined();
+		const handler = errorCall[1];
+
+		// The error handler in useSSE does nothing, but we want coverage for it
+		expect(() => handler(new Error("Network Error"))).not.toThrow();
+	});
+
+	it("handles connectToEvents failing gracefully", async () => {
+		mockConnectionState.status = "connected";
+		const consoleSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
+
+		// Make API throw
+		jest
+			.spyOn(require("@/app/api/client").Api, "connectToEvents")
+			.mockRejectedValueOnce(new Error("Failed"));
+
+		renderHook(() => useSSE());
+		await new Promise((r) => setTimeout(r, 50));
+
+		expect(consoleSpy).toHaveBeenCalledWith("Failed to connect to SSE events");
+		consoleSpy.mockRestore();
+	});
+
+	it("handles global event for message.part.updated", async () => {
+		mockConnectionState.status = "connected";
+		renderHook(() => useSSE());
+		await new Promise((r) => setTimeout(r, 50));
+
+		const messageCall = mockAddEventListener.mock.calls.find(
+			(call: unknown[]) => call[0] === "message",
+		);
+		const handler = messageCall[1];
+
+		handler({
+			data: JSON.stringify({
+				type: "message.part.updated",
+				properties: {
+					part: { sessionID: "s1", messageID: "m1", id: "p1" },
+				},
+			}),
+		});
+
+		expect(mockOnMessagePartUpdated).toHaveBeenCalledWith("s1", {
+			sessionID: "s1",
+			messageID: "m1",
+			id: "p1",
+		});
+	});
+
+	it("closes EventSource if status changes to disconnected", async () => {
+		mockConnectionState.status = "connected";
+		const { rerender } = renderHook(() => useSSE());
+		await new Promise((r) => setTimeout(r, 50));
+
+		mockConnectionState.status = "disconnected";
+		rerender(undefined);
+		expect(mockClose).toHaveBeenCalled();
+	});
+
+	it("closes EventSource if unmounted during connection", async () => {
+		mockConnectionState.status = "connected";
+		let resolveConnect: (value: unknown) => void = () => {};
+		const connectSpy = jest
+			.spyOn(require("@/app/api/client").Api, "connectToEvents")
+			.mockImplementation(
+				() =>
+					new Promise((r) => {
+						resolveConnect = r;
+					}),
+			);
+
+		const { unmount } = renderHook(() => useSSE());
+		unmount(); // Unmount before promise resolves
+
+		// Now resolve it
+		resolveConnect({
+			close: mockClose,
+			addEventListener: mockAddEventListener,
+		});
+
+		await new Promise((r) => setTimeout(r, 50));
+		expect(mockClose).toHaveBeenCalled();
+		connectSpy.mockRestore();
+	});
+
+	it("ignores events with empty data", async () => {
+		mockConnectionState.status = "connected";
+		renderHook(() => useSSE());
+		await new Promise((r) => setTimeout(r, 50));
+
+		const messageCall = mockAddEventListener.mock.calls.find(
+			(call: unknown[]) => call[0] === "message",
+		);
+		const handler = messageCall[1];
+
+		// Cover empty event.data early return
+		expect(() => handler({ data: "" })).not.toThrow();
+
+		const createCallInfo = mockAddEventListener.mock.calls.find(
+			(call: unknown[]) => call[0] === "message.created",
+		);
+		if (createCallInfo) {
+			expect(() => createCallInfo[1]({ data: "" })).not.toThrow();
+		}
+
+		const partDeltaCallInfo = mockAddEventListener.mock.calls.find(
+			(call: unknown[]) => call[0] === "message.part.delta",
+		);
+		if (partDeltaCallInfo) {
+			expect(() => partDeltaCallInfo[1]({ data: "" })).not.toThrow();
+		}
+
+		const sessionStatusCallInfo = mockAddEventListener.mock.calls.find(
+			(call: unknown[]) => call[0] === "session.status",
+		);
+		if (sessionStatusCallInfo) {
+			expect(() => sessionStatusCallInfo[1]({ data: "" })).not.toThrow();
+		}
+	});
 });

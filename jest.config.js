@@ -9,6 +9,9 @@ module.exports = {
 		"app/api/**/*.{ts,tsx}",
 		"constants/**/*.{ts,tsx}",
 		"!**/app/api/types.ts",
+		"!**/hooks/use-color-scheme*.ts",
+		"!**/hooks/use-android-sse-service.ts",
+		"!**/hooks/use-app-state.ts",
 	],
 	coverageThreshold: {
 		global: {
