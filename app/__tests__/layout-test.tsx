@@ -49,6 +49,22 @@ jest.mock("expo-status-bar", () => ({
 
 jest.mock("react-native-reanimated", () => ({}));
 
+jest.mock("react-native-gesture-handler", () => ({
+	// biome-ignore lint/suspicious/noExplicitAny: mock component
+	GestureHandlerRootView: ({ children }: any) => {
+		const { View } = require("react-native");
+		return <View>{children}</View>;
+	},
+}));
+
+jest.mock("@gorhom/bottom-sheet", () => ({
+	// biome-ignore lint/suspicious/noExplicitAny: mock component
+	BottomSheetModalProvider: ({ children }: any) => {
+		const { View } = require("react-native");
+		return <View>{children}</View>;
+	},
+}));
+
 describe("RootLayout", () => {
 	beforeEach(() => {
 		mockScreenProps.length = 0;

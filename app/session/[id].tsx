@@ -1,5 +1,6 @@
+import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
 	ActivityIndicator,
 	KeyboardAvoidingView,
@@ -11,6 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useSessionStore } from "@/app/store/session";
 import { Composer } from "@/components/composer";
 import { MessageList } from "@/components/message-list";
+import { ProviderSettingsSheet } from "@/components/provider-settings-sheet";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { IconSymbol } from "@/components/ui/icon-symbol";
@@ -21,6 +23,7 @@ export default function SessionChatScreen() {
 	const { id } = useLocalSearchParams<{ id: string }>();
 	const router = useRouter();
 	const colorScheme = useColorScheme() ?? "light";
+	const bottomSheetRef = useRef<BottomSheetModal>(null);
 	const {
 		messages,
 		currentSessionId,
@@ -122,16 +125,26 @@ export default function SessionChatScreen() {
 							{session?.title || "Chat Session"}
 						</ThemedText>
 					</View>
+					<IconSymbol
+						name="network"
+						size={24}
+						color={Colors[colorScheme].tint}
+						onPress={() => bottomSheetRef.current?.present()}
+						testID="chat-settings-button"
+					/>
 				</View>
 
-				<View style={styles.content}>{renderContent()}</View>
-
 				<KeyboardAvoidingView
-					behavior={Platform.OS === "ios" ? "padding" : "height"}
-					keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
+					style={{ flex: 1 }}
+					behavior={Platform.OS === "ios" ? "padding" : undefined}
+					keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
 				>
+					<View style={styles.content}>{renderContent()}</View>
+
 					<Composer onSend={handleSend} disabled={loading || typing} />
 				</KeyboardAvoidingView>
+
+				<ProviderSettingsSheet ref={bottomSheetRef} />
 			</SafeAreaView>
 		</ThemedView>
 	);
@@ -149,11 +162,15 @@ const styles = StyleSheet.create({
 		paddingVertical: 10,
 		borderBottomWidth: StyleSheet.hairlineWidth,
 		borderBottomColor: "#ccc",
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
 	},
 	headerTitleContainer: {
 		flexDirection: "row",
 		alignItems: "center",
 		gap: 12,
+		flex: 1,
 	},
 	content: {
 		flex: 1,
