@@ -3,6 +3,7 @@
 		"name": "opencode-mobile",
 		"slug": "opencode-mobile",
 		"version": "1.0.0",
+		"owner": "vriesdemichael",
 		"orientation": "portrait",
 		"icon": "./assets/images/icon.png",
 		"scheme": "opencodemobile",
@@ -43,6 +44,11 @@
 		"experiments": {
 			"typedRoutes": true,
 			"reactCompiler": true
+		},
+		"extra": {
+			"eas": {
+				"projectId": "YOUR_EAS_PROJECT_ID"
+			}
 		}
 	}
 }
