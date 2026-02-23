@@ -1,0 +1,16 @@
+appId: com.opencodemobile
+---
+# Assumes already connected and in a chat session
+- launchApp
+- assertVisible: "Sessions"
+- tapOn:
+    index: 0
+    id: "session-item"
+- takeScreenshot: "before-send-message"
+- tapOn:
+    id: "message-input"
+- inputText: "Hello, this is a test message"
+- takeScreenshot: "message-typed"
+- tapOn:
+    id: "send-button"
+- takeScreenshot: "message-sent"

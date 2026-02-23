@@ -1,0 +1,16 @@
+appId: com.opencodemobile
+---
+# Assumes already connected and sessions exist
+- launchApp
+- assertVisible: "Sessions"
+- tapOn:
+    index: 0
+    id: "session-item"
+- takeScreenshot: "chat-screen-opened"
+- assertVisible: ".*"
+- scroll:
+    direction: DOWN
+- takeScreenshot: "chat-messages-scrolled"
+- scroll:
+    direction: UP
+- takeScreenshot: "chat-messages-top"

@@ -1,0 +1,14 @@
+appId: com.opencodemobile
+---
+# Assumes already connected to server
+- launchApp
+- assertVisible: "Sessions"
+- takeScreenshot: "session-list-loaded"
+- scroll:
+    direction: DOWN
+- takeScreenshot: "session-list-scrolled"
+- scroll:
+    direction: UP
+- takeScreenshot: "session-list-after-scroll-up"
+- tapOn: "New Session"
+- takeScreenshot: "new-session-created"
