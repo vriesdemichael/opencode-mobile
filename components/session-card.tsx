@@ -27,6 +27,7 @@ export function SessionCard({ session, onPress }: SessionCardProps) {
 
 	return (
 		<Pressable
+			testID="session-item"
 			onPress={onPress}
 			style={({ pressed }) => [
 				styles.pressable,

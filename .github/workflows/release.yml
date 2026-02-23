@@ -36,5 +36,7 @@ jobs:
 
       - name: Run semantic-release
         env:
+          # Requires a GitHub Personal Access Token stored as a repository secret named GH_PAT
+          # Create GH_PAT under Settings -> Secrets and variables -> Actions with sufficient repo permissions for releases.
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         run: npx semantic-release

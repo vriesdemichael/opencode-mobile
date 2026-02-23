@@ -26,7 +26,7 @@ export function Composer({ onSend, disabled }: ComposerProps) {
 	return (
 		<ThemedView style={styles.container}>
 			<TextInput
-				testID="composer-input"
+				testID="message-input"
 				style={[
 					styles.input,
 					{
@@ -46,7 +46,7 @@ export function Composer({ onSend, disabled }: ComposerProps) {
 				onSubmitEditing={handleSend}
 			/>
 			<Pressable
-				testID="composer-send-button"
+				testID="send-button"
 				onPress={handleSend}
 				disabled={!canSend}
 				style={({ pressed }) => [
