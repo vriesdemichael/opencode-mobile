@@ -37,7 +37,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Validate Decisions
-        run: pnpm validate-decisions
+        run: task validate-decisions
 
   lint:
     name: Lint & Format
@@ -55,11 +55,17 @@ jobs:
           node-version: 20
           cache: "pnpm"
 
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Biome Check
-        run: pnpm check
+        run: task check
 
   typecheck:
     name: Type Check
@@ -77,11 +83,17 @@ jobs:
           node-version: 20
           cache: "pnpm"
 
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Type Check
-        run: pnpm typecheck
+        run: task typecheck
 
   test:
     name: Test & Coverage
@@ -109,7 +121,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run Tests with Coverage
-        run: pnpm test:ci
+        run: task test:ci
 
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v4
