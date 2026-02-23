@@ -2,10 +2,26 @@ import { fireEvent, render } from "@testing-library/react-native";
 import type { SessionInfo } from "@/app/api/types";
 import { SessionCard } from "../session-card";
 
+const mockDeleteSession = jest.fn();
 jest.mock("@/app/store/session", () => ({
 	useSessionStore: () => ({
-		deleteSession: jest.fn(),
+		deleteSession: mockDeleteSession,
 	}),
+}));
+
+jest.mock("react-native-gesture-handler", () => ({
+	// biome-ignore lint/suspicious/noExplicitAny: mock component
+	Swipeable: ({ children, renderRightActions }: any) => {
+		const { View, Animated } = require("react-native");
+		const mockAnimatedValue = new Animated.Value(0);
+		return (
+			<View>
+				{children}
+				{renderRightActions &&
+					renderRightActions(mockAnimatedValue, mockAnimatedValue)}
+			</View>
+		);
+	},
 }));
 
 describe("SessionCard", () => {
@@ -39,5 +55,14 @@ describe("SessionCard", () => {
 		);
 		fireEvent.press(getByText("Test Session"));
 		expect(onPressMock).toHaveBeenCalled();
+	});
+
+	it("calls deleteSession when delete action is pressed", () => {
+		const { getByText } = render(
+			<SessionCard session={mockSession} onPress={() => {}} />,
+		);
+
+		fireEvent.press(getByText("Delete"));
+		expect(mockDeleteSession).toHaveBeenCalledWith("123");
 	});
 });

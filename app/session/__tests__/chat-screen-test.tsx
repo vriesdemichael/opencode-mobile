@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react-native";
+import { fireEvent, render } from "@testing-library/react-native";
 import { useSessionStore } from "@/app/store/session";
 import SessionChatScreen from "../[id]";
 
@@ -54,11 +54,11 @@ jest.mock("@/components/themed-view", () => ({
 jest.mock("@/components/ui/icon-symbol", () => ({
 	// biome-ignore lint/suspicious/noExplicitAny: mock component
 	IconSymbol: ({ testID, onPress }: any) => {
-		const { Pressable, Text } = require("react-native");
+		const { Text } = require("react-native");
 		return (
-			<Pressable testID={testID} onPress={onPress}>
-				<Text>icon</Text>
-			</Pressable>
+			<Text testID={testID} onPress={onPress}>
+				icon
+			</Text>
 		);
 	},
 }));
@@ -200,5 +200,28 @@ describe("SessionChatScreen", () => {
 		const { getByTestId, queryByTestId } = render(<SessionChatScreen />);
 		expect(getByTestId("message-list")).toBeTruthy();
 		expect(queryByTestId("chat-loading")).toBeNull();
+	});
+
+	it("presents bottom sheet when settings button is pressed", () => {
+		mockStoreWith({});
+
+		// Setup the mocked ref
+		const mockPresent = jest.fn();
+		const React = require("react");
+		const originalUseRef = React.useRef;
+
+		jest.spyOn(React, "useRef").mockImplementation((initialValue) => {
+			if (initialValue === null) {
+				return { current: { present: mockPresent } };
+			}
+			return originalUseRef(initialValue);
+		});
+
+		const { getByTestId } = render(<SessionChatScreen />);
+		fireEvent.press(getByTestId("chat-settings-button"));
+
+		expect(mockPresent).toHaveBeenCalled();
+
+		jest.restoreAllMocks();
 	});
 });
