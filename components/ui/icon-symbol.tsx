@@ -24,10 +24,16 @@ const MAPPING = {
 	"paperplane.fill": "send",
 	"chevron.left.forwardslash.chevron.right": "code",
 	"chevron.right": "chevron-right",
+	"chevron.up": "keyboard-arrow-up",
+	"chevron.down": "keyboard-arrow-down",
 	"gearshape.fill": "settings",
 	"folder.fill": "folder",
 	laptopcomputer: "computer",
 	"bubble.left.and.bubble.right": "chat",
+	network: "cloud",
+	"doc.on.doc": "file-copy",
+	"trash.fill": "delete",
+	brain: "psychology",
 } as IconMapping;
 
 /**

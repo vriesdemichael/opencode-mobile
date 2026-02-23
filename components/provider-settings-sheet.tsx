@@ -10,7 +10,7 @@ import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 
 export const ProviderSettingsSheet = React.forwardRef<BottomSheetModal>(
-	(props, ref) => {
+	(_props, ref) => {
 		const colorScheme = useColorScheme() ?? "light";
 		const snapPoints = useMemo(() => ["50%"], []);
 
