@@ -107,7 +107,7 @@ export function ToolCallItem({ part }: ToolCallItemProps) {
 									styles.codeBlock,
 									{
 										backgroundColor:
-											colorScheme === "dark" ? "#1C1C1E" : "#F2F2F7",
+											colorScheme === "dark" ? "rgba(0,0,0,0.2)" : "#F2F2F7",
 										color: Colors[colorScheme].text,
 										fontFamily: Fonts?.mono,
 									},
@@ -126,7 +126,7 @@ export function ToolCallItem({ part }: ToolCallItemProps) {
 									styles.codeBlock,
 									{
 										backgroundColor:
-											colorScheme === "dark" ? "#1C1C1E" : "#F2F2F7",
+											colorScheme === "dark" ? "rgba(0,0,0,0.2)" : "#F2F2F7",
 										color: Colors[colorScheme].text,
 										fontFamily: Fonts?.mono,
 									},
@@ -139,8 +139,9 @@ export function ToolCallItem({ part }: ToolCallItemProps) {
 					)}
 
 					{part.state.status === "error" && (
-						<View style={styles.section}>
-							<ThemedText style={[styles.errorText]}>
+						<View style={[styles.section, styles.errorContainer]}>
+							<ThemedText style={styles.sectionTitleError}>Failure</ThemedText>
+							<ThemedText style={[styles.codeBlock, styles.errorText]}>
 								{part.state.error}
 							</ThemedText>
 						</View>
@@ -148,6 +149,7 @@ export function ToolCallItem({ part }: ToolCallItemProps) {
 
 					{(part.state.status === "running" ||
 						part.state.status === "completed") &&
+						"time" in part.state &&
 						part.state.time && (
 							<ThemedText style={styles.timeText}>
 								{part.state.status === "completed" && "end" in part.state.time
@@ -218,6 +220,20 @@ const styles = StyleSheet.create({
 	errorText: {
 		fontSize: 12,
 		color: "#FF3B30",
+	},
+	errorContainer: {
+		backgroundColor: "rgba(255, 59, 48, 0.1)",
+		padding: 8,
+		borderRadius: 8,
+		borderLeftWidth: 3,
+		borderLeftColor: "#FF3B30",
+	},
+	sectionTitleError: {
+		fontSize: 11,
+		fontWeight: "600",
+		textTransform: "uppercase",
+		color: "#FF3B30",
+		opacity: 0.9,
 	},
 	timeText: {
 		fontSize: 11,

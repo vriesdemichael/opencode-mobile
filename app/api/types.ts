@@ -75,7 +75,12 @@ export type PatchPart = MessagePartBase & {
 	files: string[];
 };
 
-export type MessagePart = TextPart | ToolPart | PatchPart;
+export type ReasoningPart = MessagePartBase & {
+	type: "reasoning";
+	text: string;
+};
+
+export type MessagePart = TextPart | ToolPart | PatchPart | ReasoningPart;
 
 export type Message = {
 	info: MessageInfo;
