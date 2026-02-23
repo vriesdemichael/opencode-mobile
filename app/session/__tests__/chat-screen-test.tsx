@@ -65,6 +65,12 @@ jest.mock("@/components/ui/icon-symbol", () => ({
 jest.mock("@/hooks/use-color-scheme", () => ({
 	useColorScheme: () => "light",
 }));
+jest.mock("@/components/provider-settings-sheet", () => {
+	const React = require("react");
+	return {
+		ProviderSettingsSheet: React.forwardRef(() => null),
+	};
+});
 
 function mockStoreWith(overrides: Record<string, unknown>) {
 	const defaults = {

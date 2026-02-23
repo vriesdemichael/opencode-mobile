@@ -2,6 +2,12 @@ import { fireEvent, render } from "@testing-library/react-native";
 import type { SessionInfo } from "@/app/api/types";
 import { SessionCard } from "../session-card";
 
+jest.mock("@/app/store/session", () => ({
+	useSessionStore: () => ({
+		deleteSession: jest.fn(),
+	}),
+}));
+
 describe("SessionCard", () => {
 	const mockSession: SessionInfo = {
 		id: "123",
