@@ -1,7 +1,14 @@
 import { StyleSheet, View } from "react-native";
-import type { Message, TextPart } from "@/app/api/types";
+import type {
+	Message,
+	ReasoningPart,
+	TextPart,
+	ToolPart,
+} from "@/app/api/types";
 import { CodeBlock, parseCodeBlocks } from "@/components/code-block";
+import { ContextGroupItem } from "@/components/context-group-item";
 import { FilePatchItem } from "@/components/file-patch-item";
+import { ReasoningItem } from "@/components/reasoning-item";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { ToolCallItem } from "@/components/tool-call-item";
@@ -19,8 +26,24 @@ export function MessageItem({ message }: MessageItemProps) {
 	const textParts = message.parts.filter(
 		(p) => p.type === "text",
 	) as TextPart[];
-	const toolParts = message.parts.filter((p) => p.type === "tool");
+
+	const toolParts = message.parts.filter(
+		(p) => p.type === "tool",
+	) as ToolPart[];
 	const patchParts = message.parts.filter((p) => p.type === "patch");
+	const reasoningParts = message.parts.filter(
+		(p) => p.type === "reasoning",
+	) as ReasoningPart[];
+
+	// Separate context-gathering tools vs action tools
+	const contextTools = ["read", "glob", "grep", "list"];
+	const contextToolParts = toolParts.filter((p) =>
+		contextTools.includes(p.tool),
+	);
+	const actionToolParts = toolParts.filter(
+		(p) => !contextTools.includes(p.tool),
+	);
+
 	const content = textParts.map((p) => p.text).join("\n");
 
 	return (
@@ -86,11 +109,17 @@ export function MessageItem({ message }: MessageItemProps) {
 					</ThemedView>
 				)}
 
-				{toolParts.map((part) =>
-					part.type === "tool" ? (
-						<ToolCallItem key={part.id} part={part} />
-					) : null,
+				{reasoningParts.map((part) => (
+					<ReasoningItem key={part.id} part={part} />
+				))}
+
+				{contextToolParts.length > 0 && (
+					<ContextGroupItem parts={contextToolParts} />
 				)}
+
+				{actionToolParts.map((part) => (
+					<ToolCallItem key={part.id} part={part} />
+				))}
 
 				{patchParts.map((part) =>
 					part.type === "patch" ? (
