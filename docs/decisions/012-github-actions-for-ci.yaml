@@ -1,7 +1,7 @@
 number: 12
 title: "GitHub Actions for CI"
 category: development
-status: proposed
+status: accepted
 decision: >
   Use GitHub Actions as the CI/CD platform. Workflows will validate ADRs,
   run Biome checks, run tests, and handle releases. Implementation is
