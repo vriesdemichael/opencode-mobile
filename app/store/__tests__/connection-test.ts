@@ -153,4 +153,67 @@ describe("Connection Store", () => {
 			expect(state.error).toBe("String Error");
 		});
 	});
+
+	describe("autoReconnect", () => {
+		beforeEach(() => {
+			jest.useFakeTimers();
+			// Mock testConnection instance method
+			useConnectionStore.setState({
+				reconnectAttempts: 0,
+				status: "disconnected",
+			});
+		});
+
+		afterEach(() => {
+			jest.useRealTimers();
+		});
+
+		it("does nothing if status is connecting", () => {
+			useConnectionStore.setState({ status: "connecting" });
+			const { autoReconnect } = useConnectionStore.getState();
+			autoReconnect();
+			expect(useConnectionStore.getState().reconnectAttempts).toBe(0);
+		});
+
+		it("increments reconnectAttempts and sets a timeout for testConnection", () => {
+			const { autoReconnect } = useConnectionStore.getState();
+
+			// Spy on testConnection
+			let called = false;
+			useConnectionStore.setState({
+				testConnection: async () => {
+					called = true;
+					return false;
+				},
+			});
+
+			autoReconnect();
+
+			expect(useConnectionStore.getState().reconnectAttempts).toBe(1);
+			expect(called).toBe(false);
+
+			// Fast-forward time (delay for attempt 0 is 1000ms)
+			jest.advanceTimersByTime(1000);
+
+			expect(called).toBe(true);
+		});
+	});
+
+	describe("disconnect", () => {
+		it("resets reconnectAttempts and sets status to disconnected", () => {
+			useConnectionStore.setState({
+				reconnectAttempts: 3,
+				status: "connected",
+			});
+			const { disconnect } = useConnectionStore.getState();
+
+			act(() => {
+				disconnect();
+			});
+
+			const state = useConnectionStore.getState();
+			expect(state.reconnectAttempts).toBe(0);
+			expect(state.status).toBe("disconnected");
+		});
+	});
 });
