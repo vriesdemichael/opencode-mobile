@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/vriesdemichael/opencode-mobile/compare/v1.1.0...v1.2.0) (2026-02-23)
+
+
+### Bug Fixes
+
+* address review comments for icon mappings and test coverage ([9fd3c39](https://github.com/vriesdemichael/opencode-mobile/commit/9fd3c391e681b6287a14907bcebc0cf40c43858d))
+
+
+### Features
+
+* implement deep UI pattern parity for mobile (Issue [#40](https://github.com/vriesdemichael/opencode-mobile/issues/40)) ([f33732a](https://github.com/vriesdemichael/opencode-mobile/commit/f33732a5d57fb8e6b91bf9a1003937f80bd57d1f))
+
 # [1.1.0](https://github.com/vriesdemichael/opencode-mobile/compare/v1.0.0...v1.1.0) (2026-02-23)
 
 
