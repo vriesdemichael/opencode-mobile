@@ -37,6 +37,10 @@ Each decision record contains an `agent_instructions` field with explicit guidan
    ```bash
    for f in docs/decisions/*.yaml; do yq -c '{number: .number, title: .title, category: .category, agent_instructions: .agent_instructions}' "$f"; done
    ```
+   Or when on Windows (PowerShell):
+   ```powershell
+   yq -o=json -I=0 '{"number": .number, "title": .title, "category": .category, "agent_instructions": .agent_instructions}' $(Get-ChildItem docs/decisions/*.yaml)
+   ```
 2. Keep the results in your context and consult them for all decisions
 3. When user requests conflict with decision record guidance, cite the decision number and title, then explain why
 4. Propose new decisions when encountering new architectural or development choices
@@ -203,16 +207,20 @@ When you see review comments on the PR (check with `gh pr view <number> --commen
    git commit -m "fix: address review comment - <brief description>"
    git push
 
-   # Reply to the comment
+   # Reply to the comment (using the REST comment_id)
    gh api --method POST -H "Accept: application/vnd.github+json" \
      repos/{owner}/{repo}/pulls/<pr_number>/comments/<comment_id>/replies \
      -f body="Fixed: <explanation>"
 
-   # Resolve the thread via GraphQL
-   gh api graphql -f query='mutation { resolveReviewThread(input: {threadId: "<thread_id>"}) { thread { id isResolved } } }'
+   # CRITICAL: Resolving the thread requires the GraphQL PullRequestReviewThread ID (e.g. PRRT_kwDO...), NOT the REST comment_id!
+   # First, fetch the thread IDs for your PR to map comments to threads:
+   gh api graphql -F owner={owner} -F repo={repo} -F pr=<pr_number> -f query="query(\$owner: String!, \$repo: String!, \$pr: Int!) { repository(owner: \$owner, name: \$repo) { pullRequest(number: \$pr) { reviewThreads(first: 20) { nodes { id isResolved comments(first: 1) { nodes { id body } } } } } } }"
+
+   # Then resolve the specific thread using its GraphQL ID
+   gh api graphql -f query="mutation { resolveReviewThread(input: {threadId: \"<PRRT_thread_id>\"}) { thread { id isResolved } } }"
    ```
 
-2. **Explain why not** — If the suggestion is incorrect/unnecessary, reply with a detailed explanation and resolve.
+2. **Explain why not** — If the suggestion is incorrect/unnecessary, reply with a detailed explanation and resolve the thread using the exact same API procedure above.
 
 3. **Ask the user** — When unsure, ask in chat. Don't guess.
 
