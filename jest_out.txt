@@ -1,0 +1,89 @@
+FAIL app/session/__tests__/chat-screen-test.tsx
+  ΓùÅ SessionChatScreen ΓÇ║ presents bottom sheet when settings button is pressed
+
+    TypeError: pressability.getEventHandlers is not a function
+
+      218 | 		});
+      219 |
+    > 220 | 		const { getByTestId } = render(<SessionChatScreen />);
+          | 		                              ^
+      221 | 		fireEvent.press(getByTestId("chat-settings-button"));
+      222 |
+      223 | 		expect(mockPresent).toHaveBeenCalled();
+
+      at getEventHandlers (node_modules/.pnpm/react-native@0.81.5_@babel+_5b5f786695eb3a8a4ec36c9b8d1b667a/node_modules/react-native/Libraries/Pressability/usePressability.js:59:53)
+      at Pressable (node_modules/.pnpm/react-native@0.81.5_@babel+_5b5f786695eb3a8a4ec36c9b8d1b667a/node_modules/react-native/Libraries/Components/Pressable/Pressable.js:323:40)
+      at Object.Component [as react-stack-bottom-frame] (node_modules/.pnpm/react-test-renderer@19.1.0_react@19.1.0/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13976:20)
+      at callComponentInDEV (node_modules/.pnpm/react-test-renderer@19.1.0_react@19.1.0/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2866:22)
+      at renderWithHooks (node_modules/.pnpm/react-test-renderer@19.1.0_react@19.1.0/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6006:19)
+      at updateFunctionComponent (node_modules/.pnpm/react-test-renderer@19.1.0_react@19.1.0/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:5862:14)
+      at updateSimpleMemoComponent (node_modules/.pnpm/react-test-renderer@19.1.0_react@19.1.0/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:5795:13)
+      at updateMemoComponent (node_modules/.pnpm/react-test-renderer@19.1.0_react@19.1.0/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7673:18)
+      at callback (node_modules/.pnpm/react-test-renderer@19.1.0_react@19.1.0/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:1574:13)
+      at runWithFiberInDEV (node_modules/.pnpm/react-test-renderer@19.1.0_react@19.1.0/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10972:22)
+      at performUnitOfWork (node_modules/.pnpm/react-test-renderer@19.1.0_react@19.1.0/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10816:41)
+      at workLoopSync (node_modules/.pnpm/react-test-renderer@19.1.0_react@19.1.0/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10797:11)
+      at renderRootSync (node_modules/.pnpm/react-test-renderer@19.1.0_react@19.1.0/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10384:39)
+      at performWorkOnRoot (node_modules/.pnpm/react-test-renderer@19.1.0_react@19.1.0/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2094:7)
+      at callback (node_modules/.pnpm/react@19.1.0/node_modules/react/cjs/react.development.js:566:34)
+      at flushActQueue (node_modules/.pnpm/react@19.1.0/node_modules/react/cjs/react.development.js:859:10)
+      at actImplementation (node_modules/.pnpm/@testing-library+react-nati_d857b401ccf7ca28bc8b170249c32b80/node_modules/@testing-library/react-native/src/act.ts:30:25)
+      at renderWithAct (node_modules/.pnpm/@testing-library+react-nati_d857b401ccf7ca28bc8b170249c32b80/node_modules/@testing-library/react-native/src/render-act.ts:13:11)
+      at renderInternal (node_modules/.pnpm/@testing-library+react-nati_d857b401ccf7ca28bc8b170249c32b80/node_modules/@testing-library/react-native/src/render.tsx:69:33)
+      at renderInternal (node_modules/.pnpm/@testing-library+react-nati_d857b401ccf7ca28bc8b170249c32b80/node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at Object.<anonymous> (app/session/__tests__/chat-screen-test.tsx:220:33)
+
+FAIL components/__tests__/SessionCard-test.tsx
+  ΓùÅ SessionCard ΓÇ║ calls deleteSession when delete action is pressed
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: "123"
+
+    Number of calls: 0
+
+      51 |
+      52 | 		fireEvent.press(getByText("Delete"));
+    > 53 | 		expect(deleteSessionMock).toHaveBeenCalledWith("123");
+         | 		                          ^
+      54 | 	});
+      55 | });
+      56 |
+
+      at Object.toHaveBeenCalledWith (components/__tests__/SessionCard-test.tsx:53:29)
+
+FAIL components/__tests__/ProviderSettingsSheet-test.tsx
+  ΓùÅ ProviderSettingsSheet ΓÇ║ renders the title and description
+
+    Unable to find an element with text: AI Configuration
+
+    <View
+      pointerEvents="box-none"
+    />
+
+      38 |         );
+      39 |
+    > 40 |         expect(getByText("AI Configuration")).toBeTruthy();
+         |                ^
+      41 |         expect(
+      42 |             getByText(
+      43 |                 "Here you would configure your preferred AI provider, model selection,\n\t\t\t\t\tand context window settings.",
+
+      at Object.getByText (components/__tests__/ProviderSettingsSheet-test.tsx:40:16)
+
+
+=============================== Coverage summary ===============================
+Statements   : 5.57% ( 17/305 )
+Branches     : 4.83% ( 6/124 )
+Functions    : 4.59% ( 4/87 )
+Lines        : 5.75% ( 16/278 )
+================================================================================
+Jest: "global" coverage threshold for statements (85%) not met: 5.57%
+Jest: "global" coverage threshold for branches (85%) not met: 4.83%
+Jest: "global" coverage threshold for lines (85%) not met: 5.75%
+Jest: "global" coverage threshold for functions (85%) not met: 4.59%
+Test Suites: 3 failed, 3 total
+Tests:       3 failed, 18 passed, 21 total
+Snapshots:   0 total
+Time:        2.862 s
+Ran all test suites matching /app\\session\\__tests__\\chat-screen-test.tsx|components\\__tests__\\SessionCard-test.tsx|components\\__tests__\\ProviderSettingsSheet-test.tsx/i.

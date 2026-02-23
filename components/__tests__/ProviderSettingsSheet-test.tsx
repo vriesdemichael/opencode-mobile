@@ -38,19 +38,17 @@ jest.mock("@gorhom/bottom-sheet", () => {
 
 describe("ProviderSettingsSheet", () => {
 	it("renders without crashing", () => {
-		const ref = React.createRef<any>();
 		render(
 			<BottomSheetModalProvider>
-				<ProviderSettingsSheet ref={ref} />
+				<ProviderSettingsSheet />
 			</BottomSheetModalProvider>,
 		);
 	});
 
 	it("renders the title and description", () => {
-		const ref = React.createRef<any>();
 		const { getByText } = render(
 			<BottomSheetModalProvider>
-				<ProviderSettingsSheet ref={ref} />
+				<ProviderSettingsSheet />
 			</BottomSheetModalProvider>,
 		);
 

@@ -23,6 +23,22 @@ jest.mock("@/components/file-patch-item", () => ({
 	},
 }));
 
+jest.mock("@/components/reasoning-item", () => ({
+	// biome-ignore lint/suspicious/noExplicitAny: mock component
+	ReasoningItem: ({ part }: any) => {
+		const { Text } = require("react-native");
+		return <Text testID={`reasoning-${part.id}`}>Reasoning</Text>;
+	},
+}));
+
+jest.mock("@/components/context-group-item", () => ({
+	// biome-ignore lint/suspicious/noExplicitAny: mock component
+	ContextGroupItem: ({ parts }: any) => {
+		const { Text } = require("react-native");
+		return <Text testID="context-group">Context Group: {parts.length}</Text>;
+	},
+}));
+
 describe("MessageItem", () => {
 	const userMessage: Message = {
 		info: {

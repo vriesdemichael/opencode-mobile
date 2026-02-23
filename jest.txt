@@ -1,0 +1,58 @@
+FAIL components/__tests__/ContextGroupItem-test.tsx
+  ΓùÅ ContextGroupItem ΓÇ║ renders collapsed and summary correctly
+
+    Unable to find an element with text: 1 read, 1 search, 1 list
+
+    <View
+      testID="context-group-item"
+    >
+      <View
+        accessible={true}
+        testID="context-group-header"
+      >
+        <View>
+          <Text>
+            icon
+          </Text>
+          <Text>
+            Gathered Context
+          </Text>
+          <Text>
+            1 search, 1 list
+          </Text>
+        </View>
+        <Text>
+          icon
+        </Text>
+      </View>
+    </View>
+
+      57 |         const { getByText, queryByTestId } = render(<ContextGroupItem parts={mockParts} />);
+      58 |         expect(getByText("Gathered Context")).toBeTruthy();
+    > 59 |         expect(getByText("1 read, 1 search, 1 list")).toBeTruthy();
+         |                ^
+      60 |         expect(queryByTestId("tool-t1")).toBeNull();
+      61 |     });
+      62 |
+
+      at Object.getByText (components/__tests__/ContextGroupItem-test.tsx:59:16)
+
+PASS components/__tests__/MessageItem-test.tsx
+PASS components/__tests__/ReasoningItem-test.tsx
+
+=============================== Coverage summary ===============================
+Statements   : 2.62% ( 8/305 )
+Branches     : 1.61% ( 2/124 )
+Functions    : 1.14% ( 1/87 )
+Lines        : 2.87% ( 8/278 )
+================================================================================
+Jest: "global" coverage threshold for statements (85%) not met: 2.62%
+Jest: "global" coverage threshold for branches (85%) not met: 1.61%
+Jest: "global" coverage threshold for lines (85%) not met: 2.87%
+Jest: "global" coverage threshold for functions (85%) not met: 1.14%
+
+Test Suites: 1 failed, 2 passed, 3 total
+Tests:       1 failed, 14 passed, 15 total
+Snapshots:   0 total
+Time:        2.021 s
+Ran all test suites matching /components\\__tests__\\ReasoningItem-test.tsx|components\\__tests__\\ContextGroupItem-test.tsx|components\\__tests__\\MessageItem-test.tsx/i.
