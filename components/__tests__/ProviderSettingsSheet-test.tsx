@@ -26,9 +26,11 @@ jest.mock("@gorhom/bottom-sheet", () => {
 		// biome-ignore lint/suspicious/noExplicitAny: mock component
 		BottomSheetModalProvider: ({ children }: any) => <View>{children}</View>,
 		// biome-ignore lint/suspicious/noExplicitAny: mock component
-		BottomSheetModal: React.forwardRef(({ children }: any) => (
-			<View>{children}</View>
-		)),
+		BottomSheetModal: React.forwardRef(function MockBottomSheetModal({
+			children,
+		}: any) {
+			return <View>{children}</View>;
+		}),
 		// biome-ignore lint/suspicious/noExplicitAny: mock component
 		BottomSheetView: ({ children }: any) => <View>{children}</View>,
 		// biome-ignore lint/suspicious/noExplicitAny: mock component

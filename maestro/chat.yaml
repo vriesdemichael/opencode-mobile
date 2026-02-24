@@ -1,16 +1,16 @@
-appId: com.opencodemobile
+appId: com.vriesdemichael.opencodemobile
 ---
 # Assumes already connected and sessions exist
 - launchApp
 - assertVisible: "Sessions"
 - tapOn:
-    index: 0
-    id: "session-item"
-- takeScreenshot: "chat-screen-opened"
+        index: 0
+        id: "session-item"
+- takeScreenshot: ".maestro/screenshots/chat-screen-opened"
 - assertVisible: ".*"
-- scroll:
-    direction: DOWN
-- takeScreenshot: "chat-messages-scrolled"
-- scroll:
-    direction: UP
-- takeScreenshot: "chat-messages-top"
+- swipe:
+        direction: DOWN
+- takeScreenshot: ".maestro/screenshots/chat-messages-scrolled"
+- swipe:
+        direction: UP
+- takeScreenshot: ".maestro/screenshots/chat-messages-top"

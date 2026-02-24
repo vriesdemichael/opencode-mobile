@@ -21,7 +21,7 @@ interface SessionActions {
 	loadSessions: (directory?: string) => Promise<void>;
 	clearSessions: () => void;
 	selectSession: (id: string) => Promise<void>;
-	createSession: (title?: string) => Promise<string>;
+	createSession: (title?: string, directory?: string) => Promise<string>;
 	deleteSession: (id: string) => Promise<void>;
 
 	sendMessage: (
@@ -102,12 +102,12 @@ export const useSessionStore = create<SessionState & SessionActions>()(
 			}
 		},
 
-		createSession: async (title?: string) => {
+		createSession: async (title?: string, directory?: string) => {
 			set((state) => {
 				state.loading = true;
 			});
 			try {
-				const session = await Api.createSession({ title });
+				const session = await Api.createSession({ title, directory });
 				set((state) => {
 					state.sessions.unshift(session);
 					state.currentSessionId = session.id;

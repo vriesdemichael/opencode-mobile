@@ -1,16 +1,16 @@
-appId: com.opencodemobile
+appId: com.vriesdemichael.opencodemobile
 ---
 # Assumes already connected and in a chat session
 - launchApp
 - assertVisible: "Sessions"
 - tapOn:
-    index: 0
-    id: "session-item"
-- takeScreenshot: "before-send-message"
+      index: 0
+      id: "session-item"
+- takeScreenshot: ".maestro/screenshots/before-send-message"
 - tapOn:
-    id: "message-input"
+      id: "message-input"
 - inputText: "Hello, this is a test message"
-- takeScreenshot: "message-typed"
+- takeScreenshot: ".maestro/screenshots/message-typed"
 - tapOn:
-    id: "send-button"
-- takeScreenshot: "message-sent"
+      id: "send-button"
+- takeScreenshot: ".maestro/screenshots/message-sent"

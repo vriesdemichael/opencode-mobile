@@ -1,0 +1,28 @@
+number: 20
+title: "Linux Environment for Native Android Compilation and Maestro Testing"
+category: development
+decision: >
+  Compile Native C++ dependencies (React Native, Expo Modules) and run Maestro
+  E2E UI tests exclusively within a Linux or macOS environment (such as WSL2 on Windows, 
+  or GitHub Actions Ubuntu runners). Attempting to compile Android locally on 
+  the Windows host filesystem is unsupported due to hardcoded path limits 
+  within the Android NDK CMake compiler.
+agent_instructions: >
+  Do not attempt to compile the Android app (`npx expo run:android` or Gradle 
+  `assembleDebug`) directly on the Windows filesystem. Deeply nested NPM paths 
+  trigger fatal `CMAKE_OBJECT_PATH_MAX` crashes inside the C++ compilation 
+  step that cannot be fully bypassed via Registry edits.
+  Instead, instruct Windows users to use a Linux container like WSL2:
+  1. Clone the project into the WSL filesystem (e.g., `~/projects/...`).
+  2. Install headless Android SDK and Java 17 via CLI.
+  3. Boot an emulator (via Wi-Fi ADB to host, or headlessly).
+  4. Run Maestro directly on Linux.
+  For CI, rely on GitHub Actions Ubuntu runners.
+rationale: >
+  The Windows MAX_PATH (260 characters) can be disabled via the Registry, but
+  the Android NDK's CMake compiler has its own internal 250-character limit 
+  that ignores Windows settings. Because of `pnpm`'s deeply nested symlink
+  structure, we mathematically exceed the CMake path limits when building Expo 
+  on a Windows drive. Migrating the build to Linux/WSL entirely bypasses the 
+  limit and achieves up to 5x faster compilation speeds.
+provenance: guided-ai

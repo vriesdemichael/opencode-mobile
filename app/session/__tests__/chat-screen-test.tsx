@@ -68,7 +68,11 @@ jest.mock("@/hooks/use-color-scheme", () => ({
 jest.mock("@/components/provider-settings-sheet", () => {
 	const React = require("react");
 	return {
-		ProviderSettingsSheet: React.forwardRef(() => null),
+		ProviderSettingsSheet: React.forwardRef(
+			function MockProviderSettingsSheet() {
+				return null;
+			},
+		),
 	};
 });
 

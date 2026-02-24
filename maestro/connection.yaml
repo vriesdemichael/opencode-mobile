@@ -1,4 +1,4 @@
-appId: com.opencodemobile
+appId: com.vriesdemichael.opencodemobile
 ---
 - launchApp
 - assertVisible: "Server URL"
@@ -10,6 +10,6 @@ appId: com.opencodemobile
 - assertVisible: "Password"
 - tapOn: "Password"
 - inputText: "testpass"
-- takeScreenshot: "connection-form-filled"
+- takeScreenshot: ".maestro/screenshots/connection-form-filled"
 - tapOn: "Connect"
-- takeScreenshot: "connection-result"
+- takeScreenshot: ".maestro/screenshots/connection-result"
