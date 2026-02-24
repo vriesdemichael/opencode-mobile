@@ -1,10 +1,10 @@
 import * as SecureStore from "expo-secure-store";
 import { Platform } from "react-native";
 import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
-// @ts-expect-error
-export const storage = new MMKV();
+import { customStorage } from "./storage";
 
 interface ConnectionState {
 	url: string;
@@ -28,104 +28,109 @@ const DEFAULT_URL = "http://localhost:4096";
 const DEFAULT_USERNAME = "opencode";
 
 export const useConnectionStore = create<ConnectionState & ConnectionActions>()(
-	immer((set, get) => ({
-		url: storage.getString("connection.url") || DEFAULT_URL,
-		username: storage.getString("connection.username") || DEFAULT_USERNAME,
-		status: "disconnected",
-		error: null,
-		reconnectAttempts: 0,
+	persist(
+		immer((set, get) => ({
+			url: DEFAULT_URL,
+			username: DEFAULT_USERNAME,
+			status: "disconnected",
+			error: null,
+			reconnectAttempts: 0,
 
-		setConnection: (url: string, username: string) => {
-			set((state) => {
-				state.url = url;
-				state.username = username;
-			});
-			storage.set("connection.url", url);
-			storage.set("connection.username", username);
-		},
+			setConnection: (url: string, username: string) => {
+				set((state) => {
+					state.url = url;
+					state.username = username;
+				});
+			},
 
-		setPassword: async (password: string) => {
-			if (Platform.OS !== "web") {
-				await SecureStore.setItemAsync("connection.password", password);
-			}
-		},
+			setPassword: async (password: string) => {
+				if (Platform.OS !== "web") {
+					await SecureStore.setItemAsync("connection.password", password);
+				}
+			},
 
-		getPassword: async () => {
-			if (Platform.OS !== "web") {
-				return await SecureStore.getItemAsync("connection.password");
-			}
-			return null;
-		},
+			getPassword: async () => {
+				if (Platform.OS !== "web") {
+					return await SecureStore.getItemAsync("connection.password");
+				}
+				return null;
+			},
 
-		setStatus: (status, error = null) => {
-			set((state) => {
-				state.status = status;
-				state.error = error;
-			});
-		},
+			setStatus: (status, error = null) => {
+				set((state) => {
+					state.status = status;
+					state.error = error;
+				});
+			},
 
-		testConnection: async () => {
-			const { url, username, getPassword } = get();
+			testConnection: async () => {
+				const { url, username, getPassword } = get();
 
-			// Use get().setStatus to ensure we call the action
-			get().setStatus("connecting", null);
+				// Use get().setStatus to ensure we call the action
+				get().setStatus("connecting", null);
 
-			try {
-				const password = await getPassword();
-				const authHeader = `Basic ${btoa(`${username}:${password || ""}`)}`;
+				try {
+					const password = await getPassword();
+					const authHeader = `Basic ${btoa(`${username}:${password || ""}`)}`;
 
-				// Remove trailing slash if present
-				const cleanUrl = url.replace(/\/$/, "");
+					// Remove trailing slash if present
+					const cleanUrl = url.replace(/\/$/, "");
 
-				const response = await fetch(`${cleanUrl}/global/health`, {
-					headers: {
-						Authorization: authHeader,
-					},
+					const response = await fetch(`${cleanUrl}/global/health`, {
+						headers: {
+							Authorization: authHeader,
+						},
+					});
+
+					if (!response.ok) {
+						const text = await response.text();
+						throw new Error(`Server returned ${response.status}: ${text}`);
+					}
+
+					const data = await response.json();
+					if (!data.healthy) {
+						throw new Error("Server reported unhealthy status");
+					}
+
+					set((state) => {
+						state.reconnectAttempts = 0;
+					});
+					get().setStatus("connected", null);
+					return true;
+				} catch (err) {
+					get().setStatus(
+						"error",
+						err instanceof Error ? err.message : String(err),
+					);
+					return false;
+				}
+			},
+
+			autoReconnect: () => {
+				const { status, reconnectAttempts } = get();
+				if (status === "connecting") return;
+
+				const delay = Math.min(1000 * 2 ** reconnectAttempts, 30000);
+				set((state) => {
+					state.reconnectAttempts += 1;
 				});
 
-				if (!response.ok) {
-					const text = await response.text();
-					throw new Error(`Server returned ${response.status}: ${text}`);
-				}
+				setTimeout(() => {
+					get().testConnection();
+				}, delay);
+			},
 
-				const data = await response.json();
-				if (!data.healthy) {
-					throw new Error("Server reported unhealthy status");
-				}
-
+			disconnect: () => {
 				set((state) => {
 					state.reconnectAttempts = 0;
 				});
-				get().setStatus("connected", null);
-				return true;
-			} catch (err) {
-				get().setStatus(
-					"error",
-					err instanceof Error ? err.message : String(err),
-				);
-				return false;
-			}
+				get().setStatus("disconnected", null);
+			},
+		})),
+		{
+			name: "connection-storage",
+			storage: createJSONStorage(() => customStorage),
+			partialize: (state) => ({ url: state.url, username: state.username }),
 		},
-
-		autoReconnect: () => {
-			const { status, reconnectAttempts } = get();
-			if (status === "connecting") return;
-
-			const delay = Math.min(1000 * 2 ** reconnectAttempts, 30000);
-			set((state) => {
-				state.reconnectAttempts += 1;
-			});
-
-			setTimeout(() => {
-				get().testConnection();
-			}, delay);
-		},
-
-		disconnect: () => {
-			set((state) => {
-				state.reconnectAttempts = 0;
-			});
-			get().setStatus("disconnected", null);
-		},
-	})),
+	),
 );

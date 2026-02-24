@@ -1,6 +1,13 @@
 import EventSource from "react-native-sse";
 import { useConnectionStore } from "@/app/store/connection";
-import type { Message, Project, SessionInfo } from "./types";
+import type {
+	Message,
+	Project,
+	ServerMessage,
+	ServerProject,
+	ServerSession,
+	SessionInfo,
+} from "./types";
 
 class ApiError extends Error {
 	constructor(
@@ -53,34 +60,107 @@ async function fetchClient<T>(
 	return response.json();
 }
 
+function mapServerSession(serverSession: ServerSession): SessionInfo {
+	return {
+		id: serverSession.id,
+		title: serverSession.title || serverSession.slug,
+		directory: serverSession.directory,
+		createdAt: serverSession.time.created,
+		updatedAt: serverSession.time.updated,
+		status: serverSession.status,
+	};
+}
+
+export function mapServerMessage(
+	serverMessage: ServerMessage,
+	sessionID?: string,
+): Message {
+	return {
+		info: {
+			id: serverMessage.info.id,
+			sessionID: sessionID ?? serverMessage.parts[0]?.sessionID ?? "",
+			role: serverMessage.info.role,
+			// API uses either flattened createdAt or nested time.created
+			createdAt:
+				serverMessage.info.time?.created ??
+				serverMessage.info.createdAt ??
+				Date.now(),
+			error: serverMessage.info.error,
+			summary: serverMessage.info.summary,
+		},
+		parts: serverMessage.parts || [],
+	};
+}
+
 export const Api = {
 	// --- Projects ---
-	getProjects: () => fetchClient<Project[]>("/project"),
-	getCurrentProject: () => fetchClient<Project>("/project/current"),
+	getProjects: async (): Promise<Project[]> => {
+		const data = await fetchClient<ServerProject[]>("/project");
+		return data.map((p) => {
+			const segments = p.worktree.split(/[/\\]/);
+			const name = segments[segments.length - 1] || p.id;
+			return {
+				id: p.id,
+				directory: p.worktree,
+				name,
+			};
+		});
+	},
+	getCurrentProject: async (): Promise<Project> => {
+		const data = await fetchClient<ServerProject>("/project/current");
+		const segments = data.worktree.split(/[/\\]/);
+		return {
+			id: data.id,
+			directory: data.worktree,
+			name: segments[segments.length - 1] || data.id,
+		};
+	},
 
 	// --- Sessions ---
-	getSessions: (query?: { limit?: number; directory?: string }) => {
+	getSessions: async (query?: {
+		limit?: number;
+		directory?: string;
+	}): Promise<SessionInfo[]> => {
 		const params = new URLSearchParams();
 		if (query?.limit) params.append("limit", query.limit.toString());
 		if (query?.directory) params.append("directory", query.directory);
 
-		return fetchClient<SessionInfo[]>(`/session?${params.toString()}`);
+		const data = await fetchClient<ServerSession[]>(
+			`/session?${params.toString()}`,
+		);
+		return data.map(mapServerSession);
 	},
 
-	getSession: (id: string) => fetchClient<SessionInfo>(`/session/${id}`),
+	getSession: async (id: string): Promise<SessionInfo> => {
+		const data = await fetchClient<ServerSession>(`/session/${id}`);
+		return mapServerSession(data);
+	},
 
-	createSession: (data?: { title?: string }) =>
-		fetchClient<SessionInfo>("/session", {
+	createSession: async (data?: {
+		title?: string;
+		directory?: string;
+	}): Promise<SessionInfo> => {
+		const body: Record<string, string> = {};
+		if (data?.title) body.title = data.title;
+		if (data?.directory) body.directory = data.directory;
+
+		const response = await fetchClient<ServerSession>("/session", {
 			method: "POST",
-			body: JSON.stringify(data || {}),
-		}),
+			body: JSON.stringify(body),
+		});
+		return mapServerSession(response);
+	},
 
 	deleteSession: (id: string) =>
 		fetchClient<boolean>(`/session/${id}`, { method: "DELETE" }),
 
 	// --- Messages ---
-	getSessionMessages: (sessionId: string) =>
-		fetchClient<Message[]>(`/session/${sessionId}/message`),
+	getSessionMessages: async (sessionId: string): Promise<Message[]> => {
+		const data = await fetchClient<ServerMessage[]>(
+			`/session/${sessionId}/message`,
+		);
+		return data.map((m) => mapServerMessage(m, sessionId));
+	},
 
 	sendMessage: (
 		sessionId: string,

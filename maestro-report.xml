@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites>
+  <testsuite name="Test Suite" device="emulator-5554" tests="4" failures="4" time="90.0">
+    <testcase id="send-message" name="send-message" classname="send-message" time="21.0" status="ERROR">
+      <failure>Element not found: Id matching regex: session-item</failure>
+    </testcase>
+    <testcase id="chat" name="chat" classname="chat" time="20.0" status="ERROR">
+      <failure>Element not found: Id matching regex: session-item</failure>
+    </testcase>
+    <testcase id="session-list" name="session-list" classname="session-list" time="28.0" status="ERROR">
+      <failure>Element not found: Text matching regex: New Session</failure>
+    </testcase>
+    <testcase id="connection" name="connection" classname="connection" time="21.0" status="ERROR">
+      <failure>Assertion is false: "Server URL" is visible</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

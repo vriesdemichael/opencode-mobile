@@ -1,0 +1,62 @@
+name: Maestro E2E Tests
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    maestro-android:
+        name: Run Maestro UI Tests on Android Emulator
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  version: 9
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Enable KVM
+              run: |
+                  echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+                  sudo udevadm control --reload-rules
+                  sudo udevadm trigger --name-match=kvm
+
+            - name: Install Maestro
+              run: curl -Ls "https://get.maestro.mobile.dev" | bash
+
+            - name: Add Maestro to Path
+              run: echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+
+            - name: Build Android App (APK)
+              run: npx expo prebuild --platform android && cd android && ./gradlew assembleDebug
+
+            - name: Run Maestro Tests in Emulator
+              uses: reactivecircus/android-emulator-runner@v2
+              with:
+                  api-level: 30
+                  target: playstore
+                  arch: x86_64
+                  profile: pre-built
+                  script: |
+                      adb install app/build/outputs/apk/debug/app-debug.apk
+                      maestro test maestro/
+
+            - name: Upload Test Screenshots
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: maestro-screenshots
+                  path: .maestro/screenshots/
+                  retention-days: 14

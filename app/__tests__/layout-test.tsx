@@ -29,7 +29,7 @@ jest.mock("expo-router", () => {
 	// biome-ignore lint/suspicious/noExplicitAny: mock component
 	const Stack = ({ children }: any) => <View testID="stack">{children}</View>;
 	// biome-ignore lint/suspicious/noExplicitAny: mock component
-	Stack.Screen = ({ name, options }: any) => {
+	Stack.Screen = function MockScreen({ name, options }: any) {
 		mockScreenProps.push({ name, options });
 		return <Text testID={`screen-${name}`}>{name}</Text>;
 	};
@@ -94,7 +94,7 @@ describe("RootLayout", () => {
 	it("registers project detail screen", () => {
 		render(<RootLayout />);
 		const projectScreen = mockScreenProps.find(
-			(s) => s.name === "project/[id]",
+			(s) => s.name === "project/[id]/index",
 		);
 		expect(projectScreen).toBeDefined();
 		expect(projectScreen?.options.headerShown).toBe(false);

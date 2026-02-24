@@ -88,12 +88,44 @@ describe("Api Client", () => {
 		});
 
 		it("getCurrentProject calls /project/current", async () => {
-			mockFetch.mockResolvedValue({ ok: true, json: async () => ({}) });
-			await Api.getCurrentProject();
+			mockFetch.mockResolvedValue({
+				ok: true,
+				json: async () => ({
+					id: "1",
+					worktree: "/foo/bar",
+					time: { created: 1, updated: 1 },
+				}),
+			});
+			const p = await Api.getCurrentProject();
 			expect(mockFetch).toHaveBeenCalledWith(
 				"https://api.example.com/project/current",
 				expect.anything(),
 			);
+			expect(p.name).toBe("bar");
+		});
+
+		it("getCurrentProject handles empty trailing segments (fallback to id)", async () => {
+			mockFetch.mockResolvedValue({
+				ok: true,
+				json: async () => ({
+					id: "proj-1",
+					worktree: "/",
+					time: { created: 1, updated: 1 },
+				}),
+			});
+			const p = await Api.getCurrentProject();
+			expect(p.name).toBe("proj-1");
+		});
+
+		it("getProjects maps missing names properly", async () => {
+			mockFetch.mockResolvedValue({
+				ok: true,
+				json: async () => [
+					{ id: "proj-2", worktree: "\\", time: { created: 1, updated: 1 } },
+				],
+			});
+			const p = await Api.getProjects();
+			expect(p[0].name).toBe("proj-2");
 		});
 	});
 
@@ -136,14 +168,22 @@ describe("Api Client", () => {
 		});
 
 		it("createSession sends POST body", async () => {
-			mockFetch.mockResolvedValue({ ok: true, json: async () => ({}) });
+			const mockSession = {
+				id: "1",
+				slug: "s",
+				projectID: "p",
+				directory: "d",
+				time: { created: 1, updated: 1 },
+				title: "S",
+			};
+			mockFetch.mockResolvedValue({ ok: true, json: async () => mockSession });
 
-			await Api.createSession({ title: "New Session" });
+			await Api.createSession({ title: "New Session", directory: "/foo/bar" });
 			expect(mockFetch).toHaveBeenCalledWith(
 				"https://api.example.com/session",
 				expect.objectContaining({
 					method: "POST",
-					body: JSON.stringify({ title: "New Session" }),
+					body: JSON.stringify({ title: "New Session", directory: "/foo/bar" }),
 				}),
 			);
 
@@ -158,12 +198,20 @@ describe("Api Client", () => {
 		});
 
 		it("getSession calls /session/:id", async () => {
-			mockFetch.mockResolvedValue({ ok: true, json: async () => ({}) });
-			await Api.getSession("1");
+			const mockSession = {
+				id: "1",
+				slug: "fallback-slug",
+				projectID: "p",
+				directory: "d",
+				time: { created: 1, updated: 1 },
+			};
+			mockFetch.mockResolvedValue({ ok: true, json: async () => mockSession });
+			const s = await Api.getSession("1");
 			expect(mockFetch).toHaveBeenCalledWith(
 				"https://api.example.com/session/1",
 				expect.anything(),
 			);
+			expect(s.title).toBe("fallback-slug");
 		});
 
 		it("deleteSession calls DELETE /session/:id", async () => {

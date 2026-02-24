@@ -39,7 +39,7 @@ export default function RootLayout() {
 							}}
 						/>
 						<Stack.Screen
-							name="project/[id]"
+							name="project/[id]/index"
 							options={{
 								headerShown: false,
 								animation: "slide_from_right",

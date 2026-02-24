@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import {
 	ActivityIndicator,
 	FlatList,
+	Pressable,
 	RefreshControl,
 	StyleSheet,
 	View,
@@ -24,8 +25,24 @@ export default function ProjectSessionListScreen() {
 	}>();
 	const router = useRouter();
 	const colorScheme = useColorScheme() ?? "light";
-	const { sessions, loadSessions, loading, error } = useSessionStore();
+	const { sessions, loadSessions, loading, error, createSession } =
+		useSessionStore();
 	const [refreshing, setRefreshing] = useState(false);
+	const [creating, setCreating] = useState(false);
+
+	const handleCreateSession = async () => {
+		if (creating || !directory) return;
+		setCreating(true);
+		try {
+			const id = await createSession(undefined, directory);
+			// biome-ignore lint/suspicious/noExplicitAny: Expo router params typing limitation
+			router.push(`/session/${id}` as any);
+		} catch (err) {
+			console.error("Failed to create session:", err);
+		} finally {
+			setCreating(false);
+		}
+	};
 
 	const loadData = useCallback(async () => {
 		if (directory) {
@@ -116,6 +133,28 @@ export default function ProjectSessionListScreen() {
 							{name || "Project"}
 						</ThemedText>
 					</View>
+					<Pressable
+						testID="create-session-button"
+						onPress={handleCreateSession}
+						disabled={creating || !directory}
+						style={({ pressed }) => [
+							styles.createButton,
+							{ opacity: pressed || creating || !directory ? 0.7 : 1 },
+						]}
+					>
+						{creating ? (
+							<ActivityIndicator
+								size="small"
+								color={Colors[colorScheme].tint}
+							/>
+						) : (
+							<IconSymbol
+								name="plus"
+								size={24}
+								color={Colors[colorScheme].tint}
+							/>
+						)}
+					</Pressable>
 				</View>
 				{renderContent()}
 			</SafeAreaView>
@@ -133,13 +172,21 @@ const styles = StyleSheet.create({
 	header: {
 		paddingHorizontal: 20,
 		paddingVertical: 10,
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
 		borderBottomWidth: StyleSheet.hairlineWidth,
 		borderBottomColor: "#ccc",
 	},
 	headerTitleContainer: {
+		flex: 1,
 		flexDirection: "row",
 		alignItems: "center",
 		gap: 12,
+	},
+	createButton: {
+		padding: 8,
+		marginRight: -8,
 	},
 	listContent: {
 		paddingVertical: 10,

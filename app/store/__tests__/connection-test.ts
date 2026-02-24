@@ -1,7 +1,7 @@
 import { act } from "@testing-library/react-native";
 import * as SecureStore from "expo-secure-store";
 import { Platform } from "react-native";
-import { storage, useConnectionStore } from "../connection";
+import { useConnectionStore } from "../connection";
 
 // Mock SecureStore already done in setup, but we might want to spy on it or reset it.
 // Mock MMKV storage (exported from connection.ts) check.
@@ -35,11 +35,6 @@ describe("Connection Store", () => {
 		const state = useConnectionStore.getState();
 		expect(state.url).toBe("https://new.url");
 		expect(state.username).toBe("newuser");
-		expect(storage.set).toHaveBeenCalledWith(
-			"connection.url",
-			"https://new.url",
-		);
-		expect(storage.set).toHaveBeenCalledWith("connection.username", "newuser");
 	});
 
 	it("setPassword uses SecureStore (native)", async () => {

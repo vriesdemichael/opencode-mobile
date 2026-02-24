@@ -1,14 +1,14 @@
-appId: com.opencodemobile
+appId: com.vriesdemichael.opencodemobile
 ---
 # Assumes already connected to server
 - launchApp
 - assertVisible: "Sessions"
-- takeScreenshot: "session-list-loaded"
-- scroll:
-    direction: DOWN
-- takeScreenshot: "session-list-scrolled"
-- scroll:
-    direction: UP
-- takeScreenshot: "session-list-after-scroll-up"
+- takeScreenshot: ".maestro/screenshots/session-list-loaded"
+- swipe:
+        direction: DOWN
+- takeScreenshot: ".maestro/screenshots/session-list-scrolled"
+- swipe:
+        direction: UP
+- takeScreenshot: ".maestro/screenshots/session-list-after-scroll-up"
 - tapOn: "New Session"
-- takeScreenshot: "new-session-created"
+- takeScreenshot: ".maestro/screenshots/new-session-created"

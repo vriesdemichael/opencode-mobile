@@ -1,9 +1,9 @@
-import { useColorScheme as useRNColorScheme } from "react-native";
+import { Appearance, useColorScheme as useRNColorScheme } from "react-native";
 import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
-// @ts-expect-error
-export const themeStorage = new MMKV();
+import { customStorage } from "./storage";
 
 export type ThemePreference = "system" | "light" | "dark";
 
@@ -15,20 +15,29 @@ interface ThemeActions {
 	setPreference: (preference: ThemePreference) => void;
 }
 
-const STORAGE_KEY = "theme.preference";
-
 export const useThemeStore = create<ThemeState & ThemeActions>()(
-	immer((set) => ({
-		preference:
-			(themeStorage.getString(STORAGE_KEY) as ThemePreference) || "system",
+	persist(
+		immer((set) => ({
+			preference: "system",
 
-		setPreference: (preference) => {
-			set((state) => {
-				state.preference = preference;
-			});
-			themeStorage.set(STORAGE_KEY, preference);
+			setPreference: (preference) => {
+				set((state) => {
+					state.preference = preference;
+				});
+
+				// Sync with native Appearance API to affect StatusBars, Keyboards, etc.
+				if (preference === "system") {
+					Appearance.setColorScheme(null);
+				} else {
+					Appearance.setColorScheme(preference);
+				}
+			},
+		})),
+		{
+			name: "theme-storage",
+			storage: createJSONStorage(() => customStorage),
 		},
-	})),
+	),
 );
 
 /**

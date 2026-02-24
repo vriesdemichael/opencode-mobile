@@ -1,0 +1,345 @@
+
+> opencode-mobile@1.1.0 check C:\Users\vries\Projects\opencode-mobile
+> task check
+
+task: [check] pnpm biome check .
+app\store\__tests__\storage-test.ts:12:8 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+    10 Γöé 			setItem: jest.fn(),
+    11 Γöé 			removeItem: jest.fn(),
+  > 12 Γöé 		} as any;
+       Γöé 		     ^^^
+    13 Γöé 	});
+    14 Γöé 
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+components\__tests__\ProviderSettingsSheet-test.tsx:31:6 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+    29 Γöé 		BottomSheetModal: React.forwardRef(function MockBottomSheetModal({
+    30 Γöé 			children,
+  > 31 Γöé 		}: any) {
+       Γöé 		   ^^^
+    32 Γöé 			return <View>{children}</View>;
+    33 Γöé 		}),
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+components\__tests__\ProviderSettingsSheet-test.tsx:3:8 lint/correctness/noUnusedImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This import is unused.
+  
+    1 Γöé import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+    2 Γöé import { render } from "@testing-library/react-native";
+  > 3 Γöé import React from "react";
+      Γöé        ^^^^^
+    4 Γöé import { ProviderSettingsSheet } from "../provider-settings-sheet";
+    5 Γöé 
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+     1  1 Γöé   import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+     2  2 Γöé   import { render } from "@testing-library/react-native";
+     3    Γöé - import┬╖React┬╖from┬╖"react";
+     4  3 Γöé   import { ProviderSettingsSheet } from "../provider-settings-sheet";
+     5  4 Γöé   
+  
+
+components\__tests__\ProviderSettingsSheet-test.tsx:28:3 suppressions/unused ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Suppression comment has no effect. Remove the suppression or make sure you are suppressing the correct rule.
+  
+    26 Γöé 		// biome-ignore lint/suspicious/noExplicitAny: mock component
+    27 Γöé 		BottomSheetModalProvider: ({ children }: any) => <View>{children}</View>,
+  > 28 Γöé 		// biome-ignore lint/suspicious/noExplicitAny: mock component
+       Γöé 		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    29 Γöé 		BottomSheetModal: React.forwardRef(function MockBottomSheetModal({
+    30 Γöé 			children,
+  
+
+components\__tests__\ProviderSettingsSheet-test.tsx:36:3 suppressions/unused ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Suppression comment has no effect. Remove the suppression or make sure you are suppressing the correct rule.
+  
+    34 Γöé 		// biome-ignore lint/suspicious/noExplicitAny: mock component
+    35 Γöé 		BottomSheetView: ({ children }: any) => <View>{children}</View>,
+  > 36 Γöé 		// biome-ignore lint/suspicious/noExplicitAny: mock component
+       Γöé 		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    37 Γöé 		BottomSheetBackdrop: () => <View />,
+    38 Γöé 	};
+  
+
+components\__tests__\SessionCard-test.tsx:20:6 lint/complexity/useOptionalChain  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Change to an optional chain.
+  
+    18 Γöé 			<View>
+    19 Γöé 				{children}
+  > 20 Γöé 				{renderRightActions &&
+       Γöé 				 ^^^^^^^^^^^^^^^^^^^^^
+  > 21 Γöé 					renderRightActions(mockAnimatedValue, mockAnimatedValue)}
+       Γöé 					^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    22 Γöé 			</View>
+    23 Γöé 		);
+  
+  i Unsafe fix: Change to an optional chain.
+  
+    18 18 Γöé   			<View>
+    19 19 Γöé   				{children}
+    20    Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ {renderRightActions┬╖&&
+    21    Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ renderRightActions(mockAnimatedValue,┬╖mockAnimatedValue)}
+       20 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ {renderRightActions?.(mockAnimatedValue,┬╖mockAnimatedValue)}
+    22 21 Γöé   			</View>
+    23 22 Γöé   		);
+  
+
+components\provider-settings-sheet.tsx:19:12 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+    17 Γöé 		// biome-ignore lint/suspicious/noExplicitAny: library types
+    18 Γöé 		const renderBackdrop = useCallback(
+  > 19 Γöé 			(props: any) => (
+       Γöé 			        ^^^
+    20 Γöé 				<BottomSheetBackdrop
+    21 Γöé 					{...props}
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+components\provider-settings-sheet.tsx:17:3 suppressions/unused ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Suppression comment has no effect. Remove the suppression or make sure you are suppressing the correct rule.
+  
+    15 Γöé 		const snapPoints = useMemo(() => ["50%"], []);
+    16 Γöé 
+  > 17 Γöé 		// biome-ignore lint/suspicious/noExplicitAny: library types
+       Γöé 		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    18 Γöé 		const renderBackdrop = useCallback(
+    19 Γöé 			(props: any) => (
+  
+
+components\session-card.tsx:39:3 lint/correctness/noUnusedFunctionParameters  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This parameter is unused.
+  
+    38 Γöé 	const renderRightActions = (
+  > 39 Γöé 		progress: Animated.AnimatedInterpolation<number>,
+       Γöé 		^^^^^^^^
+    40 Γöé 		dragX: Animated.AnimatedInterpolation<number>,
+    41 Γöé 	) => {
+  
+  i Unused parameters might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: If this is intentional, prepend progress with an underscore.
+  
+     37  37 Γöé   
+     38  38 Γöé   	const renderRightActions = (
+     39     Γöé - ΓåÆ ΓåÆ progress:┬╖Animated.AnimatedInterpolation<number>,
+         39 Γöé + ΓåÆ ΓåÆ _progress:┬╖Animated.AnimatedInterpolation<number>,
+     40  40 Γöé   		dragX: Animated.AnimatedInterpolation<number>,
+     41  41 Γöé   	) => {
+  
+
+app\_layout.tsx:1:1 assist/source/organizeImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The imports and exports are not sorted.
+  
+  > 1 Γöé import { useAndroidSseService } from "@/hooks/use-android-sse-service";
+      Γöé ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2 Γöé import { useAppState } from "@/hooks/use-app-state";
+    3 Γöé import { useColorScheme } from "@/hooks/use-color-scheme";
+  
+  i Safe fix: Organize Imports (Biome)
+  
+     1    Γöé - import┬╖{┬╖useAndroidSseService┬╖}┬╖from┬╖"@/hooks/use-android-sse-service";
+     2    Γöé - import┬╖{┬╖useAppState┬╖}┬╖from┬╖"@/hooks/use-app-state";
+     3    Γöé - import┬╖{┬╖useColorScheme┬╖}┬╖from┬╖"@/hooks/use-color-scheme";
+     4    Γöé - import┬╖{┬╖useSSE┬╖}┬╖from┬╖"@/hooks/use-sse";
+     5    Γöé - import┬╖{┬╖BottomSheetModalProvider┬╖}┬╖from┬╖"@gorhom/bottom-sheet";
+     6    Γöé - import┬╖{
+     7    Γöé - ΓåÆ DarkTheme,
+     8    Γöé - ΓåÆ DefaultTheme,
+     9    Γöé - ΓåÆ ThemeProvider,
+    10    Γöé - }┬╖from┬╖"@react-navigation/native";
+    11    Γöé - import┬╖{┬╖Stack┬╖}┬╖from┬╖"expo-router";
+    12    Γöé - import┬╖{┬╖StatusBar┬╖}┬╖from┬╖"expo-status-bar";
+    13    Γöé - import┬╖{┬╖GestureHandlerRootView┬╖}┬╖from┬╖"react-native-gesture-handler";
+        1 Γöé + import┬╖{┬╖BottomSheetModalProvider┬╖}┬╖from┬╖"@gorhom/bottom-sheet";
+        2 Γöé + import┬╖{
+        3 Γöé + ΓåÆ DarkTheme,
+        4 Γöé + ΓåÆ DefaultTheme,
+        5 Γöé + ΓåÆ ThemeProvider,
+        6 Γöé + }┬╖from┬╖"@react-navigation/native";
+        7 Γöé + import┬╖{┬╖Stack┬╖}┬╖from┬╖"expo-router";
+        8 Γöé + import┬╖{┬╖StatusBar┬╖}┬╖from┬╖"expo-status-bar";
+        9 Γöé + import┬╖{┬╖GestureHandlerRootView┬╖}┬╖from┬╖"react-native-gesture-handler";
+       10 Γöé + import┬╖{┬╖useAndroidSseService┬╖}┬╖from┬╖"@/hooks/use-android-sse-service";
+       11 Γöé + import┬╖{┬╖useAppState┬╖}┬╖from┬╖"@/hooks/use-app-state";
+       12 Γöé + import┬╖{┬╖useColorScheme┬╖}┬╖from┬╖"@/hooks/use-color-scheme";
+       13 Γöé + import┬╖{┬╖useSSE┬╖}┬╖from┬╖"@/hooks/use-sse";
+    14 14 Γöé   import "react-native-reanimated";
+    15 15 Γöé   
+  
+
+app\api\client.ts:1:1 assist/source/organizeImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The imports and exports are not sorted.
+  
+  > 1 Γöé import { useConnectionStore } from "@/app/store/connection";
+      Γöé ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2 Γöé import EventSource from "react-native-sse";
+    3 Γöé import type {
+  
+  i Safe fix: Organize Imports (Biome)
+  
+      1     Γöé - import┬╖{┬╖useConnectionStore┬╖}┬╖from┬╖"@/app/store/connection";
+      2     Γöé - import┬╖EventSource┬╖from┬╖"react-native-sse";
+          1 Γöé + import┬╖EventSource┬╖from┬╖"react-native-sse";
+          2 Γöé + import┬╖{┬╖useConnectionStore┬╖}┬╖from┬╖"@/app/store/connection";
+      3   3 Γöé   import type {
+      4   4 Γöé   	Message,
+  
+
+app\api\client.ts format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+    9 Γöé ΓåÆ SessionInfo,
+      Γöé              +
+
+app\api\types.ts format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+    102 102 Γöé   	tool: string;
+    103 103 Γöé   	state:
+    104     Γöé - ΓåÆ |┬╖{┬╖status:┬╖"pending";┬╖input:┬╖Record<string,┬╖unknown>;┬╖raw:┬╖string┬╖}
+    105     Γöé - ΓåÆ |┬╖{
+    106     Γöé - ΓåÆ ΓåÆ status:┬╖"running";
+    107     Γöé - ΓåÆ ΓåÆ input:┬╖Record<string,┬╖unknown>;
+    108     Γöé - ΓåÆ ΓåÆ time:┬╖{┬╖start:┬╖number┬╖};
+    109     Γöé - ΓåÆ }
+    110     Γöé - ΓåÆ |┬╖{
+    111     Γöé - ΓåÆ ΓåÆ status:┬╖"completed";
+    112     Γöé - ΓåÆ ΓåÆ input:┬╖Record<string,┬╖unknown>;
+    113     Γöé - ΓåÆ ΓåÆ output:┬╖string;
+    114     Γöé - ΓåÆ ΓåÆ time:┬╖{┬╖start:┬╖number;┬╖end:┬╖number┬╖};
+    115     Γöé - ΓåÆ }
+    116     Γöé - ΓåÆ |┬╖{
+    117     Γöé - ΓåÆ ΓåÆ status:┬╖"error";
+    118     Γöé - ΓåÆ ΓåÆ input:┬╖Record<string,┬╖unknown>;
+    119     Γöé - ΓåÆ ΓåÆ error:┬╖string;
+    120     Γöé - ΓåÆ ΓåÆ time:┬╖{┬╖start:┬╖number;┬╖end:┬╖number┬╖};
+    121     Γöé - ΓåÆ };
+        104 Γöé + ΓåÆ ΓåÆ |┬╖{┬╖status:┬╖"pending";┬╖input:┬╖Record<string,┬╖unknown>;┬╖raw:┬╖string┬╖}
+        105 Γöé + ΓåÆ ΓåÆ |┬╖{
+        106 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ status:┬╖"running";
+        107 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ input:┬╖Record<string,┬╖unknown>;
+        108 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ time:┬╖{┬╖start:┬╖number┬╖};
+        109 Γöé + ΓåÆ ΓåÆ ┬╖┬╖}
+        110 Γöé + ΓåÆ ΓåÆ |┬╖{
+        111 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ status:┬╖"completed";
+        112 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ input:┬╖Record<string,┬╖unknown>;
+        113 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ output:┬╖string;
+        114 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ time:┬╖{┬╖start:┬╖number;┬╖end:┬╖number┬╖};
+        115 Γöé + ΓåÆ ΓåÆ ┬╖┬╖}
+        116 Γöé + ΓåÆ ΓåÆ |┬╖{
+        117 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ status:┬╖"error";
+        118 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ input:┬╖Record<string,┬╖unknown>;
+        119 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ error:┬╖string;
+        120 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ time:┬╖{┬╖start:┬╖number;┬╖end:┬╖number┬╖};
+        121 Γöé + ΓåÆ ΓåÆ ┬╖┬╖};
+    122 122 Γöé   };
+    123 123 Γöé   
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    149 149 Γöé   	| { type: "server.heartbeat"; properties: Record<string, never> }
+    150 150 Γöé   	| {
+    151     Γöé - ΓåÆ ΓåÆ type:┬╖"message.part.delta";
+    152     Γöé - ΓåÆ ΓåÆ properties:┬╖{
+    153     Γöé - ΓåÆ ΓåÆ ΓåÆ sessionID:┬╖string;
+    154     Γöé - ΓåÆ ΓåÆ ΓåÆ messageID:┬╖string;
+    155     Γöé - ΓåÆ ΓåÆ ΓåÆ partID:┬╖string;
+    156     Γöé - ΓåÆ ΓåÆ ΓåÆ delta:┬╖string;
+    157     Γöé - ΓåÆ ΓåÆ };
+    158     Γöé - ΓåÆ }
+        151 Γöé + ΓåÆ ΓåÆ ΓåÆ type:┬╖"message.part.delta";
+        152 Γöé + ΓåÆ ΓåÆ ΓåÆ properties:┬╖{
+        153 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ sessionID:┬╖string;
+        154 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ messageID:┬╖string;
+        155 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ partID:┬╖string;
+        156 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ delta:┬╖string;
+        157 Γöé + ΓåÆ ΓåÆ ΓåÆ };
+        158 Γöé + ΓåÆ ┬╖┬╖}
+    159 159 Γöé   	| {
+    160     Γöé - ΓåÆ ΓåÆ type:┬╖"message.part.updated";
+    161     Γöé - ΓåÆ ΓåÆ properties:┬╖{
+    162     Γöé - ΓåÆ ΓåÆ ΓåÆ part:┬╖MessagePart;
+    163     Γöé - ΓåÆ ΓåÆ };
+    164     Γöé - ΓåÆ }
+        160 Γöé + ΓåÆ ΓåÆ ΓåÆ type:┬╖"message.part.updated";
+        161 Γöé + ΓåÆ ΓåÆ ΓåÆ properties:┬╖{
+        162 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ part:┬╖MessagePart;
+        163 Γöé + ΓåÆ ΓåÆ ΓåÆ };
+        164 Γöé + ΓåÆ ┬╖┬╖}
+    165 165 Γöé   	| {
+    166     Γöé - ΓåÆ ΓåÆ type:┬╖"session.status";
+    167     Γöé - ΓåÆ ΓåÆ properties:┬╖{
+    168     Γöé - ΓåÆ ΓåÆ ΓåÆ sessionID:┬╖string;
+    169     Γöé - ΓåÆ ΓåÆ ΓåÆ status:┬╖SessionStatus;
+    170     Γöé - ΓåÆ ΓåÆ };
+    171     Γöé - ΓåÆ };
+        166 Γöé + ΓåÆ ΓåÆ ΓåÆ type:┬╖"session.status";
+        167 Γöé + ΓåÆ ΓåÆ ΓåÆ properties:┬╖{
+        168 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ sessionID:┬╖string;
+        169 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ status:┬╖SessionStatus;
+        170 Γöé + ΓåÆ ΓåÆ ΓåÆ };
+        171 Γöé + ΓåÆ ┬╖┬╖};
+    172 172 Γöé   
+  
+
+hooks\use-sse.ts:1:1 assist/source/organizeImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The imports and exports are not sorted.
+  
+  > 1 Γöé import { Api, mapServerMessage } from "@/app/api/client";
+      Γöé ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2 Γöé import type { GlobalEvent, MessagePart, ServerMessage } from "@/app/api/types";
+    3 Γöé import { useConnectionStore } from "@/app/store/connection";
+  
+  i Safe fix: Organize Imports (Biome)
+  
+      1     Γöé - import┬╖{┬╖Api,┬╖mapServerMessage┬╖}┬╖from┬╖"@/app/api/client";
+      2     Γöé - import┬╖type┬╖{┬╖GlobalEvent,┬╖MessagePart,┬╖ServerMessage┬╖}┬╖from┬╖"@/app/api/types";
+      3     Γöé - import┬╖{┬╖useConnectionStore┬╖}┬╖from┬╖"@/app/store/connection";
+      4     Γöé - import┬╖{┬╖useSessionStore┬╖}┬╖from┬╖"@/app/store/session";
+      5     Γöé - import┬╖{┬╖useEffect,┬╖useRef┬╖}┬╖from┬╖"react";
+      6     Γöé - import┬╖type┬╖EventSource┬╖from┬╖"react-native-sse";
+          1 Γöé + import┬╖{┬╖useEffect,┬╖useRef┬╖}┬╖from┬╖"react";
+          2 Γöé + import┬╖type┬╖EventSource┬╖from┬╖"react-native-sse";
+          3 Γöé + import┬╖{┬╖Api,┬╖mapServerMessage┬╖}┬╖from┬╖"@/app/api/client";
+          4 Γöé + import┬╖type┬╖{┬╖GlobalEvent,┬╖MessagePart,┬╖ServerMessage┬╖}┬╖from┬╖"@/app/api/types";
+          5 Γöé + import┬╖{┬╖useConnectionStore┬╖}┬╖from┬╖"@/app/store/connection";
+          6 Γöé + import┬╖{┬╖useSessionStore┬╖}┬╖from┬╖"@/app/store/session";
+      7   7 Γöé   
+      8   8 Γöé   type SSEEventNames =
+  
+
+Checked 80 files in 44ms. No fixes applied.
+Found 5 errors.
+Found 9 warnings.
+check ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Some errors were emitted while running checks.
+  
+
+task: Failed to run task "check": exit status 1
+ΓÇëELIFECYCLEΓÇë Command failed with exit code 201.

@@ -30,9 +30,13 @@ const mockConnectToEvents = jest.fn().mockResolvedValue({
 	close: mockClose,
 	addEventListener: mockAddEventListener,
 });
-jest.mock("@/app/api/client", () => ({
-	Api: { connectToEvents: () => mockConnectToEvents() },
-}));
+jest.mock("@/app/api/client", () => {
+	const original = jest.requireActual("@/app/api/client");
+	return {
+		Api: { connectToEvents: () => mockConnectToEvents() },
+		mapServerMessage: original.mapServerMessage,
+	};
+});
 
 describe("useSSE", () => {
 	beforeEach(() => {
@@ -183,17 +187,32 @@ describe("useSSE", () => {
 		);
 		const handler = messageCall[1];
 
+		const mockServerMessage = {
+			info: {
+				id: "m1",
+				role: "user",
+				time: { created: 1000 },
+			},
+			parts: [],
+		};
+
 		handler({
 			data: JSON.stringify({
 				sessionID: "s1",
-				message: { id: "m1", parts: [] },
+				message: mockServerMessage,
 			}),
 		});
 
-		expect(mockOnMessageCreated).toHaveBeenCalledWith("s1", {
-			id: "m1",
-			parts: [],
-		});
+		expect(mockOnMessageCreated).toHaveBeenCalledWith(
+			"s1",
+			expect.objectContaining({
+				info: expect.objectContaining({
+					id: "m1",
+					role: "user",
+				}),
+				parts: [],
+			}),
+		);
 
 		// coverage for catch block
 		expect(() => handler({ data: "invalid json" })).not.toThrow();
@@ -209,17 +228,32 @@ describe("useSSE", () => {
 		);
 		const handler = messageCall[1];
 
+		const mockServerMessage = {
+			info: {
+				id: "m1",
+				role: "user",
+				time: { created: 1000 },
+			},
+			parts: [],
+		};
+
 		handler({
 			data: JSON.stringify({
 				sessionID: "s1",
-				message: { id: "m1", parts: [] },
+				message: mockServerMessage,
 			}),
 		});
 
-		expect(mockOnMessageUpdated).toHaveBeenCalledWith("s1", {
-			id: "m1",
-			parts: [],
-		});
+		expect(mockOnMessageUpdated).toHaveBeenCalledWith(
+			"s1",
+			expect.objectContaining({
+				info: expect.objectContaining({
+					id: "m1",
+					role: "user",
+				}),
+				parts: [],
+			}),
+		);
 
 		// coverage for catch block
 		expect(() => handler({ data: "invalid json" })).not.toThrow();
