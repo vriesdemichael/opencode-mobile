@@ -1,0 +1,640 @@
+
+> opencode-mobile@1.1.0 check C:\Users\vries\Projects\opencode-mobile
+> task check
+
+task: [check] pnpm biome check .
+app\store\__tests__\storage-test.ts:12:14 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+    10 Γöé             setItem: jest.fn(),
+    11 Γöé             removeItem: jest.fn(),
+  > 12 Γöé         } as any;
+       Γöé              ^^^
+    13 Γöé     });
+    14 Γöé 
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+components\__tests__\ProviderSettingsSheet-test.tsx:31:6 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+    29 Γöé 		BottomSheetModal: React.forwardRef(function MockBottomSheetModal({
+    30 Γöé 			children,
+  > 31 Γöé 		}: any) {
+       Γöé 		   ^^^
+    32 Γöé 			return <View>{children}</View>;
+    33 Γöé 		}),
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+components\__tests__\ProviderSettingsSheet-test.tsx:3:8 lint/correctness/noUnusedImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This import is unused.
+  
+    1 Γöé import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+    2 Γöé import { render } from "@testing-library/react-native";
+  > 3 Γöé import React from "react";
+      Γöé        ^^^^^
+    4 Γöé import { ProviderSettingsSheet } from "../provider-settings-sheet";
+    5 Γöé 
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+     1  1 Γöé   import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+     2  2 Γöé   import { render } from "@testing-library/react-native";
+     3    Γöé - import┬╖React┬╖from┬╖"react";
+     4  3 Γöé   import { ProviderSettingsSheet } from "../provider-settings-sheet";
+     5  4 Γöé   
+  
+
+components\__tests__\ProviderSettingsSheet-test.tsx:28:3 suppressions/unused ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Suppression comment has no effect. Remove the suppression or make sure you are suppressing the correct rule.
+  
+    26 Γöé 		// biome-ignore lint/suspicious/noExplicitAny: mock component
+    27 Γöé 		BottomSheetModalProvider: ({ children }: any) => <View>{children}</View>,
+  > 28 Γöé 		// biome-ignore lint/suspicious/noExplicitAny: mock component
+       Γöé 		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    29 Γöé 		BottomSheetModal: React.forwardRef(function MockBottomSheetModal({
+    30 Γöé 			children,
+  
+
+components\__tests__\ProviderSettingsSheet-test.tsx:36:3 suppressions/unused ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Suppression comment has no effect. Remove the suppression or make sure you are suppressing the correct rule.
+  
+    34 Γöé 		// biome-ignore lint/suspicious/noExplicitAny: mock component
+    35 Γöé 		BottomSheetView: ({ children }: any) => <View>{children}</View>,
+  > 36 Γöé 		// biome-ignore lint/suspicious/noExplicitAny: mock component
+       Γöé 		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    37 Γöé 		BottomSheetBackdrop: () => <View />,
+    38 Γöé 	};
+  
+
+components\__tests__\SessionCard-test.tsx:20:6 lint/complexity/useOptionalChain  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Change to an optional chain.
+  
+    18 Γöé 			<View>
+    19 Γöé 				{children}
+  > 20 Γöé 				{renderRightActions &&
+       Γöé 				 ^^^^^^^^^^^^^^^^^^^^^
+  > 21 Γöé 					renderRightActions(mockAnimatedValue, mockAnimatedValue)}
+       Γöé 					^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    22 Γöé 			</View>
+    23 Γöé 		);
+  
+  i Unsafe fix: Change to an optional chain.
+  
+    18 18 Γöé   			<View>
+    19 19 Γöé   				{children}
+    20    Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ {renderRightActions┬╖&&
+    21    Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ renderRightActions(mockAnimatedValue,┬╖mockAnimatedValue)}
+       20 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ {renderRightActions?.(mockAnimatedValue,┬╖mockAnimatedValue)}
+    22 21 Γöé   			</View>
+    23 22 Γöé   		);
+  
+
+components\provider-settings-sheet.tsx:19:12 lint/suspicious/noExplicitAny ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Unexpected any. Specify a different type.
+  
+    17 Γöé 		// biome-ignore lint/suspicious/noExplicitAny: library types
+    18 Γöé 		const renderBackdrop = useCallback(
+  > 19 Γöé 			(props: any) => (
+       Γöé 			        ^^^
+    20 Γöé 				<BottomSheetBackdrop
+    21 Γöé 					{...props}
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+components\provider-settings-sheet.tsx:17:3 suppressions/unused ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! Suppression comment has no effect. Remove the suppression or make sure you are suppressing the correct rule.
+  
+    15 Γöé 		const snapPoints = useMemo(() => ["50%"], []);
+    16 Γöé 
+  > 17 Γöé 		// biome-ignore lint/suspicious/noExplicitAny: library types
+       Γöé 		^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    18 Γöé 		const renderBackdrop = useCallback(
+    19 Γöé 			(props: any) => (
+  
+
+components\session-card.tsx:39:3 lint/correctness/noUnusedFunctionParameters  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ! This parameter is unused.
+  
+    38 Γöé 	const renderRightActions = (
+  > 39 Γöé 		progress: Animated.AnimatedInterpolation<number>,
+       Γöé 		^^^^^^^^
+    40 Γöé 		dragX: Animated.AnimatedInterpolation<number>,
+    41 Γöé 	) => {
+  
+  i Unused parameters might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: If this is intentional, prepend progress with an underscore.
+  
+     37  37 Γöé   
+     38  38 Γöé   	const renderRightActions = (
+     39     Γöé - ΓåÆ ΓåÆ progress:┬╖Animated.AnimatedInterpolation<number>,
+         39 Γöé + ΓåÆ ΓåÆ _progress:┬╖Animated.AnimatedInterpolation<number>,
+     40  40 Γöé   		dragX: Animated.AnimatedInterpolation<number>,
+     41  41 Γöé   	) => {
+  
+
+app\api\__tests__\client-test.ts format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+     91  91 Γöé   			mockFetch.mockResolvedValue({
+     92  92 Γöé   				ok: true,
+     93     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ json:┬╖async┬╖()┬╖=>┬╖({┬╖id:┬╖"1",┬╖worktree:┬╖"/foo/bar",┬╖time:┬╖{┬╖created:┬╖1,┬╖updated:┬╖1┬╖}┬╖}),
+         93 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ json:┬╖async┬╖()┬╖=>┬╖({
+         94 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ id:┬╖"1",
+         95 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ worktree:┬╖"/foo/bar",
+         96 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ time:┬╖{┬╖created:┬╖1,┬╖updated:┬╖1┬╖},
+         97 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ }),
+     94  98 Γöé   			});
+     95  99 Γöé   			const p = await Api.getCurrentProject();
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    104 108 Γöé   			mockFetch.mockResolvedValue({
+    105 109 Γöé   				ok: true,
+    106     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ json:┬╖async┬╖()┬╖=>┬╖({┬╖id:┬╖"proj-1",┬╖worktree:┬╖"/",┬╖time:┬╖{┬╖created:┬╖1,┬╖updated:┬╖1┬╖}┬╖}),
+        110 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ json:┬╖async┬╖()┬╖=>┬╖({
+        111 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ id:┬╖"proj-1",
+        112 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ worktree:┬╖"/",
+        113 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ time:┬╖{┬╖created:┬╖1,┬╖updated:┬╖1┬╖},
+        114 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ }),
+    107 115 Γöé   			});
+    108 116 Γöé   			const p = await Api.getCurrentProject();
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    113 121 Γöé   			mockFetch.mockResolvedValue({
+    114 122 Γöé   				ok: true,
+    115     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ json:┬╖async┬╖()┬╖=>┬╖[{┬╖id:┬╖"proj-2",┬╖worktree:┬╖"\\",┬╖time:┬╖{┬╖created:┬╖1,┬╖updated:┬╖1┬╖}┬╖}],
+        123 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ json:┬╖async┬╖()┬╖=>┬╖[
+        124 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ {┬╖id:┬╖"proj-2",┬╖worktree:┬╖"\\",┬╖time:┬╖{┬╖created:┬╖1,┬╖updated:┬╖1┬╖}┬╖},
+        125 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ],
+    116 126 Γöé   			});
+    117 127 Γöé   			const p = await Api.getProjects();
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    159 169 Γöé   
+    160 170 Γöé   		it("createSession sends POST body", async () => {
+    161     Γöé - ΓåÆ ΓåÆ ΓåÆ const┬╖mockSession┬╖=┬╖{┬╖id:┬╖"1",┬╖slug:┬╖"s",┬╖projectID:┬╖"p",┬╖directory:┬╖"d",┬╖time:┬╖{┬╖created:┬╖1,┬╖updated:┬╖1┬╖},┬╖title:┬╖"S"┬╖};
+        171 Γöé + ΓåÆ ΓåÆ ΓåÆ const┬╖mockSession┬╖=┬╖{
+        172 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ id:┬╖"1",
+        173 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ slug:┬╖"s",
+        174 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ projectID:┬╖"p",
+        175 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ directory:┬╖"d",
+        176 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ time:┬╖{┬╖created:┬╖1,┬╖updated:┬╖1┬╖},
+        177 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ title:┬╖"S",
+        178 Γöé + ΓåÆ ΓåÆ ΓåÆ };
+    162 179 Γöé   			mockFetch.mockResolvedValue({ ok: true, json: async () => mockSession });
+    163 180 Γöé   
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    182 199 Γöé   
+    183 200 Γöé   		it("getSession calls /session/:id", async () => {
+    184     Γöé - ΓåÆ ΓåÆ ΓåÆ const┬╖mockSession┬╖=┬╖{┬╖id:┬╖"1",┬╖slug:┬╖"fallback-slug",┬╖projectID:┬╖"p",┬╖directory:┬╖"d",┬╖time:┬╖{┬╖created:┬╖1,┬╖updated:┬╖1┬╖}┬╖};
+        201 Γöé + ΓåÆ ΓåÆ ΓåÆ const┬╖mockSession┬╖=┬╖{
+        202 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ id:┬╖"1",
+        203 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ slug:┬╖"fallback-slug",
+        204 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ projectID:┬╖"p",
+        205 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ directory:┬╖"d",
+        206 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ time:┬╖{┬╖created:┬╖1,┬╖updated:┬╖1┬╖},
+        207 Γöé + ΓåÆ ΓåÆ ΓåÆ };
+    185 208 Γöé   			mockFetch.mockResolvedValue({ ok: true, json: async () => mockSession });
+    186 209 Γöé   			const s = await Api.getSession("1");
+  
+
+app\api\client.ts:1:1 assist/source/organizeImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The imports and exports are not sorted.
+  
+  > 1 Γöé import { useConnectionStore } from "@/app/store/connection";
+      Γöé ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2 Γöé import EventSource from "react-native-sse";
+    3 Γöé import type {
+  
+  i Safe fix: Organize Imports (Biome)
+  
+      1     Γöé - import┬╖{┬╖useConnectionStore┬╖}┬╖from┬╖"@/app/store/connection";
+      2     Γöé - import┬╖EventSource┬╖from┬╖"react-native-sse";
+          1 Γöé + import┬╖EventSource┬╖from┬╖"react-native-sse";
+          2 Γöé + import┬╖{┬╖useConnectionStore┬╖}┬╖from┬╖"@/app/store/connection";
+      3   3 Γöé   import type {
+      4   4 Γöé   	Message,
+  
+
+app\api\types.ts format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+     78  78 Γöé   	tool: string;
+     79  79 Γöé   	state:
+     80     Γöé - ΓåÆ |┬╖{┬╖status:┬╖"pending";┬╖input:┬╖Record<string,┬╖unknown>;┬╖raw:┬╖string┬╖}
+     81     Γöé - ΓåÆ |┬╖{
+     82     Γöé - ΓåÆ ΓåÆ status:┬╖"running";
+     83     Γöé - ΓåÆ ΓåÆ input:┬╖Record<string,┬╖unknown>;
+     84     Γöé - ΓåÆ ΓåÆ time:┬╖{┬╖start:┬╖number┬╖};
+     85     Γöé - ΓåÆ }
+     86     Γöé - ΓåÆ |┬╖{
+     87     Γöé - ΓåÆ ΓåÆ status:┬╖"completed";
+     88     Γöé - ΓåÆ ΓåÆ input:┬╖Record<string,┬╖unknown>;
+     89     Γöé - ΓåÆ ΓåÆ output:┬╖string;
+     90     Γöé - ΓåÆ ΓåÆ time:┬╖{┬╖start:┬╖number;┬╖end:┬╖number┬╖};
+     91     Γöé - ΓåÆ }
+     92     Γöé - ΓåÆ |┬╖{
+     93     Γöé - ΓåÆ ΓåÆ status:┬╖"error";
+     94     Γöé - ΓåÆ ΓåÆ input:┬╖Record<string,┬╖unknown>;
+     95     Γöé - ΓåÆ ΓåÆ error:┬╖string;
+     96     Γöé - ΓåÆ ΓåÆ time:┬╖{┬╖start:┬╖number;┬╖end:┬╖number┬╖};
+     97     Γöé - ΓåÆ };
+         80 Γöé + ΓåÆ ΓåÆ |┬╖{┬╖status:┬╖"pending";┬╖input:┬╖Record<string,┬╖unknown>;┬╖raw:┬╖string┬╖}
+         81 Γöé + ΓåÆ ΓåÆ |┬╖{
+         82 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ status:┬╖"running";
+         83 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ input:┬╖Record<string,┬╖unknown>;
+         84 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ time:┬╖{┬╖start:┬╖number┬╖};
+         85 Γöé + ΓåÆ ΓåÆ ┬╖┬╖}
+         86 Γöé + ΓåÆ ΓåÆ |┬╖{
+         87 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ status:┬╖"completed";
+         88 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ input:┬╖Record<string,┬╖unknown>;
+         89 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ output:┬╖string;
+         90 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ time:┬╖{┬╖start:┬╖number;┬╖end:┬╖number┬╖};
+         91 Γöé + ΓåÆ ΓåÆ ┬╖┬╖}
+         92 Γöé + ΓåÆ ΓåÆ |┬╖{
+         93 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ status:┬╖"error";
+         94 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ input:┬╖Record<string,┬╖unknown>;
+         95 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ error:┬╖string;
+         96 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ time:┬╖{┬╖start:┬╖number;┬╖end:┬╖number┬╖};
+         97 Γöé + ΓåÆ ΓåÆ ┬╖┬╖};
+     98  98 Γöé   };
+     99  99 Γöé   
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    125 125 Γöé   	| { type: "server.heartbeat"; properties: Record<string, never> }
+    126 126 Γöé   	| {
+    127     Γöé - ΓåÆ ΓåÆ type:┬╖"message.part.delta";
+    128     Γöé - ΓåÆ ΓåÆ properties:┬╖{
+    129     Γöé - ΓåÆ ΓåÆ ΓåÆ sessionID:┬╖string;
+    130     Γöé - ΓåÆ ΓåÆ ΓåÆ messageID:┬╖string;
+    131     Γöé - ΓåÆ ΓåÆ ΓåÆ partID:┬╖string;
+    132     Γöé - ΓåÆ ΓåÆ ΓåÆ delta:┬╖string;
+    133     Γöé - ΓåÆ ΓåÆ };
+    134     Γöé - ΓåÆ }
+        127 Γöé + ΓåÆ ΓåÆ ΓåÆ type:┬╖"message.part.delta";
+        128 Γöé + ΓåÆ ΓåÆ ΓåÆ properties:┬╖{
+        129 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ sessionID:┬╖string;
+        130 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ messageID:┬╖string;
+        131 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ partID:┬╖string;
+        132 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ delta:┬╖string;
+        133 Γöé + ΓåÆ ΓåÆ ΓåÆ };
+        134 Γöé + ΓåÆ ┬╖┬╖}
+    135 135 Γöé   	| {
+    136     Γöé - ΓåÆ ΓåÆ type:┬╖"message.part.updated";
+    137     Γöé - ΓåÆ ΓåÆ properties:┬╖{
+    138     Γöé - ΓåÆ ΓåÆ ΓåÆ part:┬╖MessagePart;
+    139     Γöé - ΓåÆ ΓåÆ };
+    140     Γöé - ΓåÆ }
+        136 Γöé + ΓåÆ ΓåÆ ΓåÆ type:┬╖"message.part.updated";
+        137 Γöé + ΓåÆ ΓåÆ ΓåÆ properties:┬╖{
+        138 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ part:┬╖MessagePart;
+        139 Γöé + ΓåÆ ΓåÆ ΓåÆ };
+        140 Γöé + ΓåÆ ┬╖┬╖}
+    141 141 Γöé   	| {
+    142     Γöé - ΓåÆ ΓåÆ type:┬╖"session.status";
+    143     Γöé - ΓåÆ ΓåÆ properties:┬╖{
+    144     Γöé - ΓåÆ ΓåÆ ΓåÆ sessionID:┬╖string;
+    145     Γöé - ΓåÆ ΓåÆ ΓåÆ status:┬╖SessionStatus;
+    146     Γöé - ΓåÆ ΓåÆ };
+    147     Γöé - ΓåÆ };
+        142 Γöé + ΓåÆ ΓåÆ ΓåÆ type:┬╖"session.status";
+        143 Γöé + ΓåÆ ΓåÆ ΓåÆ properties:┬╖{
+        144 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ sessionID:┬╖string;
+        145 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ status:┬╖SessionStatus;
+        146 Γöé + ΓåÆ ΓåÆ ΓåÆ };
+        147 Γöé + ΓåÆ ┬╖┬╖};
+    148 148 Γöé   
+  
+
+app\project\[id]\index.tsx:1:1 assist/source/organizeImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The imports and exports are not sorted.
+  
+  > 1 Γöé import { useSessionStore } from "@/app/store/session";
+      Γöé ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2 Γöé import { SessionCard } from "@/components/session-card";
+    3 Γöé import { ThemedText } from "@/components/themed-text";
+  
+  i Safe fix: Organize Imports (Biome)
+  
+      1     Γöé - import┬╖{┬╖useSessionStore┬╖}┬╖from┬╖"@/app/store/session";
+      2     Γöé - import┬╖{┬╖SessionCard┬╖}┬╖from┬╖"@/components/session-card";
+      3     Γöé - import┬╖{┬╖ThemedText┬╖}┬╖from┬╖"@/components/themed-text";
+      4     Γöé - import┬╖{┬╖ThemedView┬╖}┬╖from┬╖"@/components/themed-view";
+      5     Γöé - import┬╖{┬╖IconSymbol┬╖}┬╖from┬╖"@/components/ui/icon-symbol";
+      6     Γöé - import┬╖{┬╖Colors┬╖}┬╖from┬╖"@/constants/theme";
+      7     Γöé - import┬╖{┬╖useColorScheme┬╖}┬╖from┬╖"@/hooks/use-color-scheme";
+      8     Γöé - import┬╖{┬╖useLocalSearchParams,┬╖useRouter┬╖}┬╖from┬╖"expo-router";
+      9     Γöé - import┬╖{┬╖useCallback,┬╖useEffect,┬╖useState┬╖}┬╖from┬╖"react";
+     10     Γöé - import┬╖{
+     11     Γöé - ΓåÆ ActivityIndicator,
+     12     Γöé - ΓåÆ FlatList,
+     13     Γöé - ΓåÆ Pressable,
+     14     Γöé - ΓåÆ RefreshControl,
+     15     Γöé - ΓåÆ StyleSheet,
+     16     Γöé - ΓåÆ View,
+     17     Γöé - }┬╖from┬╖"react-native";
+     18     Γöé - import┬╖{┬╖SafeAreaView┬╖}┬╖from┬╖"react-native-safe-area-context";
+          1 Γöé + import┬╖{┬╖useLocalSearchParams,┬╖useRouter┬╖}┬╖from┬╖"expo-router";
+          2 Γöé + import┬╖{┬╖useCallback,┬╖useEffect,┬╖useState┬╖}┬╖from┬╖"react";
+          3 Γöé + import┬╖{
+          4 Γöé + ΓåÆ ActivityIndicator,
+          5 Γöé + ΓåÆ FlatList,
+          6 Γöé + ΓåÆ Pressable,
+          7 Γöé + ΓåÆ RefreshControl,
+          8 Γöé + ΓåÆ StyleSheet,
+          9 Γöé + ΓåÆ View,
+         10 Γöé + }┬╖from┬╖"react-native";
+         11 Γöé + import┬╖{┬╖SafeAreaView┬╖}┬╖from┬╖"react-native-safe-area-context";
+         12 Γöé + import┬╖{┬╖useSessionStore┬╖}┬╖from┬╖"@/app/store/session";
+         13 Γöé + import┬╖{┬╖SessionCard┬╖}┬╖from┬╖"@/components/session-card";
+         14 Γöé + import┬╖{┬╖ThemedText┬╖}┬╖from┬╖"@/components/themed-text";
+         15 Γöé + import┬╖{┬╖ThemedView┬╖}┬╖from┬╖"@/components/themed-view";
+         16 Γöé + import┬╖{┬╖IconSymbol┬╖}┬╖from┬╖"@/components/ui/icon-symbol";
+         17 Γöé + import┬╖{┬╖Colors┬╖}┬╖from┬╖"@/constants/theme";
+         18 Γöé + import┬╖{┬╖useColorScheme┬╖}┬╖from┬╖"@/hooks/use-color-scheme";
+     19  19 Γöé   
+     20  20 Γöé   export default function ProjectSessionListScreen() {
+  
+
+app\project\[id]\index.tsx format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+     26  26 Γöé   	const router = useRouter();
+     27  27 Γöé   	const colorScheme = useColorScheme() ?? "light";
+     28     Γöé - ΓåÆ const┬╖{┬╖sessions,┬╖loadSessions,┬╖loading,┬╖error,┬╖createSession┬╖}┬╖=┬╖useSessionStore();
+         28 Γöé + ΓåÆ const┬╖{┬╖sessions,┬╖loadSessions,┬╖loading,┬╖error,┬╖createSession┬╖}┬╖=
+         29 Γöé + ΓåÆ ΓåÆ useSessionStore();
+     29  30 Γöé   	const [refreshing, setRefreshing] = useState(false);
+     30  31 Γöé   	const [creating, setCreating] = useState(false);
+    ┬╖┬╖┬╖┬╖┬╖┬╖┬╖ Γöé 
+    143 144 Γöé   					>
+    144 145 Γöé   						{creating ? (
+    145     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <ActivityIndicator┬╖size="small"┬╖color={Colors[colorScheme].tint}┬╖/>
+        146 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <ActivityIndicator
+        147 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ size="small"
+        148 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ color={Colors[colorScheme].tint}
+        149 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ />
+    146 150 Γöé   						) : (
+    147     Γöé - ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <IconSymbol┬╖name="plus"┬╖size={24}┬╖color={Colors[colorScheme].tint}┬╖/>
+        151 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ <IconSymbol
+        152 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ name="plus"
+        153 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ size={24}
+        154 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ color={Colors[colorScheme].tint}
+        155 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ ΓåÆ />
+    148 156 Γöé   						)}
+    149 157 Γöé   					</Pressable>
+  
+
+app\store\__tests__\storage-test.ts format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+     1    Γöé - import┬╖*┬╖as┬╖SecureStore┬╖from┬╖"expo-secure-store";ΓÉì
+     2    Γöé - import┬╖{┬╖Platform┬╖}┬╖from┬╖"react-native";ΓÉì
+     3    Γöé - import┬╖{┬╖customStorage┬╖}┬╖from┬╖"../storage";ΓÉì
+     4    Γöé - ΓÉì
+     5    Γöé - describe("Custom┬╖Storage┬╖Adapter",┬╖()┬╖=>┬╖{ΓÉì
+     6    Γöé - ┬╖┬╖┬╖┬╖beforeEach(()┬╖=>┬╖{ΓÉì
+     7    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖jest.clearAllMocks();ΓÉì
+     8    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖global.localStorage┬╖=┬╖{ΓÉì
+     9    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖getItem:┬╖jest.fn(),ΓÉì
+    10    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖setItem:┬╖jest.fn(),ΓÉì
+    11    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖removeItem:┬╖jest.fn(),ΓÉì
+    12    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖}┬╖as┬╖any;ΓÉì
+    13    Γöé - ┬╖┬╖┬╖┬╖});ΓÉì
+    14    Γöé - ΓÉì
+    15    Γöé - ┬╖┬╖┬╖┬╖describe("native┬╖platform┬╖(ios/android)",┬╖()┬╖=>┬╖{ΓÉì
+    16    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖beforeEach(()┬╖=>┬╖{ΓÉì
+    17    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖Platform.OS┬╖=┬╖"ios";ΓÉì
+    18    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖});ΓÉì
+    19    Γöé - ΓÉì
+    20    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖it("calls┬╖SecureStore┬╖on┬╖getItem",┬╖async┬╖()┬╖=>┬╖{ΓÉì
+    21    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖await┬╖customStorage.getItem("test-key");ΓÉì
+    22    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖expect(SecureStore.getItemAsync).toHaveBeenCalledWith("test-key");ΓÉì
+    23    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖});ΓÉì
+    24    Γöé - ΓÉì
+    25    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖it("calls┬╖SecureStore┬╖on┬╖setItem",┬╖async┬╖()┬╖=>┬╖{ΓÉì
+    26    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖await┬╖customStorage.setItem("test-key",┬╖"test-value");ΓÉì
+    27    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖expect(SecureStore.setItemAsync).toHaveBeenCalledWith(ΓÉì
+    28    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖"test-key",ΓÉì
+    29    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖"test-value",ΓÉì
+    30    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖);ΓÉì
+    31    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖});ΓÉì
+    32    Γöé - ΓÉì
+    33    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖it("calls┬╖SecureStore┬╖on┬╖removeItem",┬╖async┬╖()┬╖=>┬╖{ΓÉì
+    34    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖await┬╖customStorage.removeItem("test-key");ΓÉì
+    35    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖expect(SecureStore.deleteItemAsync).toHaveBeenCalledWith("test-key");ΓÉì
+    36    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖});ΓÉì
+    37    Γöé - ┬╖┬╖┬╖┬╖});ΓÉì
+    38    Γöé - ΓÉì
+    39    Γöé - ┬╖┬╖┬╖┬╖describe("web┬╖platform",┬╖()┬╖=>┬╖{ΓÉì
+    40    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖beforeEach(()┬╖=>┬╖{ΓÉì
+    41    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖Platform.OS┬╖=┬╖"web";ΓÉì
+    42    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖});ΓÉì
+    43    Γöé - ΓÉì
+    44    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖it("calls┬╖localStorage┬╖on┬╖getItem",┬╖async┬╖()┬╖=>┬╖{ΓÉì
+    45    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖await┬╖customStorage.getItem("test-key");ΓÉì
+    46    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖expect(global.localStorage.getItem).toHaveBeenCalledWith("test-key");ΓÉì
+    47    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖});ΓÉì
+    48    Γöé - ΓÉì
+    49    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖it("calls┬╖localStorage┬╖on┬╖setItem",┬╖async┬╖()┬╖=>┬╖{ΓÉì
+    50    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖await┬╖customStorage.setItem("test-key",┬╖"test-value");ΓÉì
+    51    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖expect(global.localStorage.setItem).toHaveBeenCalledWith(ΓÉì
+    52    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖"test-key",ΓÉì
+    53    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖"test-value",ΓÉì
+    54    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖);ΓÉì
+    55    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖});ΓÉì
+    56    Γöé - ΓÉì
+    57    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖it("calls┬╖localStorage┬╖on┬╖removeItem",┬╖async┬╖()┬╖=>┬╖{ΓÉì
+    58    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖await┬╖customStorage.removeItem("test-key");ΓÉì
+    59    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖expect(global.localStorage.removeItem).toHaveBeenCalledWith("test-key");ΓÉì
+    60    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖});ΓÉì
+    61    Γöé - ┬╖┬╖┬╖┬╖});ΓÉì
+    62    Γöé - });ΓÉì
+        1 Γöé + import┬╖*┬╖as┬╖SecureStore┬╖from┬╖"expo-secure-store";
+        2 Γöé + import┬╖{┬╖Platform┬╖}┬╖from┬╖"react-native";
+        3 Γöé + import┬╖{┬╖customStorage┬╖}┬╖from┬╖"../storage";
+        4 Γöé + 
+        5 Γöé + describe("Custom┬╖Storage┬╖Adapter",┬╖()┬╖=>┬╖{
+        6 Γöé + ΓåÆ beforeEach(()┬╖=>┬╖{
+        7 Γöé + ΓåÆ ΓåÆ jest.clearAllMocks();
+        8 Γöé + ΓåÆ ΓåÆ global.localStorage┬╖=┬╖{
+        9 Γöé + ΓåÆ ΓåÆ ΓåÆ getItem:┬╖jest.fn(),
+       10 Γöé + ΓåÆ ΓåÆ ΓåÆ setItem:┬╖jest.fn(),
+       11 Γöé + ΓåÆ ΓåÆ ΓåÆ removeItem:┬╖jest.fn(),
+       12 Γöé + ΓåÆ ΓåÆ }┬╖as┬╖any;
+       13 Γöé + ΓåÆ });
+       14 Γöé + 
+       15 Γöé + ΓåÆ describe("native┬╖platform┬╖(ios/android)",┬╖()┬╖=>┬╖{
+       16 Γöé + ΓåÆ ΓåÆ beforeEach(()┬╖=>┬╖{
+       17 Γöé + ΓåÆ ΓåÆ ΓåÆ Platform.OS┬╖=┬╖"ios";
+       18 Γöé + ΓåÆ ΓåÆ });
+       19 Γöé + 
+       20 Γöé + ΓåÆ ΓåÆ it("calls┬╖SecureStore┬╖on┬╖getItem",┬╖async┬╖()┬╖=>┬╖{
+       21 Γöé + ΓåÆ ΓåÆ ΓåÆ await┬╖customStorage.getItem("test-key");
+       22 Γöé + ΓåÆ ΓåÆ ΓåÆ expect(SecureStore.getItemAsync).toHaveBeenCalledWith("test-key");
+       23 Γöé + ΓåÆ ΓåÆ });
+       24 Γöé + 
+       25 Γöé + ΓåÆ ΓåÆ it("calls┬╖SecureStore┬╖on┬╖setItem",┬╖async┬╖()┬╖=>┬╖{
+       26 Γöé + ΓåÆ ΓåÆ ΓåÆ await┬╖customStorage.setItem("test-key",┬╖"test-value");
+       27 Γöé + ΓåÆ ΓåÆ ΓåÆ expect(SecureStore.setItemAsync).toHaveBeenCalledWith(
+       28 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ "test-key",
+       29 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ "test-value",
+       30 Γöé + ΓåÆ ΓåÆ ΓåÆ );
+       31 Γöé + ΓåÆ ΓåÆ });
+       32 Γöé + 
+       33 Γöé + ΓåÆ ΓåÆ it("calls┬╖SecureStore┬╖on┬╖removeItem",┬╖async┬╖()┬╖=>┬╖{
+       34 Γöé + ΓåÆ ΓåÆ ΓåÆ await┬╖customStorage.removeItem("test-key");
+       35 Γöé + ΓåÆ ΓåÆ ΓåÆ expect(SecureStore.deleteItemAsync).toHaveBeenCalledWith("test-key");
+       36 Γöé + ΓåÆ ΓåÆ });
+       37 Γöé + ΓåÆ });
+       38 Γöé + 
+       39 Γöé + ΓåÆ describe("web┬╖platform",┬╖()┬╖=>┬╖{
+       40 Γöé + ΓåÆ ΓåÆ beforeEach(()┬╖=>┬╖{
+       41 Γöé + ΓåÆ ΓåÆ ΓåÆ Platform.OS┬╖=┬╖"web";
+       42 Γöé + ΓåÆ ΓåÆ });
+       43 Γöé + 
+       44 Γöé + ΓåÆ ΓåÆ it("calls┬╖localStorage┬╖on┬╖getItem",┬╖async┬╖()┬╖=>┬╖{
+       45 Γöé + ΓåÆ ΓåÆ ΓåÆ await┬╖customStorage.getItem("test-key");
+       46 Γöé + ΓåÆ ΓåÆ ΓåÆ expect(global.localStorage.getItem).toHaveBeenCalledWith("test-key");
+       47 Γöé + ΓåÆ ΓåÆ });
+       48 Γöé + 
+       49 Γöé + ΓåÆ ΓåÆ it("calls┬╖localStorage┬╖on┬╖setItem",┬╖async┬╖()┬╖=>┬╖{
+       50 Γöé + ΓåÆ ΓåÆ ΓåÆ await┬╖customStorage.setItem("test-key",┬╖"test-value");
+       51 Γöé + ΓåÆ ΓåÆ ΓåÆ expect(global.localStorage.setItem).toHaveBeenCalledWith(
+       52 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ "test-key",
+       53 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ "test-value",
+       54 Γöé + ΓåÆ ΓåÆ ΓåÆ );
+       55 Γöé + ΓåÆ ΓåÆ });
+       56 Γöé + 
+       57 Γöé + ΓåÆ ΓåÆ it("calls┬╖localStorage┬╖on┬╖removeItem",┬╖async┬╖()┬╖=>┬╖{
+       58 Γöé + ΓåÆ ΓåÆ ΓåÆ await┬╖customStorage.removeItem("test-key");
+       59 Γöé + ΓåÆ ΓåÆ ΓåÆ expect(global.localStorage.removeItem).toHaveBeenCalledWith("test-key");
+       60 Γöé + ΓåÆ ΓåÆ });
+       61 Γöé + ΓåÆ });
+       62 Γöé + });
+    63 63 Γöé   
+  
+
+app\store\session.ts:1:1 assist/source/organizeImports  FIXABLE  ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù The imports and exports are not sorted.
+  
+  > 1 Γöé import { Api } from "@/app/api/client";
+      Γöé ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    2 Γöé import type {
+    3 Γöé 	Message,
+  
+  i Safe fix: Organize Imports (Biome)
+  
+      1     Γöé - import┬╖{┬╖Api┬╖}┬╖from┬╖"@/app/api/client";
+      2     Γöé - import┬╖type┬╖{
+      3     Γöé - ΓåÆ Message,
+      4     Γöé - ΓåÆ MessagePart,
+      5     Γöé - ΓåÆ SessionInfo,
+      6     Γöé - ΓåÆ TextPart,
+      7     Γöé - }┬╖from┬╖"@/app/api/types";
+      8     Γöé - import┬╖{┬╖create┬╖}┬╖from┬╖"zustand";
+      9     Γöé - import┬╖{┬╖immer┬╖}┬╖from┬╖"zustand/middleware/immer";
+          1 Γöé + import┬╖{┬╖create┬╖}┬╖from┬╖"zustand";
+          2 Γöé + import┬╖{┬╖immer┬╖}┬╖from┬╖"zustand/middleware/immer";
+          3 Γöé + import┬╖{┬╖Api┬╖}┬╖from┬╖"@/app/api/client";
+          4 Γöé + import┬╖type┬╖{
+          5 Γöé + ΓåÆ Message,
+          6 Γöé + ΓåÆ MessagePart,
+          7 Γöé + ΓåÆ SessionInfo,
+          8 Γöé + ΓåÆ TextPart,
+          9 Γöé + }┬╖from┬╖"@/app/api/types";
+     10  10 Γöé   
+     11  11 Γöé   interface SessionState {
+  
+
+app\store\storage.ts format ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Formatter would have printed the following content:
+  
+     1    Γöé - import┬╖*┬╖as┬╖SecureStore┬╖from┬╖"expo-secure-store";ΓÉì
+     2    Γöé - import┬╖{┬╖Platform┬╖}┬╖from┬╖"react-native";ΓÉì
+     3    Γöé - import┬╖type┬╖{┬╖StateStorage┬╖}┬╖from┬╖"zustand/middleware";ΓÉì
+     4    Γöé - ΓÉì
+     5    Γöé - export┬╖const┬╖customStorage:┬╖StateStorage┬╖=┬╖{ΓÉì
+     6    Γöé - ┬╖┬╖┬╖┬╖getItem:┬╖async┬╖(name:┬╖string):┬╖Promise<string┬╖|┬╖null>┬╖=>┬╖{ΓÉì
+     7    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖if┬╖(Platform.OS┬╖===┬╖"web")┬╖{ΓÉì
+     8    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖return┬╖typeof┬╖localStorage┬╖!==┬╖"undefined"┬╖?┬╖localStorage.getItem(name)┬╖:┬╖null;ΓÉì
+     9    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖}ΓÉì
+    10    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖return┬╖await┬╖SecureStore.getItemAsync(name);ΓÉì
+    11    Γöé - ┬╖┬╖┬╖┬╖},ΓÉì
+    12    Γöé - ┬╖┬╖┬╖┬╖setItem:┬╖async┬╖(name:┬╖string,┬╖value:┬╖string):┬╖Promise<void>┬╖=>┬╖{ΓÉì
+    13    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖if┬╖(Platform.OS┬╖===┬╖"web")┬╖{ΓÉì
+    14    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖if┬╖(typeof┬╖localStorage┬╖!==┬╖"undefined")┬╖localStorage.setItem(name,┬╖value);ΓÉì
+    15    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖}┬╖else┬╖{ΓÉì
+    16    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖await┬╖SecureStore.setItemAsync(name,┬╖value);ΓÉì
+    17    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖}ΓÉì
+    18    Γöé - ┬╖┬╖┬╖┬╖},ΓÉì
+    19    Γöé - ┬╖┬╖┬╖┬╖removeItem:┬╖async┬╖(name:┬╖string):┬╖Promise<void>┬╖=>┬╖{ΓÉì
+    20    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖if┬╖(Platform.OS┬╖===┬╖"web")┬╖{ΓÉì
+    21    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖if┬╖(typeof┬╖localStorage┬╖!==┬╖"undefined")┬╖localStorage.removeItem(name);ΓÉì
+    22    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖}┬╖else┬╖{ΓÉì
+    23    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖await┬╖SecureStore.deleteItemAsync(name);ΓÉì
+    24    Γöé - ┬╖┬╖┬╖┬╖┬╖┬╖┬╖┬╖}ΓÉì
+    25    Γöé - ┬╖┬╖┬╖┬╖},ΓÉì
+    26    Γöé - };ΓÉì
+        1 Γöé + import┬╖*┬╖as┬╖SecureStore┬╖from┬╖"expo-secure-store";
+        2 Γöé + import┬╖{┬╖Platform┬╖}┬╖from┬╖"react-native";
+        3 Γöé + import┬╖type┬╖{┬╖StateStorage┬╖}┬╖from┬╖"zustand/middleware";
+        4 Γöé + 
+        5 Γöé + export┬╖const┬╖customStorage:┬╖StateStorage┬╖=┬╖{
+        6 Γöé + ΓåÆ getItem:┬╖async┬╖(name:┬╖string):┬╖Promise<string┬╖|┬╖null>┬╖=>┬╖{
+        7 Γöé + ΓåÆ ΓåÆ if┬╖(Platform.OS┬╖===┬╖"web")┬╖{
+        8 Γöé + ΓåÆ ΓåÆ ΓåÆ return┬╖typeof┬╖localStorage┬╖!==┬╖"undefined"
+        9 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ ?┬╖localStorage.getItem(name)
+       10 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ :┬╖null;
+       11 Γöé + ΓåÆ ΓåÆ }
+       12 Γöé + ΓåÆ ΓåÆ return┬╖await┬╖SecureStore.getItemAsync(name);
+       13 Γöé + ΓåÆ },
+       14 Γöé + ΓåÆ setItem:┬╖async┬╖(name:┬╖string,┬╖value:┬╖string):┬╖Promise<void>┬╖=>┬╖{
+       15 Γöé + ΓåÆ ΓåÆ if┬╖(Platform.OS┬╖===┬╖"web")┬╖{
+       16 Γöé + ΓåÆ ΓåÆ ΓåÆ if┬╖(typeof┬╖localStorage┬╖!==┬╖"undefined")
+       17 Γöé + ΓåÆ ΓåÆ ΓåÆ ΓåÆ localStorage.setItem(name,┬╖value);
+       18 Γöé + ΓåÆ ΓåÆ }┬╖else┬╖{
+       19 Γöé + ΓåÆ ΓåÆ ΓåÆ await┬╖SecureStore.setItemAsync(name,┬╖value);
+       20 Γöé + ΓåÆ ΓåÆ }
+       21 Γöé + ΓåÆ },
+       22 Γöé + ΓåÆ removeItem:┬╖async┬╖(name:┬╖string):┬╖Promise<void>┬╖=>┬╖{
+       23 Γöé + ΓåÆ ΓåÆ if┬╖(Platform.OS┬╖===┬╖"web")┬╖{
+       24 Γöé + ΓåÆ ΓåÆ ΓåÆ if┬╖(typeof┬╖localStorage┬╖!==┬╖"undefined")┬╖localStorage.removeItem(name);
+       25 Γöé + ΓåÆ ΓåÆ }┬╖else┬╖{
+       26 Γöé + ΓåÆ ΓåÆ ΓåÆ await┬╖SecureStore.deleteItemAsync(name);
+       27 Γöé + ΓåÆ ΓåÆ }
+       28 Γöé + ΓåÆ },
+       29 Γöé + };
+    27 30 Γöé   
+  
+
+Checked 80 files in 44ms. No fixes applied.
+Found 8 errors.
+Found 9 warnings.
+check ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü
+
+  ├ù Some errors were emitted while running checks.
+  
+
+task: Failed to run task "check": exit status 1
+ΓÇëELIFECYCLEΓÇë Command failed with exit code 201.

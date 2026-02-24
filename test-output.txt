@@ -1,0 +1,164 @@
+
+> opencode-mobile@1.1.0 test C:\Users\vries\Projects\opencode-mobile
+> task test
+
+task: [test] pnpm jest
+FAIL app/api/__tests__/client-test.ts
+  ΓùÅ Api Client ΓÇ║ Projects ΓÇ║ getCurrentProject calls /project/current
+
+    TypeError: Cannot read properties of undefined (reading 'split')
+
+      87 | 	getCurrentProject: async (): Promise<Project> => {
+      88 | 		const data = await fetchClient<ServerProject>("/project/current");
+    > 89 | 		const segments = data.worktree.split(/[/\\]/);
+         | 		                               ^
+      90 | 		return {
+      91 | 			id: data.id,
+      92 | 			directory: data.worktree,
+
+      at Object.split (app/api/client.ts:89:34)
+      at asyncGeneratorStep (node_modules/.pnpm/@babel+runtime@7.28.6/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at asyncGeneratorStep (node_modules/.pnpm/@babel+runtime@7.28.6/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ΓùÅ Api Client ΓÇ║ Sessions ΓÇ║ createSession sends POST body
+
+    TypeError: Cannot read properties of undefined (reading 'created')
+
+      65 | 		title: serverSession.title || serverSession.slug,
+      66 | 		directory: serverSession.directory,
+    > 67 | 		createdAt: serverSession.time.created,
+         | 		                              ^
+      68 | 		updatedAt: serverSession.time.updated,
+      69 | 		status: serverSession.status,
+      70 | 	};
+
+      at created (app/api/client.ts:67:33)
+      at Object.mapServerSession (app/api/client.ts:129:10)
+      at asyncGeneratorStep (node_modules/.pnpm/@babel+runtime@7.28.6/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at asyncGeneratorStep (node_modules/.pnpm/@babel+runtime@7.28.6/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ΓùÅ Api Client ΓÇ║ Sessions ΓÇ║ getSession calls /session/:id
+
+    TypeError: Cannot read properties of undefined (reading 'created')
+
+      65 | 		title: serverSession.title || serverSession.slug,
+      66 | 		directory: serverSession.directory,
+    > 67 | 		createdAt: serverSession.time.created,
+         | 		                              ^
+      68 | 		updatedAt: serverSession.time.updated,
+      69 | 		status: serverSession.status,
+      70 | 	};
+
+      at created (app/api/client.ts:67:33)
+      at Object.mapServerSession (app/api/client.ts:114:10)
+      at asyncGeneratorStep (node_modules/.pnpm/@babel+runtime@7.28.6/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at asyncGeneratorStep (node_modules/.pnpm/@babel+runtime@7.28.6/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+PASS app/store/__tests__/storage-test.ts
+PASS components/__tests__/CodeBlock-test.ts
+PASS app/store/__tests__/session-test.ts
+PASS app/store/__tests__/theme-test.ts
+PASS hooks/__tests__/use-theme-color-test.tsx
+PASS app/store/__tests__/connection-test.ts
+PASS app/__tests__/layout-test.tsx
+PASS components/__tests__/ProviderSettingsSheet-test.tsx
+  ΓùÅ Console
+
+    console.error
+      forwardRef render functions accept exactly two parameters: props and ref. Did you forget to use the ref parameter?
+
+      27 | 		BottomSheetModalProvider: ({ children }: any) => <View>{children}</View>,
+      28 | 		// biome-ignore lint/suspicious/noExplicitAny: mock component
+    > 29 | 		BottomSheetModal: React.forwardRef(function MockBottomSheetModal({
+         | 		                        ^
+      30 | 			children,
+      31 | 		}: any) {
+      32 | 			return <View>{children}</View>;
+
+      at Object.error [as forwardRef] (node_modules/.pnpm/react@19.1.0/node_modules/react/cjs/react.development.js:1053:21)
+      at forwardRef (components/__tests__/ProviderSettingsSheet-test.tsx:29:27)
+      at Object.require (components/__tests__/ProviderSettingsSheet-test.tsx:1:1)
+      at asyncGeneratorStep (node_modules/.pnpm/@babel+runtime@7.28.6/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at asyncGeneratorStep (node_modules/.pnpm/@babel+runtime@7.28.6/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+PASS components/__tests__/ContextGroupItem-test.tsx
+PASS components/__tests__/Composer-test.tsx
+PASS components/__tests__/ConnectionBanner-test.tsx
+PASS app/session/__tests__/chat-screen-test.tsx
+PASS components/__tests__/FilePatchItem-test.tsx
+PASS components/__tests__/ToolCallItem-test.tsx
+PASS components/__tests__/MessageList-test.tsx
+PASS components/__tests__/ReasoningItem-test.tsx
+PASS components/__tests__/MessageItem-test.tsx
+PASS components/__tests__/SessionCard-test.tsx
+PASS hooks/__tests__/use-sse-test.ts
+PASS app/(tabs)/__tests__/sessions-test.tsx
+
+=============================== Coverage summary ===============================
+Statements   : 94.83% ( 312/329 )
+Branches     : 82.6% ( 114/138 )
+Functions    : 98.94% ( 94/95 )
+Lines        : 95.3% ( 284/298 )
+================================================================================
+Jest: "global" coverage threshold for branches (85%) not met: 82.6%
+
+Summary of all failing tests
+FAIL app/api/__tests__/client-test.ts
+  ΓùÅ Api Client ΓÇ║ Projects ΓÇ║ getCurrentProject calls /project/current
+
+    TypeError: Cannot read properties of undefined (reading 'split')
+
+      87 | 	getCurrentProject: async (): Promise<Project> => {
+      88 | 		const data = await fetchClient<ServerProject>("/project/current");
+    > 89 | 		const segments = data.worktree.split(/[/\\]/);
+         | 		                               ^
+      90 | 		return {
+      91 | 			id: data.id,
+      92 | 			directory: data.worktree,
+
+      at Object.split (app/api/client.ts:89:34)
+      at asyncGeneratorStep (node_modules/.pnpm/@babel+runtime@7.28.6/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at asyncGeneratorStep (node_modules/.pnpm/@babel+runtime@7.28.6/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ΓùÅ Api Client ΓÇ║ Sessions ΓÇ║ createSession sends POST body
+
+    TypeError: Cannot read properties of undefined (reading 'created')
+
+      65 | 		title: serverSession.title || serverSession.slug,
+      66 | 		directory: serverSession.directory,
+    > 67 | 		createdAt: serverSession.time.created,
+         | 		                              ^
+      68 | 		updatedAt: serverSession.time.updated,
+      69 | 		status: serverSession.status,
+      70 | 	};
+
+      at created (app/api/client.ts:67:33)
+      at Object.mapServerSession (app/api/client.ts:129:10)
+      at asyncGeneratorStep (node_modules/.pnpm/@babel+runtime@7.28.6/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at asyncGeneratorStep (node_modules/.pnpm/@babel+runtime@7.28.6/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ΓùÅ Api Client ΓÇ║ Sessions ΓÇ║ getSession calls /session/:id
+
+    TypeError: Cannot read properties of undefined (reading 'created')
+
+      65 | 		title: serverSession.title || serverSession.slug,
+      66 | 		directory: serverSession.directory,
+    > 67 | 		createdAt: serverSession.time.created,
+         | 		                              ^
+      68 | 		updatedAt: serverSession.time.updated,
+      69 | 		status: serverSession.status,
+      70 | 	};
+
+      at created (app/api/client.ts:67:33)
+      at Object.mapServerSession (app/api/client.ts:114:10)
+      at asyncGeneratorStep (node_modules/.pnpm/@babel+runtime@7.28.6/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at asyncGeneratorStep (node_modules/.pnpm/@babel+runtime@7.28.6/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+
+Test Suites: 1 failed, 20 passed, 21 total
+Tests:       3 failed, 180 passed, 183 total
+Snapshots:   0 total
+Time:        3.696 s
+Ran all test suites.
+task: Failed to run task "test": exit status 1
+ΓÇëELIFECYCLEΓÇë Test failed. See above for more details.

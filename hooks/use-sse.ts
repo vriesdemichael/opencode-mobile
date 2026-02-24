@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import type EventSource from "react-native-sse";
-import { Api } from "@/app/api/client";
-import type { GlobalEvent, Message, MessagePart } from "@/app/api/types";
+import { Api, mapServerMessage } from "@/app/api/client";
+import type { GlobalEvent, MessagePart, ServerMessage } from "@/app/api/types";
 import { useConnectionStore } from "@/app/store/connection";
 import { useSessionStore } from "@/app/store/session";
 
@@ -67,9 +67,9 @@ export function useSSE() {
 					try {
 						const data = JSON.parse(event.data) as {
 							sessionID: string;
-							message: Message;
+							message: ServerMessage;
 						};
-						onMessageCreated(data.sessionID, data.message);
+						onMessageCreated(data.sessionID, mapServerMessage(data.message));
 					} catch {
 						// Ignore
 					}
@@ -80,9 +80,9 @@ export function useSSE() {
 					try {
 						const data = JSON.parse(event.data) as {
 							sessionID: string;
-							message: Message;
+							message: ServerMessage;
 						};
-						onMessageUpdated(data.sessionID, data.message);
+						onMessageUpdated(data.sessionID, mapServerMessage(data.message));
 					} catch {
 						// Ignore
 					}

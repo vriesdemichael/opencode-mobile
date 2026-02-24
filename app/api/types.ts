@@ -1,8 +1,36 @@
+export type ServerProject = {
+	id: string;
+	worktree: string;
+	time: {
+		created: number;
+		updated: number;
+	};
+};
+
 export type Project = {
 	id: string;
 	name: string;
 	directory: string;
 	icon?: string;
+};
+
+export type ServerSession = {
+	id: string;
+	slug: string;
+	projectID: string;
+	directory: string;
+	title?: string;
+	version: string;
+	summary?: {
+		additions: number;
+		deletions: number;
+		files: number;
+	};
+	time: {
+		created: number;
+		updated: number;
+	};
+	status?: SessionStatus;
 };
 
 export type SessionInfo = {
@@ -31,6 +59,30 @@ export type MessageInfo = {
 		name: string;
 		message: string;
 	};
+	summary?: {
+		diffs: { filepath: string; patch: string }[];
+	};
+};
+
+export type ServerMessageInfo = {
+	id: string;
+	role: "user" | "assistant";
+	createdAt?: number;
+	time?: {
+		created: number;
+	};
+	error?: {
+		name: string;
+		message: string;
+	};
+	summary?: {
+		diffs: { filepath: string; patch: string }[];
+	};
+};
+
+export type ServerMessage = {
+	info: ServerMessageInfo;
+	parts: MessagePart[];
 };
 
 export type MessagePartBase = {

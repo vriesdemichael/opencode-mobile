@@ -1,0 +1,95 @@
+
+> opencode-mobile@1.1.0 test C:\Users\vries\Projects\opencode-mobile
+> task test
+
+task: [test] pnpm jest
+PASS app/store/__tests__/storage-test.ts
+PASS components/__tests__/CodeBlock-test.ts
+PASS app/api/__tests__/client-test.ts
+PASS app/store/__tests__/session-test.ts
+PASS hooks/__tests__/use-theme-color-test.tsx
+PASS app/store/__tests__/connection-test.ts
+PASS app/store/__tests__/theme-test.ts
+PASS components/__tests__/ProviderSettingsSheet-test.tsx
+  ΓùÅ Console
+
+    console.error
+      forwardRef render functions accept exactly two parameters: props and ref. Did you forget to use the ref parameter?
+
+      27 | 		BottomSheetModalProvider: ({ children }: any) => <View>{children}</View>,
+      28 | 		// biome-ignore lint/suspicious/noExplicitAny: mock component
+    > 29 | 		BottomSheetModal: React.forwardRef(function MockBottomSheetModal({
+         | 		                        ^
+      30 | 			children,
+      31 | 		}: any) {
+      32 | 			return <View>{children}</View>;
+
+      at Object.error [as forwardRef] (node_modules/.pnpm/react@19.1.0/node_modules/react/cjs/react.development.js:1053:21)
+      at forwardRef (components/__tests__/ProviderSettingsSheet-test.tsx:29:27)
+      at Object.require (components/__tests__/ProviderSettingsSheet-test.tsx:1:1)
+      at asyncGeneratorStep (node_modules/.pnpm/@babel+runtime@7.28.6/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at asyncGeneratorStep (node_modules/.pnpm/@babel+runtime@7.28.6/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+PASS components/__tests__/ContextGroupItem-test.tsx
+FAIL app/__tests__/layout-test.tsx
+  ΓùÅ RootLayout ΓÇ║ registers project detail screen
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+       97 | 			(s) => s.name === "project/[id]",
+       98 | 		);
+    >  99 | 		expect(projectScreen).toBeDefined();
+          | 		                      ^
+      100 | 		expect(projectScreen?.options.headerShown).toBe(false);
+      101 | 	});
+      102 |
+
+      at Object.toBeDefined (app/__tests__/layout-test.tsx:99:25)
+
+PASS app/session/__tests__/chat-screen-test.tsx
+PASS components/__tests__/Composer-test.tsx
+PASS components/__tests__/ConnectionBanner-test.tsx
+PASS components/__tests__/FilePatchItem-test.tsx
+PASS components/__tests__/MessageItem-test.tsx
+PASS components/__tests__/ToolCallItem-test.tsx
+PASS components/__tests__/ReasoningItem-test.tsx
+PASS components/__tests__/SessionCard-test.tsx
+PASS components/__tests__/MessageList-test.tsx
+PASS hooks/__tests__/use-sse-test.ts
+PASS app/(tabs)/__tests__/sessions-test.tsx
+
+=============================== Coverage summary ===============================
+Statements   : 96.11% ( 322/335 )
+Branches     : 85.81% ( 127/148 )
+Functions    : 98.96% ( 96/97 )
+Lines        : 96.71% ( 294/304 )
+================================================================================
+
+Summary of all failing tests
+FAIL app/__tests__/layout-test.tsx
+  ΓùÅ RootLayout ΓÇ║ registers project detail screen
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+       97 | 			(s) => s.name === "project/[id]",
+       98 | 		);
+    >  99 | 		expect(projectScreen).toBeDefined();
+          | 		                      ^
+      100 | 		expect(projectScreen?.options.headerShown).toBe(false);
+      101 | 	});
+      102 |
+
+      at Object.toBeDefined (app/__tests__/layout-test.tsx:99:25)
+
+
+Test Suites: 1 failed, 20 passed, 21 total
+Tests:       1 failed, 184 passed, 185 total
+Snapshots:   0 total
+Time:        3.999 s, estimated 4 s
+Ran all test suites.
+task: Failed to run task "test": exit status 1
+ΓÇëELIFECYCLEΓÇë Test failed. See above for more details.

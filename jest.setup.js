@@ -7,20 +7,6 @@ jest.mock("react-native-reanimated", () => {
 	return Reanimated;
 });
 
-// Mock react-native-mmkv
-jest.mock("react-native-mmkv", () => {
-	const mockImpl = jest.fn().mockImplementation(() => ({
-		getString: jest.fn(),
-		set: jest.fn(),
-		delete: jest.fn(),
-		recKeys: jest.fn(),
-	}));
-	return { MMKV: mockImpl };
-});
-
-const { MMKV } = require("react-native-mmkv");
-global.MMKV = MMKV;
-
 // Mock expo-secure-store
 jest.mock("expo-secure-store", () => ({
 	getItemAsync: jest.fn(),
