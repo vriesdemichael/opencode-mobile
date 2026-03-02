@@ -146,7 +146,13 @@ app.post("/session/:id/prompt_async", (req, res) => {
 						sessionID: sessionId,
 						messageID: `msg_${Date.now()}_a`,
 						type: "text",
-						text: "This is a mock response from the server.",
+						text: promptText.includes("long")
+							? Array.from(
+									{ length: 40 },
+									(_, i) =>
+										`Line ${i + 1}: This is an artificially long response designed to overflow the chat container and test scrolling functionality.`,
+								).join("\\n\\n")
+							: "This is a mock response from the server.",
 					},
 				],
 			},

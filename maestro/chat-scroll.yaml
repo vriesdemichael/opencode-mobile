@@ -1,0 +1,31 @@
+appId: com.vriesdemichael.opencodemobile
+---
+- runFlow: _setup.yaml
+- tapOn: "Sessions"
+- extendedWaitUntil:
+    visible: "Sessions"
+    timeout: 10000
+- tapOn:
+    id: "create-session-button"
+- extendedWaitUntil:
+    visible: "No Messages Yet"
+    timeout: 10000
+# Type text to generate a long message
+- tapOn:
+    id: "message-input"
+- inputText: "Please give me a long response"
+- tapOn:
+    id: "send-button"
+# Wait for assistant response to complete
+- extendedWaitUntil:
+    notVisible:
+      id: "typing-indicator"
+    timeout: 10000
+- assertVisible: ".*Line 40.*"
+- takeScreenshot: ".maestro/screenshots/chat-messages-loaded"
+- swipe:
+    direction: DOWN
+- takeScreenshot: ".maestro/screenshots/chat-messages-scrolled-down"
+- swipe:
+    direction: UP
+- takeScreenshot: ".maestro/screenshots/chat-messages-scrolled-up"
