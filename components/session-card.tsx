@@ -36,7 +36,7 @@ export function SessionCard({ session, onPress }: SessionCardProps) {
 	};
 
 	const renderRightActions = (
-		progress: Animated.AnimatedInterpolation<number>,
+		_progress: Animated.AnimatedInterpolation<number>,
 		dragX: Animated.AnimatedInterpolation<number>,
 	) => {
 		const scale = dragX.interpolate({

@@ -1,3 +1,4 @@
+import { StyleSheet, View } from "react-native";
 import type {
 	Message,
 	ReasoningPart,
@@ -13,7 +14,6 @@ import { ThemedView } from "@/components/themed-view";
 import { ToolCallItem } from "@/components/tool-call-item";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
-import { StyleSheet, View } from "react-native";
 
 interface MessageItemProps {
 	message: Message;
@@ -77,9 +77,9 @@ export function MessageItem({ message }: MessageItemProps) {
 							isUser
 								? { backgroundColor: Colors[colorScheme].tint }
 								: {
-									backgroundColor:
-										colorScheme === "dark" ? "#2C2C2E" : "#E5E5EA",
-								},
+										backgroundColor:
+											colorScheme === "dark" ? "#2C2C2E" : "#E5E5EA",
+									},
 						]}
 					>
 						{isUser ? (
@@ -133,7 +133,7 @@ export function MessageItem({ message }: MessageItemProps) {
 
 				{message.info.error && (
 					<View
-						testID="message-error"
+						testID={`message-error-${message.info.id}`}
 						style={styles.errorContainer}
 					>
 						<ThemedText style={styles.errorTitle}>

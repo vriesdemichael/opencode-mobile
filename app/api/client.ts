@@ -1,5 +1,5 @@
-import { useConnectionStore } from "@/app/store/connection";
 import EventSource from "react-native-sse";
+import { useConnectionStore } from "@/app/store/connection";
 import type {
 	Message,
 	Project,

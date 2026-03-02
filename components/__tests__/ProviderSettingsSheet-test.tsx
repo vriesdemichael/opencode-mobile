@@ -1,6 +1,5 @@
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { render } from "@testing-library/react-native";
-import React from "react";
 import { ProviderSettingsSheet } from "../provider-settings-sheet";
 
 jest.mock("@/components/themed-text", () => ({
@@ -23,16 +22,26 @@ jest.mock("@gorhom/bottom-sheet", () => {
 	const React = require("react");
 	const { View } = require("react-native");
 	return {
+		__esModule: true,
 		// biome-ignore lint/suspicious/noExplicitAny: mock component
 		BottomSheetModalProvider: ({ children }: any) => <View>{children}</View>,
 		// biome-ignore lint/suspicious/noExplicitAny: mock component
-		BottomSheetModal: React.forwardRef(function MockBottomSheetModal({
-			children,
-		}: any) {
+		BottomSheetModal: React.forwardRef(function MockBottomSheetModal(
+			{ children }: any,
+			_ref: any,
+		) {
 			return <View>{children}</View>;
 		}),
 		// biome-ignore lint/suspicious/noExplicitAny: mock component
 		BottomSheetView: ({ children }: any) => <View>{children}</View>,
+		// biome-ignore lint/suspicious/noExplicitAny: mock component
+		BottomSheetFlatList: ({ data, renderItem }: any) => (
+			<View>
+				{data?.map((item: any, index: number) =>
+					renderItem ? renderItem({ item, index }) : null,
+				)}
+			</View>
+		),
 		// biome-ignore lint/suspicious/noExplicitAny: mock component
 		BottomSheetBackdrop: () => <View />,
 	};
@@ -54,11 +63,6 @@ describe("ProviderSettingsSheet", () => {
 			</BottomSheetModalProvider>,
 		);
 
-		expect(getByText("AI Configuration")).toBeTruthy();
-		expect(
-			getByText(
-				"Here you would configure your preferred AI provider, model selection,\n\t\t\t\t\tand context window settings.",
-			),
-		).toBeTruthy();
+		expect(getByText("Select AI Model")).toBeTruthy();
 	});
 });

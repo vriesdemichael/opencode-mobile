@@ -1,9 +1,3 @@
-import { Api } from "@/app/api/client";
-import type { Model, Provider } from "@/app/api/types";
-import { useConfigStore } from "@/app/store/config";
-import { ThemedText } from "@/components/themed-text";
-import { Colors } from "@/constants/theme";
-import { useColorScheme } from "@/hooks/use-color-scheme";
 import {
 	BottomSheetBackdrop,
 	BottomSheetFlatList,
@@ -12,6 +6,12 @@ import {
 } from "@gorhom/bottom-sheet";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, Pressable, StyleSheet, View } from "react-native";
+import { Api } from "@/app/api/client";
+import type { Model, Provider } from "@/app/api/types";
+import { useConfigStore } from "@/app/store/config";
+import { ThemedText } from "@/components/themed-text";
+import { Colors } from "@/constants/theme";
+import { useColorScheme } from "@/hooks/use-color-scheme";
 
 export const ProviderSettingsSheet = React.forwardRef<BottomSheetModal>(
 	function ProviderSettingsSheet(_props, ref) {
@@ -51,7 +51,7 @@ export const ProviderSettingsSheet = React.forwardRef<BottomSheetModal>(
 		);
 
 		const allModels = useMemo(() => {
-			let models: (Model & { providerName: string })[] = [];
+			const models: (Model & { providerName: string })[] = [];
 			for (const provider of providers) {
 				for (const modelId in provider.models) {
 					models.push({
@@ -63,8 +63,8 @@ export const ProviderSettingsSheet = React.forwardRef<BottomSheetModal>(
 
 			// Sort to ensure 'zenmux' models (free tier, chat capable) appear first
 			models.sort((a, b) => {
-				if (a.providerID === 'zenmux' && b.providerID !== 'zenmux') return -1;
-				if (a.providerID !== 'zenmux' && b.providerID === 'zenmux') return 1;
+				if (a.providerID === "zenmux" && b.providerID !== "zenmux") return -1;
+				if (a.providerID !== "zenmux" && b.providerID === "zenmux") return 1;
 				return 0;
 			});
 
@@ -92,7 +92,10 @@ export const ProviderSettingsSheet = React.forwardRef<BottomSheetModal>(
 							},
 						]}
 						onPress={() =>
-							setSelectedModel({ providerID: item.providerID, modelID: item.id })
+							setSelectedModel({
+								providerID: item.providerID,
+								modelID: item.id,
+							})
 						}
 					>
 						<View>
@@ -154,7 +157,9 @@ export const ProviderSettingsSheet = React.forwardRef<BottomSheetModal>(
 					) : (
 						<BottomSheetFlatList
 							data={allModels}
-							keyExtractor={(item: Model & { providerName: string }) => `${item.providerID}-${item.id}`}
+							keyExtractor={(item: Model & { providerName: string }) =>
+								`${item.providerID}-${item.id}`
+							}
 							renderItem={renderItem}
 							contentContainerStyle={styles.listContent}
 							ListEmptyComponent={

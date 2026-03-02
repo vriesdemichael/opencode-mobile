@@ -17,8 +17,7 @@ jest.mock("react-native-gesture-handler", () => ({
 		return (
 			<View>
 				{children}
-				{renderRightActions &&
-					renderRightActions(mockAnimatedValue, mockAnimatedValue)}
+				{renderRightActions?.(mockAnimatedValue, mockAnimatedValue)}
 			</View>
 		);
 	},
