@@ -1,0 +1,21 @@
+# Start from a lightweight Ubuntu image
+FROM ubuntu:24.04
+
+# Avoid tzdata interactive prompts
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Update and install CA certs (often needed for external requests by the server)
+RUN apt-get update && apt-get install -y ca-certificates curl && rm -rf /var/lib/apt/lists/*
+
+# Assuming the binary is copied to the build context
+COPY opencode /usr/local/bin/opencode
+
+# Give execution permissions
+RUN chmod +x /usr/local/bin/opencode
+
+WORKDIR /root
+# Expose the server port
+EXPOSE 3000
+
+# Run the command
+CMD ["/usr/local/bin/opencode", "serve", "--port", "3000", "--hostname", "0.0.0.0"]

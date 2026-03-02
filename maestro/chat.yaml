@@ -1,16 +1,41 @@
 appId: com.vriesdemichael.opencodemobile
 ---
-# Assumes already connected and sessions exist
-- launchApp
-- assertVisible: "Sessions"
+- runFlow: _setup.yaml
+- tapOn: "Sessions"
+- extendedWaitUntil:
+      visible: "Sessions"
+      timeout: 10000
 - tapOn:
-        index: 0
-        id: "session-item"
-- takeScreenshot: ".maestro/screenshots/chat-screen-opened"
-- assertVisible: ".*"
-- swipe:
-        direction: DOWN
-- takeScreenshot: ".maestro/screenshots/chat-messages-scrolled"
-- swipe:
-        direction: UP
-- takeScreenshot: ".maestro/screenshots/chat-messages-top"
+      id: "create-session-button"
+- extendedWaitUntil:
+      visible: "No Messages Yet"
+      timeout: 10000
+# Verify all chat screen elements are present
+- assertVisible:
+      id: "chat-back-button"
+- assertVisible:
+      id: "chat-session-title"
+- assertVisible:
+      id: "chat-settings-button"
+- assertVisible:
+      id: "message-input"
+- assertVisible:
+      id: "send-button"
+- takeScreenshot: ".maestro/screenshots/chat-screen-elements"
+# Type text and verify composer stays visible with keyboard open
+- tapOn:
+      id: "message-input"
+- inputText: "Testing keyboard avoidance"
+- assertVisible:
+      id: "message-input"
+- assertVisible:
+      id: "send-button"
+- takeScreenshot: ".maestro/screenshots/chat-keyboard-open"
+# Dismiss keyboard and verify back button navigation
+- hideKeyboard
+- tapOn:
+      id: "chat-back-button"
+- extendedWaitUntil:
+      visible: "Sessions"
+      timeout: 5000
+- takeScreenshot: ".maestro/screenshots/chat-back-to-sessions"

@@ -1,0 +1,91 @@
+number: 21
+title: "Maestro E2E test execution practices"
+category: development
+decision: >
+   Maestro E2E tests must follow these practices to minimise flakiness
+   and wasted iteration cycles:
+
+   1. App state clearing uses `adb shell pm clear <appId>` executed by
+      the test runner script before each flow, NOT Maestro's built-in
+      `clearState: true` option (which crashes the UiAutomation socket
+      on rapid successive runs).
+
+   2. APK rebuilds are only required when React Native source code
+      changes. Maestro YAML changes do not require a rebuild — Maestro
+      reads flows from the host filesystem at runtime.
+
+   3. The setup flow (`_setup.yaml`) must include an `extendedWaitUntil`
+      with a timeout of at least 30 seconds for the initial screen
+      assertion, to accommodate Android emulator cold-boot latency.
+
+   4. Model selection in `_setup.yaml` must use a provider-scoped regex
+      (e.g. `model-option-zenmux-.*`) to ensure a chat-capable model is
+      selected. Wildcard `model-option-.*` risks selecting embedding or
+      non-chat models that cause downstream failures.
+
+   5. The provider-settings-sheet component limits rendered models to
+      100 and sorts chat-capable providers (zenmux) first. This prevents
+      Android Accessibility Service crashes when Maestro traverses the
+      UI tree.
+
+   6. `run-e2e-tests.sh` must validate YAML syntax before launching
+      flows (e.g. `maestro validate`) and output JUnit XML for CI
+      consumption (`maestro test --format junit`).
+
+   7. `_setup.yaml` should be structured in logical phases: app launch,
+      connection setup, model selection. Each phase should have its own
+      timeout and assertion so failures are attributable to a specific
+      phase.
+
+   8. E2E flows are split into two tiers in `run-e2e-tests.sh`:
+      - CORE_FLOWS: UI-only tests that do not require AI completion
+        (connection, session-list, chat). These always run.
+      - AUTHED_FLOWS: tests that invoke live AI providers via zenmux,
+        which requires GitHub Copilot credentials in auth.json
+        (send-message, and any future AI-dependent flows). These are
+        skipped gracefully when `~/.local/share/opencode/auth.json`
+        is not present (e.g. in CI without secrets).
+agent_instructions: >
+   When modifying or running Maestro E2E tests:
+
+   1. Never use `clearState: true` in Maestro YAML. App state is cleared
+      by `run-e2e-tests.sh` via ADB before each flow.
+
+   2. Do NOT rebuild the APK for YAML-only changes. Only rebuild when
+      files under `app/`, `components/`, `hooks/`, or `android/` change.
+
+   3. When a test fails, ALWAYS inspect the Maestro debug artifacts
+      first (screenshot + UI hierarchy in `~/.maestro/tests/<timestamp>/`)
+      before re-running. This takes seconds vs minutes for a full run.
+
+   4. When multiple fixes are needed, batch them into a single rebuild
+      cycle instead of rebuilding after each individual change.
+
+   5. When selecting AI models in setup flows, always scope the regex to
+      a known chat-capable provider (e.g. `model-option-zenmux-.*`).
+
+   6. Check `docker logs opencode-test-server` immediately when a
+      send-message or chat flow fails — the error is usually server-side,
+      not client-side.
+
+   7. Before running the full suite, validate Maestro YAML files to
+      catch syntax errors without launching the emulator.
+
+   8. When adding a new Maestro flow, classify it as CORE or AUTHED in
+      `run-e2e-tests.sh`. If the flow invokes a live AI provider (sends
+      a prompt and expects a completion), it belongs in AUTHED_FLOWS.
+      If it only tests UI navigation or server connectivity, it belongs
+      in CORE_FLOWS.
+rationale: >
+   These practices were derived from extensive debugging of Maestro E2E
+   test flakiness. Key discoveries: (a) Maestro's `clearState: true`
+   crashes the AndroidJUnitRunner instrumentation on rapid successive
+   runs — ADB `pm clear` is far more reliable; (b) the mock server
+   returns thousands of models from many providers, and the first
+   models alphabetically are embedding models that cannot handle chat
+   completions — provider-scoped selection prevents silent failures;
+   (c) rendering all models at once crashes Android's Accessibility
+   Service, which Maestro depends on for element traversal; (d) most
+   debugging cycles were wasted on unnecessary APK rebuilds and blind
+   re-runs instead of inspecting available debug artifacts.
+provenance: guided-ai

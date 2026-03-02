@@ -1,8 +1,10 @@
-import EventSource from "react-native-sse";
 import { useConnectionStore } from "@/app/store/connection";
+import EventSource from "react-native-sse";
 import type {
 	Message,
 	Project,
+	Provider,
+	ProviderResponse,
 	ServerMessage,
 	ServerProject,
 	ServerSession,
@@ -170,10 +172,19 @@ export const Api = {
 		fetchClient<void>(`/session/${sessionId}/prompt_async`, {
 			method: "POST",
 			body: JSON.stringify({
-				prompt,
-				model,
+				parts: [{ type: "text", text: prompt }],
+				...(model && {
+					providerID: model.providerID,
+					modelID: model.modelID,
+				}),
 			}),
 		}),
+
+	// --- Providers & Models ---
+	getProviders: async (): Promise<Provider[]> => {
+		const data = await fetchClient<ProviderResponse>("/provider");
+		return data.all;
+	},
 
 	// --- Events (SSE) ---
 	connectToEvents: async (): Promise<EventSource> => {

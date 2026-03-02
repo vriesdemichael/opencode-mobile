@@ -1,14 +1,14 @@
 appId: com.vriesdemichael.opencodemobile
 ---
-# Assumes already connected to server
-- launchApp
-- assertVisible: "Sessions"
+- runFlow: _setup.yaml
+- tapOn: "Sessions"
+- extendedWaitUntil:
+          visible: "Sessions"
+          timeout: 10000
 - takeScreenshot: ".maestro/screenshots/session-list-loaded"
-- swipe:
-        direction: DOWN
-- takeScreenshot: ".maestro/screenshots/session-list-scrolled"
-- swipe:
-        direction: UP
-- takeScreenshot: ".maestro/screenshots/session-list-after-scroll-up"
-- tapOn: "New Session"
+- tapOn:
+          id: "create-session-button"
+- extendedWaitUntil:
+          visible: "No Messages Yet"
+          timeout: 10000
 - takeScreenshot: ".maestro/screenshots/new-session-created"

@@ -23,6 +23,7 @@ const MAPPING = {
 	"house.fill": "home",
 	"paperplane.fill": "send",
 	"chevron.left.forwardslash.chevron.right": "code",
+	"chevron.left": "chevron-left",
 	"chevron.right": "chevron-right",
 	"chevron.up": "keyboard-arrow-up",
 	"chevron.down": "keyboard-arrow-down",
@@ -61,12 +62,12 @@ export function IconSymbol({
 	testID?: string;
 	accessibilityLabel?: string;
 	accessibilityRole?:
-		| "button"
-		| "image"
-		| "none"
-		| "link"
-		| "header"
-		| "search"; // Simplified for now, or import properly
+	| "button"
+	| "image"
+	| "none"
+	| "link"
+	| "header"
+	| "search"; // Simplified for now, or import properly
 	hitSlop?: { top: number; bottom: number; left: number; right: number };
 }) {
 	const icon = (

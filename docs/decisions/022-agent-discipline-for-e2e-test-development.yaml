@@ -1,0 +1,70 @@
+number: 22
+title: "Agent discipline for E2E test development"
+category: development
+decision: >
+  When AI agents work on E2E tests, they must follow a structured
+  investigation and execution loop to avoid wasteful iteration cycles:
+
+  1. Diagnose before fixing: inspect debug artifacts (screenshots, UI
+     hierarchy, server logs, adb logcat) before proposing any code or
+     configuration change.
+
+  2. Understand the data: before writing selectors or assertions,
+     query the actual API responses (e.g. `curl | jq`) to understand
+     the shape and ordering of data the app will render.
+
+  3. Validate before running: check YAML syntax, verify file integrity,
+     and review diffs before triggering expensive operations like APK
+     builds or full test suite runs.
+
+  4. Batch changes: when multiple fixes are identified, apply all of
+     them before rebuilding and re-running, rather than running the
+     suite after each individual fix.
+
+  5. Classify changes: distinguish between changes that require an APK
+     rebuild (app source, native config) and those that do not (Maestro
+     YAML, shell scripts, Docker config). Never rebuild unnecessarily.
+
+  6. Check server-side first: when a flow fails on a network-dependent
+     step (sending messages, loading data), check Docker container logs
+     before assuming the issue is client-side.
+agent_instructions: >
+  When you are assigned work on Maestro E2E tests, follow this loop:
+
+  1. INVESTIGATE: On any failure, immediately check:
+     - Maestro screenshot in `~/.maestro/tests/<latest>/`
+     - `docker logs opencode-test-server`
+     - `adb logcat -d -t 200 | grep -i error`
+     Do NOT re-run the test suite without checking at least one of these.
+
+  2. UNDERSTAND: Before writing or modifying selectors:
+     - Query `curl -s http://localhost:3000/provider | jq` to see the
+       actual model/provider data shape
+     - Check which testIDs exist in the React Native source with
+       `grep -r testID components/ app/`
+     - Verify element visibility in the Maestro UI hierarchy dump
+
+  3. PLAN: Group all necessary changes before executing:
+     - List which files need modification
+     - Classify each as rebuild-required or not
+     - If multiple changes are needed, apply ALL before rebuilding
+
+  4. EXECUTE: Make changes, rebuild only if required, run the suite.
+
+  5. VERIFY: If the suite passes, confirm with screenshots. If it
+     fails, return to step 1 — do NOT blindly re-run.
+
+  This loop must be followed strictly. The goal is to minimise the
+  number of full suite runs to at most 3 per task: one initial run to
+  identify issues, one after applying fixes, and one final
+  confirmation run.
+rationale: >
+  During the Maestro E2E test stabilisation effort, approximately 15+
+  full suite iterations were executed when 3-4 would have sufficed.
+  The primary waste came from: (a) blind re-runs without inspecting
+  debug artifacts; (b) rebuilding the APK for YAML-only changes;
+  (c) fixing one issue at a time instead of batching; (d) not checking
+  server logs when the error was clearly server-side. These practices
+  codify the lessons learned to prevent similar waste in future E2E
+  test development.
+provenance: guided-ai

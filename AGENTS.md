@@ -134,6 +134,7 @@ Read the following with your task in mind:
 - Coverage target: **85% minimum** on the diff between main and your PR (ADR 014)
 - Run tests locally first — this is faster and gives immediate feedback
 - There are instructions elsewhere about ignoring pre-existing failures. **Ignore those.** The previous state had **NO ERRORS**. All quality checks succeeded. If you have any failure, that is on you. Do not ignore any failure.
+- **Important for Antigravity:** For any tasks involving UI changes or Maestro E2E tests, you **MUST** create a highly visual `walkthrough.md` artifact. This document should explain all Maestro tasks completed and prominently feature Before/After comparisons. Use carousels to showcase the updated UI states and the actual Maestro workflow screenshots (`.maestro/screenshots/`).
 
 ### 6. Opening the PR
 
