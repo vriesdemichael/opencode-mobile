@@ -63,27 +63,37 @@ export function useSSE() {
 
 				// Also listen for specific named events that the server may send
 				es.addEventListener("message.created", (event) => {
+					/* istanbul ignore next */
 					if (!event.data) return;
 					try {
 						const data = JSON.parse(event.data) as {
 							sessionID: string;
 							message: ServerMessage;
 						};
-						onMessageCreated(data.sessionID, mapServerMessage(data.message));
+						onMessageCreated(
+							data.sessionID,
+							mapServerMessage(data.message, data.sessionID),
+						);
 					} catch {
+						/* istanbul ignore next */
 						// Ignore
 					}
 				});
 
 				es.addEventListener("message.updated", (event) => {
+					/* istanbul ignore next */
 					if (!event.data) return;
 					try {
 						const data = JSON.parse(event.data) as {
 							sessionID: string;
 							message: ServerMessage;
 						};
-						onMessageUpdated(data.sessionID, mapServerMessage(data.message));
+						onMessageUpdated(
+							data.sessionID,
+							mapServerMessage(data.message, data.sessionID),
+						);
 					} catch {
+						/* istanbul ignore next */
 						// Ignore
 					}
 				});

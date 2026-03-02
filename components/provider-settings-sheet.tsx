@@ -1,5 +1,6 @@
 import {
 	BottomSheetBackdrop,
+	type BottomSheetBackdropProps,
 	BottomSheetFlatList,
 	BottomSheetModal,
 	BottomSheetView,
@@ -40,7 +41,7 @@ export const ProviderSettingsSheet = React.forwardRef<BottomSheetModal>(
 		}, [fetchProviders]);
 
 		const renderBackdrop = useCallback(
-			(props: any) => (
+			(props: BottomSheetBackdropProps) => (
 				<BottomSheetBackdrop
 					{...props}
 					disappearsOnIndex={-1}

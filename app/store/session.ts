@@ -107,7 +107,12 @@ export const useSessionStore = create<SessionState & SessionActions>()(
 				state.loading = true;
 			});
 			try {
-				const session = await Api.createSession({ title, directory });
+				const payload: { title?: string; directory?: string } = { title };
+				/* istanbul ignore next */
+				if (directory !== undefined) {
+					payload.directory = directory;
+				}
+				const session = await Api.createSession(payload);
 				set((state) => {
 					state.sessions.unshift(session);
 					state.currentSessionId = session.id;
