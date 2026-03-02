@@ -16,7 +16,7 @@ cd "$PROJECT_ROOT"
 # Start test server will be handled later
 
 # Core flows: UI-only, no AI completion required
-CORE_FLOWS=("connection.yaml" "session-list.yaml" "chat.yaml")
+CORE_FLOWS=("connection.yaml" "session-list.yaml" "chat.yaml" "chat-scroll.yaml")
 
 # Authed flows: require live AI provider credentials (e.g. GitHub Copilot → zenmux)
 # These are skipped in CI when auth.json is not available
