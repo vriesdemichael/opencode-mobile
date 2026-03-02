@@ -9,7 +9,7 @@ describe("Custom Storage Adapter", () => {
 			getItem: jest.fn(),
 			setItem: jest.fn(),
 			removeItem: jest.fn(),
-		} as any;
+		} as unknown as Storage;
 	});
 
 	describe("native platform (ios/android)", () => {

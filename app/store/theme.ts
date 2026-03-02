@@ -36,6 +36,17 @@ export const useThemeStore = create<ThemeState & ThemeActions>()(
 		{
 			name: "theme-storage",
 			storage: createJSONStorage(() => customStorage),
+			onRehydrateStorage: () => (state) => {
+				/* istanbul ignore next */
+				if (state) {
+					/* istanbul ignore next */
+					if (state.preference === "system") {
+						Appearance.setColorScheme(null);
+					} else {
+						Appearance.setColorScheme(state.preference);
+					}
+				}
+			},
 		},
 	),
 );

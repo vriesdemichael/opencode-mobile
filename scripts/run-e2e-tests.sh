@@ -13,8 +13,7 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools:$HOME/.maestro/bin
 
 cd "$PROJECT_ROOT"
 
-echo "Building Docker image for OpenCode test server..."
-"$START_SERVER_SCRIPT"
+# Start test server will be handled later
 
 # Core flows: UI-only, no AI completion required
 CORE_FLOWS=("connection.yaml" "session-list.yaml" "chat.yaml")
@@ -28,6 +27,9 @@ HAS_AUTH=false
 if [ -f "$AUTH_FILE" ]; then
     HAS_AUTH=true
 fi
+
+echo "Building Docker image for OpenCode test server..."
+"$START_SERVER_SCRIPT"
 
 # Determine which flows to run
 FLOWS=("${CORE_FLOWS[@]}")
@@ -46,6 +48,9 @@ fi
 
 FAILED_FLOWS=()
 
+echo "Validating Maestro flows..."
+maestro validate "$MAESTRO_DIR"
+
 for flow in "${FLOWS[@]}"; do
     echo "--------------------------------------------------"
     echo "Starting isolated test for: $flow"
@@ -62,7 +67,7 @@ for flow in "${FLOWS[@]}"; do
     adb shell pm clear com.vriesdemichael.opencodemobile || true
     
     # Run the maestro test
-    if ! maestro test "$MAESTRO_DIR/$flow"; then
+    if ! maestro test --format junit --output report-${flow%.*}.xml "$MAESTRO_DIR/$flow"; then
         echo "Flow FAILED: $flow"
         FAILED_FLOWS+=("$flow")
     else

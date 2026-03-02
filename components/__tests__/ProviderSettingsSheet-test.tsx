@@ -23,26 +23,31 @@ jest.mock("@gorhom/bottom-sheet", () => {
 	const { View } = require("react-native");
 	return {
 		__esModule: true,
-		// biome-ignore lint/suspicious/noExplicitAny: mock component
-		BottomSheetModalProvider: ({ children }: any) => <View>{children}</View>,
-		// biome-ignore lint/suspicious/noExplicitAny: mock component
+		BottomSheetModalProvider: ({ children }: { children: React.ReactNode }) => (
+			<View>{children}</View>
+		),
 		BottomSheetModal: React.forwardRef(function MockBottomSheetModal(
-			{ children }: any,
-			_ref: any,
+			{ children }: { children: React.ReactNode },
+			_ref: unknown,
 		) {
 			return <View>{children}</View>;
 		}),
-		// biome-ignore lint/suspicious/noExplicitAny: mock component
-		BottomSheetView: ({ children }: any) => <View>{children}</View>,
-		// biome-ignore lint/suspicious/noExplicitAny: mock component
-		BottomSheetFlatList: ({ data, renderItem }: any) => (
+		BottomSheetView: ({ children }: { children: React.ReactNode }) => (
+			<View>{children}</View>
+		),
+		BottomSheetFlatList: ({
+			data,
+			renderItem,
+		}: {
+			data?: unknown[];
+			renderItem?: (info: { item: unknown; index: number }) => React.ReactNode;
+		}) => (
 			<View>
-				{data?.map((item: any, index: number) =>
+				{data?.map((item, index) =>
 					renderItem ? renderItem({ item, index }) : null,
 				)}
 			</View>
 		),
-		// biome-ignore lint/suspicious/noExplicitAny: mock component
 		BottomSheetBackdrop: () => <View />,
 	};
 });
