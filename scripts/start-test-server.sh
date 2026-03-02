@@ -11,18 +11,8 @@ fi
 cd "$(dirname "$0")/docker"
 
 if [ "$BUILD" = true ]; then
-  # Ensure the OpenCode binary exists
-  if [ ! -f ~/.opencode/bin/opencode ]; then
-    echo "Error: ~/.opencode/bin/opencode not found. Install OpenCode on the host first."
-    exit 1
-  fi
-
-  echo "Copying opencode binary to build context..."
-  cp ~/.opencode/bin/opencode .
-
-  echo "Building opencode-test Docker image..."
+  echo "Building opencode-test Docker image (Mock Server)..."
   docker build -t opencode-test -f Dockerfile.test .
-  rm ./opencode
 else
   echo "Skipping build (--no-build)..."
 fi

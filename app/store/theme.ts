@@ -27,7 +27,7 @@ export const useThemeStore = create<ThemeState & ThemeActions>()(
 
 				// Sync with native Appearance API to affect StatusBars, Keyboards, etc.
 				if (preference === "system") {
-					Appearance.setColorScheme(null);
+					Appearance.setColorScheme(null as unknown as "light");
 				} else {
 					Appearance.setColorScheme(preference);
 				}
@@ -41,7 +41,7 @@ export const useThemeStore = create<ThemeState & ThemeActions>()(
 				if (state) {
 					/* istanbul ignore next */
 					if (state.preference === "system") {
-						Appearance.setColorScheme(null);
+						Appearance.setColorScheme(null as unknown as "light");
 					} else {
 						Appearance.setColorScheme(state.preference);
 					}
@@ -60,7 +60,8 @@ export function useResolvedColorScheme(): "light" | "dark" {
 	const systemScheme = useRNColorScheme();
 
 	if (preference === "system") {
-		return systemScheme ?? "light";
+		if (systemScheme && systemScheme !== "unspecified") return systemScheme;
+		return "light";
 	}
 	return preference;
 }
