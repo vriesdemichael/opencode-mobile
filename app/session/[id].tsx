@@ -1,13 +1,3 @@
-import { useConfigStore } from "@/app/store/config";
-import { useSessionStore } from "@/app/store/session";
-import { Composer } from "@/components/composer";
-import { MessageList } from "@/components/message-list";
-import { ProviderSettingsSheet } from "@/components/provider-settings-sheet";
-import { ThemedText } from "@/components/themed-text";
-import { ThemedView } from "@/components/themed-view";
-import { IconSymbol } from "@/components/ui/icon-symbol";
-import { Colors } from "@/constants/theme";
-import { useColorScheme } from "@/hooks/use-color-scheme";
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -19,6 +9,16 @@ import {
 	View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useConfigStore } from "@/app/store/config";
+import { useSessionStore } from "@/app/store/session";
+import { Composer } from "@/components/composer";
+import { MessageList } from "@/components/message-list";
+import { ProviderSettingsSheet } from "@/components/provider-settings-sheet";
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { IconSymbol } from "@/components/ui/icon-symbol";
+import { Colors } from "@/constants/theme";
+import { useColorScheme } from "@/hooks/use-color-scheme";
 
 export default function SessionChatScreen() {
 	const { id } = useLocalSearchParams<{ id: string }>();
