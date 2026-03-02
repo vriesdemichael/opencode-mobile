@@ -1,15 +1,15 @@
 appId: com.vriesdemichael.opencodemobile
 ---
-- launchApp
-- assertVisible: "Server URL"
-- tapOn: "Server URL"
-- inputText: "https://example.com:3000"
-- assertVisible: "Username"
-- tapOn: "Username"
-- inputText: "testuser"
-- assertVisible: "Password"
-- tapOn: "Password"
-- inputText: "testpass"
-- takeScreenshot: ".maestro/screenshots/connection-form-filled"
-- tapOn: "Connect"
+- runFlow: _setup.yaml
+- tapOn:
+    id: "Settings_tab"
+- tapOn: "http://10.0.2.2:3000"
+- eraseText: 25
+- inputText: "http://10.0.2.2:3000"
+- tapOn: "Test & Save Connection"
+- extendedWaitUntil:
+    visible: "Success"
+    timeout: 5000
+- tapOn: "OK"
+- assertVisible: "CONNECTED"
 - takeScreenshot: ".maestro/screenshots/connection-result"

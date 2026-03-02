@@ -1,18 +1,19 @@
-import { useEffect, useState } from "react";
-import {
-	ActivityIndicator,
-	Alert,
-	Pressable,
-	StyleSheet,
-	TextInput,
-	View,
-} from "react-native";
 import { useConnectionStore } from "@/app/store/connection";
 import { type ThemePreference, useThemeStore } from "@/app/store/theme";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import { useEffect, useState } from "react";
+import {
+	ActivityIndicator,
+	Alert,
+	Keyboard,
+	Pressable,
+	StyleSheet,
+	TextInput,
+	View,
+} from "react-native";
 
 export default function SettingsScreen() {
 	const {
@@ -50,6 +51,7 @@ export default function SettingsScreen() {
 	};
 
 	const handleTest = async () => {
+		Keyboard.dismiss();
 		await handleSave();
 		const success = await testConnection();
 		if (success) {

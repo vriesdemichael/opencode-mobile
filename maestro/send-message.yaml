@@ -1,16 +1,32 @@
 appId: com.vriesdemichael.opencodemobile
 ---
-# Assumes already connected and in a chat session
-- launchApp
+- runFlow: _setup.yaml
+- tapOn: "Sessions"
 - assertVisible: "Sessions"
 - tapOn:
-      index: 0
-      id: "session-item"
+          id: "create-session-button"
+- extendedWaitUntil:
+          visible: "No Messages Yet"
+          timeout: 5000
 - takeScreenshot: ".maestro/screenshots/before-send-message"
 - tapOn:
-      id: "message-input"
+          id: "message-input"
 - inputText: "Hello, this is a test message"
 - takeScreenshot: ".maestro/screenshots/message-typed"
+- hideKeyboard
 - tapOn:
-      id: "send-button"
+          id: "send-button"
+- extendedWaitUntil:
+          visible:
+                  id: "message-text"
+                  text: "Hello, this is a test message"
+          timeout: 10000
+- assertNotVisible:
+          id: "message-error"
 - takeScreenshot: ".maestro/screenshots/message-sent"
+# Wait for assistant response (typing indicator disappears and response message appears)
+- extendedWaitUntil:
+          notVisible:
+                  id: "typing-indicator"
+          timeout: 120000
+- takeScreenshot: ".maestro/screenshots/assistant-response"

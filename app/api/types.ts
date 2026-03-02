@@ -101,24 +101,24 @@ export type ToolPart = MessagePartBase & {
 	callID: string;
 	tool: string;
 	state:
-		| { status: "pending"; input: Record<string, unknown>; raw: string }
-		| {
-				status: "running";
-				input: Record<string, unknown>;
-				time: { start: number };
-		  }
-		| {
-				status: "completed";
-				input: Record<string, unknown>;
-				output: string;
-				time: { start: number; end: number };
-		  }
-		| {
-				status: "error";
-				input: Record<string, unknown>;
-				error: string;
-				time: { start: number; end: number };
-		  };
+	| { status: "pending"; input: Record<string, unknown>; raw: string }
+	| {
+		status: "running";
+		input: Record<string, unknown>;
+		time: { start: number };
+	}
+	| {
+		status: "completed";
+		input: Record<string, unknown>;
+		output: string;
+		time: { start: number; end: number };
+	}
+	| {
+		status: "error";
+		input: Record<string, unknown>;
+		error: string;
+		time: { start: number; end: number };
+	};
 };
 
 export type PatchPart = MessagePartBase & {
@@ -148,24 +148,46 @@ export type GlobalEvent =
 	| { type: "server.connected"; properties: Record<string, never> }
 	| { type: "server.heartbeat"; properties: Record<string, never> }
 	| {
-			type: "message.part.delta";
-			properties: {
-				sessionID: string;
-				messageID: string;
-				partID: string;
-				delta: string;
-			};
-	  }
+		type: "message.part.delta";
+		properties: {
+			sessionID: string;
+			messageID: string;
+			partID: string;
+			delta: string;
+		};
+	}
 	| {
-			type: "message.part.updated";
-			properties: {
-				part: MessagePart;
-			};
-	  }
+		type: "message.part.updated";
+		properties: {
+			part: MessagePart;
+		};
+	}
 	| {
-			type: "session.status";
-			properties: {
-				sessionID: string;
-				status: SessionStatus;
-			};
-	  };
+		type: "session.status";
+		properties: {
+			sessionID: string;
+			status: SessionStatus;
+		};
+	};
+// --- AI Providers & Models ---
+
+export type Model = {
+	id: string;
+	providerID: string;
+	name: string;
+	status: "active" | "inactive";
+	capabilities?: {
+		reasoning: boolean;
+		toolcall: boolean;
+	};
+};
+
+export type Provider = {
+	id: string;
+	name: string;
+	models: Record<string, Model>;
+};
+
+export type ProviderResponse = {
+	all: Provider[];
+};

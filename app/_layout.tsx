@@ -1,3 +1,7 @@
+import { useAndroidSseService } from "@/hooks/use-android-sse-service";
+import { useAppState } from "@/hooks/use-app-state";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { useSSE } from "@/hooks/use-sse";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import {
 	DarkTheme,
@@ -7,10 +11,6 @@ import {
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useAndroidSseService } from "@/hooks/use-android-sse-service";
-import { useAppState } from "@/hooks/use-app-state";
-import { useColorScheme } from "@/hooks/use-color-scheme";
-import { useSSE } from "@/hooks/use-sse";
 import "react-native-reanimated";
 
 export const unstable_settings = {

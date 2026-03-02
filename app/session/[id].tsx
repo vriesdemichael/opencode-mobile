@@ -1,3 +1,13 @@
+import { useConfigStore } from "@/app/store/config";
+import { useSessionStore } from "@/app/store/session";
+import { Composer } from "@/components/composer";
+import { MessageList } from "@/components/message-list";
+import { ProviderSettingsSheet } from "@/components/provider-settings-sheet";
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { IconSymbol } from "@/components/ui/icon-symbol";
+import { Colors } from "@/constants/theme";
+import { useColorScheme } from "@/hooks/use-color-scheme";
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -9,21 +19,13 @@ import {
 	View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useSessionStore } from "@/app/store/session";
-import { Composer } from "@/components/composer";
-import { MessageList } from "@/components/message-list";
-import { ProviderSettingsSheet } from "@/components/provider-settings-sheet";
-import { ThemedText } from "@/components/themed-text";
-import { ThemedView } from "@/components/themed-view";
-import { IconSymbol } from "@/components/ui/icon-symbol";
-import { Colors } from "@/constants/theme";
-import { useColorScheme } from "@/hooks/use-color-scheme";
 
 export default function SessionChatScreen() {
 	const { id } = useLocalSearchParams<{ id: string }>();
 	const router = useRouter();
 	const colorScheme = useColorScheme() ?? "light";
 	const bottomSheetRef = useRef<BottomSheetModal>(null);
+	const { selectedModel } = useConfigStore();
 	const {
 		messages,
 		currentSessionId,
@@ -47,10 +49,10 @@ export default function SessionChatScreen() {
 	const handleSend = useCallback(
 		(text: string) => {
 			if (id) {
-				sendMessage(id, text);
+				sendMessage(id, text, selectedModel || undefined);
 			}
 		},
-		[id, sendMessage],
+		[id, sendMessage, selectedModel],
 	);
 
 	const [refreshing, setRefreshing] = useState(false);
@@ -115,6 +117,8 @@ export default function SessionChatScreen() {
 							color={Colors[colorScheme].tint}
 							onPress={() => router.back()}
 							testID="chat-back-button"
+							accessibilityLabel="Go back"
+							hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
 						/>
 						<ThemedText
 							type="title"
@@ -136,7 +140,7 @@ export default function SessionChatScreen() {
 
 				<KeyboardAvoidingView
 					style={{ flex: 1 }}
-					behavior={Platform.OS === "ios" ? "padding" : undefined}
+					behavior={Platform.OS === "ios" ? "padding" : "height"}
 					keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
 				>
 					<View style={styles.content}>{renderContent()}</View>
