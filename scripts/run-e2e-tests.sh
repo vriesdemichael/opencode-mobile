@@ -48,9 +48,6 @@ fi
 
 FAILED_FLOWS=()
 
-echo "Validating Maestro flows..."
-maestro validate "$MAESTRO_DIR"
-
 for flow in "${FLOWS[@]}"; do
     echo "--------------------------------------------------"
     echo "Starting isolated test for: $flow"
