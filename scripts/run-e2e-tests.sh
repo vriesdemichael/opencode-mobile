@@ -67,6 +67,9 @@ for flow in "${FLOWS[@]}"; do
     if ! maestro test --debug-output "$PROJECT_ROOT/.maestro/debug/${flow%.*}" --format junit --output report-${flow%.*}.xml "$MAESTRO_DIR/$flow"; then
         echo "Flow FAILED: $flow"
         FAILED_FLOWS+=("$flow")
+        echo "Capturing manual failure screenshot using ADB..."
+        mkdir -p "$PROJECT_ROOT/.maestro/screenshots"
+        adb exec-out screencap -p > "$PROJECT_ROOT/.maestro/screenshots/failed-${flow%.*}.png" || true
     else
         echo "Flow PASSED: $flow"
     fi

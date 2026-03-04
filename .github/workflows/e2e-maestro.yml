@@ -58,6 +58,6 @@ jobs:
         with:
           name: maestro-artifacts
           path: |
-            .maestro/debug/
+            .maestro/screenshots/
             report-*.xml
           retention-days: 14
