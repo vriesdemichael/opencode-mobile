@@ -64,7 +64,7 @@ for flow in "${FLOWS[@]}"; do
     adb shell pm clear com.vriesdemichael.opencodemobile || true
     
     # Run the maestro test
-    if ! maestro test --format junit --output report-${flow%.*}.xml "$MAESTRO_DIR/$flow"; then
+    if ! maestro test --debug-output "$PROJECT_ROOT/.maestro/debug/${flow%.*}" --format junit --output report-${flow%.*}.xml "$MAESTRO_DIR/$flow"; then
         echo "Flow FAILED: $flow"
         FAILED_FLOWS+=("$flow")
     else
