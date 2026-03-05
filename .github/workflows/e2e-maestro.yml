@@ -40,7 +40,7 @@ jobs:
         run: echo "$HOME/.maestro/bin" >> $GITHUB_PATH
 
       - name: Build Android App (APK)
-        run: npx expo prebuild --platform android && cd android && ./gradlew assembleDebug
+        run: npx expo prebuild --platform android && cd android && ./gradlew assembleRelease
 
       - name: Run Maestro Tests in Emulator
         uses: reactivecircus/android-emulator-runner@v2
@@ -49,7 +49,7 @@ jobs:
           target: playstore
           arch: x86_64
           script: |
-            adb install android/app/build/outputs/apk/debug/app-debug.apk
+            adb install android/app/build/outputs/apk/release/*.apk
             ./scripts/run-e2e-tests.sh
 
       - name: Upload Test Artifacts
