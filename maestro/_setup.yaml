@@ -24,6 +24,9 @@ appId: com.vriesdemichael.opencodemobile
         timeout: 10000
 - tapOn: "OK"
 - extendedWaitUntil:
+        notVisible: "Success"
+        timeout: 5000
+- extendedWaitUntil:
         visible: "CONNECTED"
         timeout: 5000
 - pressKey: back
