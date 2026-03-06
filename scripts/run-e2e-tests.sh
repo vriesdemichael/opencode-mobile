@@ -69,8 +69,12 @@ for flow in "${FLOWS[@]}"; do
         FAILED_FLOWS+=("$flow")
         echo "Capturing manual failure screenshot using ADB..."
         mkdir -p "$PROJECT_ROOT/.maestro/screenshots"
-        adb shell screencap -p "/sdcard/failed-${flow%.*}.png"
-        adb pull "/sdcard/failed-${flow%.*}.png" "$PROJECT_ROOT/.maestro/screenshots/failed-${flow%.*}.png" || true
+        # Temporarily disable set -e to allow adb to fail without breaking the whole test suite
+        set +e
+        adb shell screencap -p "/data/local/tmp/failed-${flow%.*}.png"
+        adb pull "/data/local/tmp/failed-${flow%.*}.png" "$PROJECT_ROOT/.maestro/screenshots/failed-${flow%.*}.png"
+        adb shell rm "/data/local/tmp/failed-${flow%.*}.png"
+        set -e
     else
         echo "Flow PASSED: $flow"
     fi
