@@ -24,6 +24,7 @@
 		"@react-navigation/elements": "^2.6.3",
 		"@react-navigation/native": "^7.1.8",
 		"expo": "~55.0.4",
+		"expo-build-properties": "~55.0.9",
 		"expo-constants": "~55.0.7",
 		"expo-font": "~55.0.4",
 		"expo-haptics": "~55.0.8",
