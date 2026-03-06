@@ -24,16 +24,16 @@ if docker ps -a --format '{{.Names}}' | grep -q '^opencode-test-server$'; then
   docker rm opencode-test-server || true
 fi
 
-MOUNT_AUTH=""
-if [ -f "$HOME/.local/share/opencode/auth.json" ]; then
-  MOUNT_AUTH="-v $HOME/.local/share/opencode/auth.json:/root/.local/share/opencode/auth.json:ro"
-fi
+AUTH_FILE="$HOME/.local/share/opencode/auth.json"
 
 echo "Starting opencode-test-server on port 3000..."
-docker run -d --name opencode-test-server \
-  -p 3000:3000 \
-  $MOUNT_AUTH \
-  opencode-test
+if [ -f "$AUTH_FILE" ]; then
+	docker run -d --name opencode-test-server --network host \
+		-v "$AUTH_FILE:/root/.local/share/opencode/auth.json:ro" \
+		opencode-test
+else
+	docker run -d --name opencode-test-server --network host opencode-test
+fi
 
 echo "Mock OpenCode server is now running."
 echo "- URL: http://localhost:3000"
