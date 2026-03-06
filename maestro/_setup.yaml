@@ -8,12 +8,6 @@ appId: com.vriesdemichael.opencodemobile
 - tapOn:
         id: "Settings_tab"
         optional: true
-- tapOn: # Try to close the Expo warning overlay if it's visible
-        point: 92%, 91%
-        optional: true
-- tapOn:
-        id: "Settings_tab"
-        optional: true
 - tapOn: # Final fallback to navigate to Settings tab
         text: "Settings"
         optional: true
