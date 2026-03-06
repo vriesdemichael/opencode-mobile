@@ -27,7 +27,7 @@ export const useThemeStore = create<ThemeState & ThemeActions>()(
 
 				// Sync with native Appearance API to affect StatusBars, Keyboards, etc.
 				if (preference === "system") {
-					Appearance.setColorScheme(null as unknown as "light");
+					Appearance.setColorScheme("unspecified" as unknown as "light");
 				} else {
 					Appearance.setColorScheme(preference);
 				}
@@ -41,7 +41,7 @@ export const useThemeStore = create<ThemeState & ThemeActions>()(
 				if (state) {
 					/* istanbul ignore next */
 					if (state.preference === "system") {
-						Appearance.setColorScheme(null as unknown as "light");
+						Appearance.setColorScheme("unspecified" as unknown as "light");
 					} else {
 						Appearance.setColorScheme(state.preference);
 					}
