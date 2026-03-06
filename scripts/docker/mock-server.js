@@ -9,6 +9,10 @@ let clients = [];
 let sessions = [];
 const messages = {};
 
+app.get("/global/health", (_req, res) => {
+	res.json({ healthy: true });
+});
+
 app.get("/project", (_req, res) => {
 	res.json([
 		{
