@@ -74,6 +74,10 @@ for flow in "${FLOWS[@]}"; do
         adb shell screencap -p "/data/local/tmp/failed-${flow%.*}.png"
         adb pull "/data/local/tmp/failed-${flow%.*}.png" "$PROJECT_ROOT/.maestro/screenshots/failed-${flow%.*}.png"
         adb shell rm "/data/local/tmp/failed-${flow%.*}.png"
+        
+        echo "Capturing adb logcat to file..."
+        adb logcat -d > "$PROJECT_ROOT/.maestro/screenshots/failed-${flow%.*}-logcat.txt"
+
         set -e
     else
         echo "Flow PASSED: $flow"
