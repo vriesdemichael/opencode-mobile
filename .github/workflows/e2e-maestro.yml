@@ -61,3 +61,4 @@ jobs:
             .maestro/screenshots/
             report-*.xml
           retention-days: 14
+          include-hidden-files: true
