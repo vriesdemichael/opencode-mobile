@@ -57,7 +57,10 @@ export default function SettingsScreen() {
 		if (success) {
 			Alert.alert("Success", "Connected to OpenCode server!");
 		} else {
-			Alert.alert("Connection Failed", error || "Unknown error");
+			Alert.alert(
+				"Connection Failed",
+				useConnectionStore.getState().error || "Unknown error",
+			);
 		}
 	};
 
