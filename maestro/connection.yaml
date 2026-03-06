@@ -2,14 +2,11 @@ appId: com.vriesdemichael.opencodemobile
 ---
 - runFlow: _setup.yaml
 - tapOn:
-    id: "Settings_tab"
-- tapOn: "http://10.0.2.2:3000"
-- eraseText: 25
-- inputText: "http://10.0.2.2:3000"
+      id: "Settings_tab"
 - tapOn: "Test & Save Connection"
 - extendedWaitUntil:
-    visible: "Success"
-    timeout: 5000
+      visible: "Success"
+      timeout: 5000
 - tapOn: "OK"
 - assertVisible: "CONNECTED"
 - takeScreenshot: ".maestro/screenshots/connection-result"

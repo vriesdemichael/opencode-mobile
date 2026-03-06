@@ -168,7 +168,7 @@ app.post("/session/:id/prompt_async", (req, res) => {
 	}, 1000);
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4096;
 app.listen(PORT, "0.0.0.0", () => {
 	console.log(`Mock server running on port ${PORT}`);
 });

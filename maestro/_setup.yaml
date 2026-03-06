@@ -1,41 +1,38 @@
 appId: com.vriesdemichael.opencodemobile
 ---
 - launchApp:
-    appId: "com.vriesdemichael.opencodemobile"
+      appId: "com.vriesdemichael.opencodemobile"
 - extendedWaitUntil:
-    visible: "Projects"
-    timeout: 30000
+      visible: "Projects"
+      timeout: 30000
 - tapOn:
-    id: "Settings_tab"
-    optional: true # Wait for it to exist, but if it fails due to the overlay, we'll click the overlay next
+      id: "Settings_tab"
+      optional: true # Wait for it to exist, but if it fails due to the overlay, we'll click the overlay next
 - tapOn: # Try to close the Expo warning overlay if it's visible. Matches the 'x' button
-    point: 92%, 91%
-    optional: true
+      point: 92%, 91%
+      optional: true
 - tapOn:
-    id: "Settings_tab"
-    optional: true
+      id: "Settings_tab"
+      optional: true
 - tapOn: "Settings" # Fallback if ID fails
 - assertVisible: "Connection Settings"
-- tapOn: "http://localhost:4096"
-- eraseText: 25
-- inputText: "http://10.0.2.2:3000"
 - tapOn: "Test & Save Connection"
 - extendedWaitUntil:
-    visible: "Success"
-    timeout: 5000
+      visible: "Success"
+      timeout: 5000
 - tapOn: "OK"
 - pressKey: back
 - tapOn: "Sessions"
 - tapOn:
-    id: "create-session-button"
+      id: "create-session-button"
 - extendedWaitUntil:
-    visible: "No Messages Yet"
-    timeout: 10000
+      visible: "No Messages Yet"
+      timeout: 10000
 - tapOn:
-    id: "chat-settings-button"
+      id: "chat-settings-button"
 - extendedWaitUntil:
-    visible: "Select AI Model"
-    timeout: 10000
+      visible: "Select AI Model"
+      timeout: 10000
 - tapOn:
-    id: "model-option-zenmux-.*"
+      id: "model-option-zenmux-.*"
 - pressKey: back
