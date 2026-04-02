@@ -1,3 +1,24 @@
+# [1.3.0](https://github.com/vriesdemichael/opencode-mobile/compare/v1.2.0...v1.3.0) (2026-04-02)
+
+
+### Bug Fixes
+
+* address PR 54 review comments, resolve pre-built AVD profile error, and maintain coverage ([4c9e892](https://github.com/vriesdemichael/opencode-mobile/commit/4c9e892e234ce75212827ff3d3f53cb6b1b677c5))
+* **android:** resolve native appearance null crash on startup ([f9dd8b8](https://github.com/vriesdemichael/opencode-mobile/commit/f9dd8b82c15923075ba961e83d4e94bd743030bc))
+* **chat:** adjust keyboard avoidance for Android ([96eda11](https://github.com/vriesdemichael/opencode-mobile/commit/96eda118653ad6f8843f5132f8614f21d688e6f7))
+* **ci:** add /global/health mock endpoint to bypass Maestro test connection failure ([df691e8](https://github.com/vriesdemichael/opencode-mobile/commit/df691e83357fbb1f4f70de99aeb65e2b7bd4da15))
+* **ci:** enable android usesCleartextTraffic with expo-build-properties ([3fb021e](https://github.com/vriesdemichael/opencode-mobile/commit/3fb021e32da9d387d2546346697c1813ba7236c4))
+* **ci:** use docker host networking to bypass emulator loopback proxy ([e058075](https://github.com/vriesdemichael/opencode-mobile/commit/e058075b55fa1d6cdab18fc0cf5db0596931e7f1))
+* **maestro:** correct home tab assertion to expect 'Projects' ([3b231e6](https://github.com/vriesdemichael/opencode-mobile/commit/3b231e6a76892dfe129efebee2859794739a15ab))
+* **maestro:** remove invalid validate command from test suite ([ba841b1](https://github.com/vriesdemichael/opencode-mobile/commit/ba841b1f96141222df7b44513cc2bc2c5f30f1a7))
+* **maestro:** replace opencode binary with express mock server and upgrade expo to 55 ([cefaa27](https://github.com/vriesdemichael/opencode-mobile/commit/cefaa27a72615b95238cf61c2956cbdf3c916c7a))
+* resolve failing tests and biome lint issues ([b68b74c](https://github.com/vriesdemichael/opencode-mobile/commit/b68b74c8419a104d607ce89f48dcca8fa1bc5411))
+
+
+### Features
+
+* **maestro:** fix keyboard offset, back button, and add e2e documentation ([05d852b](https://github.com/vriesdemichael/opencode-mobile/commit/05d852beb732a57dcd2ee579071bfd35f4f9655e))
+
 # [1.2.0](https://github.com/vriesdemichael/opencode-mobile/compare/v1.1.0...v1.2.0) (2026-02-23)
 
 
